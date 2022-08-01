@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       rebuildFactor: (old, data) => true,
       builder: (context, child) => GetMaterialApp(
-        home: DrawerMenu(),
+        home: Login(),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: 'Segoe UI'),
       ),
