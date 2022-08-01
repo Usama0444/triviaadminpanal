@@ -1,14 +1,15 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/AdminPanel/Controllers/ApproveQuestionsListController.dart';
-import 'package:triviaadminpanal/AdminPanel/Controllers/DashBoradController.dart';
 import 'package:triviaadminpanal/AdminPanel/views/AddedQuestionsList.dart';
 
+import '../../TeacherPanel/Controller/DashBoradController.dart';
 import 'CustomWidgets/MyText.dart';
 import 'CustomWidgets/colorContainer.dart';
 import 'components/string.dart';
@@ -81,11 +82,11 @@ class _AddQuestionsState extends State<AddQuestions> {
                         GestureDetector(
                           onTap: () async {
                             if (addController.isEdit) {
-                              await addController.updateQuestion();
+                              await addController.updateQuestion(controller.category, controller.subCategory, FirebaseAuth.instance.currentUser?.email);
                               addController.isEdit = false;
                               addController.update();
                             } else {
-                              await addController.addNewQuestions('Education', 'Science', null);
+                              await addController.addNewQuestions(controller.category, controller.subCategory, FirebaseAuth.instance.currentUser?.email);
                             }
 
                             // if (addController.isValid) {

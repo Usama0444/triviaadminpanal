@@ -59,8 +59,8 @@ class ApproveQuestionsListController extends GetxController {
     await addApproveQuestions(question.text, option1.text, option2.text, option3.text, option4.text, category, subcategory, teacheremail);
   }
 
-  updateQuestion() async {
-    await editApproveQuestions(question.text, option1.text, option2.text, option3.text, option4.text, qid);
+  updateQuestion(category, subcategory, teacheremail) async {
+    await editTeacherQuestions(question.text, option1.text, option2.text, option3.text, option4.text, category, subcategory, qid, teacheremail);
   }
 
   removeQuestion() async {

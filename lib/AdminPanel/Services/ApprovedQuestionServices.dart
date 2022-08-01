@@ -34,31 +34,10 @@ addApproveQuestions(String question, option1, option2, option3, option4, categor
         'choices': choice,
         'qid': id,
         'subcategory': subCategory,
-        'teacheremail': teacheremail,
+        'email': teacheremail,
         'isapproved': 'false',
       });
       Get.snackbar('Confirmation Alert', 'Question Added successfully');
-    }
-  } catch (e) {
-    Get.snackbar('Error', 'something went wrong!!');
-  }
-}
-
-editApproveQuestions(String question, option1, option2, option3, option4, qid) async {
-  try {
-    List<String> choice = [option1, option2, option3, option4];
-    if (question == '' || option1 == '' || option2 == '' || option3 == '' || option4 == '') {
-      Get.snackbar('Confirmation Alert', 'Invalid Data');
-      controller.isValid = false;
-      controller.update();
-    } else {
-      questionCollectionRef.doc(qid).update({
-        'category': 'Education',
-        'question': question,
-        'choices': choice,
-        'qid': qid,
-      });
-      Get.snackbar('Confirmation Alert', 'Question Updated successfully');
     }
   } catch (e) {
     Get.snackbar('Error', 'something went wrong!!');
@@ -79,7 +58,7 @@ editTeacherQuestions(String question, option1, option2, option3, option4, categp
         'question': question,
         'choices': choice,
         'qid': qid,
-        'teacheremail': email,
+        'email': email,
         'isapproved': 'false',
       });
       Get.snackbar('Confirmation Alert', 'Question Updated successfully');

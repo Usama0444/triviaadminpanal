@@ -38,6 +38,15 @@ class _DrawerMenuState extends State<TeacherDrawerMenu> {
   var con = Get.put(DashboardController());
   int educationScreenIndex = 0;
   int sportScreenIndex = 0;
+  var educationScreens = [Science(), Biology(), Chemistry(), Physics(), Math(), History()];
+  var sportsScreens = [
+    Circket(),
+    Football(),
+    Pool(),
+    Badminton(),
+    Hockey(),
+    Tennis(),
+  ];
   String screenName = 'Education';
   @override
   Widget build(BuildContext context) {
@@ -335,11 +344,17 @@ class _DrawerMenuState extends State<TeacherDrawerMenu> {
                     height: 1080.h,
                     child: AddQuestions(),
                   )
-                : Container(
-                    width: 1586.w,
-                    height: 1080.h,
-                    child: Body(),
-                  )
+                : screenName != 'Sports'
+                    ? Container(
+                        width: 1586.w,
+                        height: 1080.h,
+                        child: educationScreens[educationScreenIndex],
+                      )
+                    : Container(
+                        width: 1586.w,
+                        height: 1080.h,
+                        child: sportsScreens[sportScreenIndex],
+                      )
           ],
         ),
       );
