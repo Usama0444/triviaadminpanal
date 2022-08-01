@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "triviastar-a10ff",
+    "admin": "triviastar-a10ff",
+    "triviaAdmin": "triviastar-a10ff"
+  },
+  "targets": {}
+}
