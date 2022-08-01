@@ -77,11 +77,21 @@ class _AddQuestionsState extends State<AddTeachers> {
                         ),
                         InkWell(
                           onTap: () async {
-                            if (controller.isTeacherEdit) {
-                              await controller.updateTeacher(controller.email.text, controller.password.text);
+                            if (controller.email.text == '' ||
+                                !controller.email.text.contains('@gmail.com') ||
+                                controller.email.text.length > 30 ||
+                                controller.password.text == '' ||
+                                controller.password.text == ' ' ||
+                                controller.email.text == ' ') {
+                              Get.snackbar('Error', 'Invalid Teacher data!');
                             } else {
-                              await controller.addNewTeachers(controller.email.text, controller.password.text);
+                              if (controller.isTeacherEdit) {
+                                await controller.updateTeacher(controller.email.text, controller.password.text);
+                              } else {
+                                await controller.addNewTeachers(controller.email.text, controller.password.text);
+                              }
                             }
+
                             await controller.getTeacher();
                             var dashboradCont = Get.put(DashboardController());
                             dashboradCont.addTeachers = false;

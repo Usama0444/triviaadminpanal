@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/AdminPanel/Controllers/TeacherController.dart';
 
@@ -15,6 +16,7 @@ Future<List<TeacherModel>> getAllTeacherList() async {
 addTeachers(String email, password) async {
   try {
     var id = teacherCollectionRef.doc().id;
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
     teacherCollectionRef.doc(id).set({
       'email': email,
       'password': password,

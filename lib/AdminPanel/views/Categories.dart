@@ -90,7 +90,7 @@ class _CategoriesState extends State<Categories> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         MyText(
-                                          txt: 'Categories   10',
+                                          txt: 'Categories   ${controller.catList.length}',
                                           color: secondColor,
                                           fontweight: FontWeight.w600,
                                           size: 18.sp,
@@ -166,105 +166,108 @@ class _CategoriesState extends State<Categories> {
                                 ),
                                 Positioned(
                                   top: 100.h,
-                                  child: Container(
+                                  child: SizedBox(
                                       height: 1000.h,
                                       width: 550.w,
-                                      child: ListView.builder(
-                                          itemCount: controller.catList.length,
-                                          padding: EdgeInsets.only(top: 13.h),
-                                          itemBuilder: (context, index) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                for (int i = 0; i < controller.catList.length; i++) {
-                                                  controller.categoryColor[i] = whiteColor;
-                                                  controller.categoryTextColor[i] = secondColor;
-                                                }
-                                                controller.categoryColor[index] = basicColor;
-                                                controller.categoryTextColor[index] = whiteColor;
-                                                setState(() {
-                                                  // if (educationTab) {
-                                                  //   educationTab = false;
-                                                  // } else {
-                                                  educationTab = true;
-                                                  // }
-                                                  cid = controller.catList[index][2];
-                                                });
-                                                controller.update();
-                                                controller.getSubCategories(cid);
-                                              },
-                                              child: Container(
-                                                margin: EdgeInsets.only(bottom: 20.h),
-                                                child: MyCategory(
-                                                    550.w,
-                                                    120.h,
-                                                    0,
-                                                    controller.categoryColor[index],
-                                                    Padding(
-                                                      padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 40.w),
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              MyContainer(
-                                                                  90.h,
-                                                                  90.h,
-                                                                  5.h,
-                                                                  Image.memory(
-                                                                    base64.decode(controller.catList[index][1]),
-                                                                    fit: BoxFit.cover,
-                                                                  )),
-                                                              Container(
-                                                                margin: EdgeInsets.symmetric(horizontal: 25.w, vertical: 16.h),
-                                                                child: Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  children: [
-                                                                    MyText(
-                                                                      txt: controller.catList[index][0],
-                                                                      color: contorller.categoryTextColor[index],
-                                                                      fontweight: FontWeight.w700,
-                                                                      size: 18.sp,
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: 5.h,
-                                                                    ),
-                                                                    MyText(
-                                                                      txt: 'Total sub-Categories :${controller.subCatLength[index]}',
-                                                                      color: contorller.categoryTextColor[index],
-                                                                      fontweight: FontWeight.normal,
-                                                                      size: 14.sp,
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          TextButton(
-                                                              onPressed: () async {
-                                                                setState(() {
-                                                                  categoryTextControllr.text = controller.catList[index][0];
-                                                                  categoryLogo = controller.catList[index][1];
-                                                                  if (addCat) {
-                                                                    addCat = false;
-                                                                  } else {
-                                                                    addCat = true;
-                                                                  }
-                                                                  isEdit = true;
-                                                                  cid = controller.catList[index][2];
-                                                                });
-                                                              },
-                                                              child: MyText(
-                                                                txt: 'Edit',
-                                                                color: contorller.categoryTextColor[index] == secondColor ? basicColor : contorller.categoryTextColor[index],
-                                                                fontweight: FontWeight.normal,
-                                                                size: 14.sp,
-                                                              ))
-                                                        ],
-                                                      ),
-                                                    )),
-                                              ),
-                                            );
-                                          })),
+                                      child: Scrollbar(
+                                        controller: ScrollController(),
+                                        child: ListView.builder(
+                                            itemCount: controller.catList.length,
+                                            padding: EdgeInsets.only(top: 13.h),
+                                            itemBuilder: (context, index) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  for (int i = 0; i < controller.catList.length; i++) {
+                                                    controller.categoryColor[i] = whiteColor;
+                                                    controller.categoryTextColor[i] = secondColor;
+                                                  }
+                                                  controller.categoryColor[index] = basicColor;
+                                                  controller.categoryTextColor[index] = whiteColor;
+                                                  setState(() {
+                                                    // if (educationTab) {
+                                                    //   educationTab = false;
+                                                    // } else {
+                                                    educationTab = true;
+                                                    // }
+                                                    cid = controller.catList[index][2];
+                                                  });
+                                                  controller.update();
+                                                  controller.getSubCategories(cid);
+                                                },
+                                                child: Container(
+                                                  margin: EdgeInsets.only(bottom: 20.h),
+                                                  child: MyCategory(
+                                                      550.w,
+                                                      120.h,
+                                                      0,
+                                                      controller.categoryColor[index],
+                                                      Padding(
+                                                        padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 40.w),
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                MyContainer(
+                                                                    90.h,
+                                                                    90.h,
+                                                                    5.h,
+                                                                    Image.memory(
+                                                                      base64.decode(controller.catList[index][1]),
+                                                                      fit: BoxFit.cover,
+                                                                    )),
+                                                                Container(
+                                                                  margin: EdgeInsets.symmetric(horizontal: 25.w, vertical: 16.h),
+                                                                  child: Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      MyText(
+                                                                        txt: controller.catList[index][0],
+                                                                        color: contorller.categoryTextColor[index],
+                                                                        fontweight: FontWeight.w700,
+                                                                        size: 18.sp,
+                                                                      ),
+                                                                      SizedBox(
+                                                                        height: 5.h,
+                                                                      ),
+                                                                      MyText(
+                                                                        txt: 'Total sub-Categories :${controller.subCatLength[index]}',
+                                                                        color: contorller.categoryTextColor[index],
+                                                                        fontweight: FontWeight.normal,
+                                                                        size: 14.sp,
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                            TextButton(
+                                                                onPressed: () async {
+                                                                  setState(() {
+                                                                    categoryTextControllr.text = controller.catList[index][0];
+                                                                    categoryLogo = controller.catList[index][1];
+                                                                    if (addCat) {
+                                                                      addCat = false;
+                                                                    } else {
+                                                                      addCat = true;
+                                                                    }
+                                                                    isEdit = true;
+                                                                    cid = controller.catList[index][2];
+                                                                  });
+                                                                },
+                                                                child: MyText(
+                                                                  txt: 'Edit',
+                                                                  color: contorller.categoryTextColor[index] == secondColor ? basicColor : contorller.categoryTextColor[index],
+                                                                  fontweight: FontWeight.normal,
+                                                                  size: 14.sp,
+                                                                ))
+                                                          ],
+                                                        ),
+                                                      )),
+                                                ),
+                                              );
+                                            }),
+                                      )),
                                 ),
                                 Positioned(
                                   top: 70.h,
@@ -366,11 +369,13 @@ class _CategoriesState extends State<Categories> {
                                   visible: educationTab,
                                   child: Positioned(
                                     top: 100.h,
-                                    child: Container(
-                                        height: 900.h,
+                                    child: SizedBox(
+                                        height: 1000.h,
                                         width: 1035.w,
                                         child: ListView.builder(
+                                            shrinkWrap: true,
                                             padding: EdgeInsets.only(top: 13.h),
+                                            scrollDirection: Axis.vertical,
                                             itemCount: contorller.subcatList.length,
                                             itemBuilder: (context, index) {
                                               return Container(
