@@ -14,7 +14,7 @@ Future<List<QuestionModel>> getAllApproveQuestionList() async {
 }
 
 Future<List<QuestionModel>> getTeacherQuestionsList(String cat, subCat, email) async {
-  var questionList = await questionCollectionRef.where('teacheremail', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subCat).get();
+  var questionList = await questionCollectionRef.where('email', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subCat).get();
   var questionsList = await questionList.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
   return questionsList;
 }

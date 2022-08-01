@@ -2,10 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:triviaadminpanal/AdminPanel/views/ApproveQuestionList.dart';
-import 'package:triviaadminpanal/AdminPanel/views/ApproveTeacherQuestionsList.dart';
-import 'package:triviaadminpanal/AdminPanel/views/DrawerMenu.dart';
-import 'package:triviaadminpanal/AdminPanel/views/Login.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/DrawerMenu.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/Login.dart';
 
@@ -28,8 +24,8 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       rebuildFactor: (old, data) => true,
       builder: (context, child) => GetMaterialApp(
-        home: TeacherDrawerMenu(),
-        // home: TeacherLogin(),
+        // home: TeacherDrawerMenu(),
+        home: TeacherLogin(),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: 'Segoe UI'),
       ),

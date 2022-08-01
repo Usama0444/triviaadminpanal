@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:triviaadminpanal/TeacherPanel/Views/Body.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/Education/Histroy.dart';
 
 import '../Controller/DashBoradController.dart';
@@ -34,15 +35,6 @@ class TeacherDrawerMenu extends StatefulWidget {
 class _DrawerMenuState extends State<TeacherDrawerMenu> {
   bool educationVisible = false;
   bool sportVisible = false;
-  var educationScreens = [Science(), Biology(), Chemistry(), Physics(), Math(), History()];
-  var sportsScreens = [
-    Circket(),
-    Football(),
-    Pool(),
-    Badminton(),
-    Hockey(),
-    Tennis(),
-  ];
   var con = Get.put(DashboardController());
   int educationScreenIndex = 0;
   int sportScreenIndex = 0;
@@ -343,17 +335,11 @@ class _DrawerMenuState extends State<TeacherDrawerMenu> {
                     height: 1080.h,
                     child: AddQuestions(),
                   )
-                : screenName != 'Sports'
-                    ? Container(
-                        width: 1586.w,
-                        height: 1080.h,
-                        child: educationScreens[educationScreenIndex],
-                      )
-                    : Container(
-                        width: 1586.w,
-                        height: 1080.h,
-                        child: sportsScreens[sportScreenIndex],
-                      )
+                : Container(
+                    width: 1586.w,
+                    height: 1080.h,
+                    child: Body(),
+                  )
           ],
         ),
       );
