@@ -12,8 +12,8 @@ class DashboardController extends GetxController {
   var option2 = TextEditingController();
   var option3 = TextEditingController();
   var option4 = TextEditingController();
-  var category = 'Education';
-  var subCategory = 'Science';
+  var category = 'Select Category';
+  var subCategory = 'Select Sub-Category';
   bool addQuestion = false;
   List<String> mainHeading = [
     'Education',

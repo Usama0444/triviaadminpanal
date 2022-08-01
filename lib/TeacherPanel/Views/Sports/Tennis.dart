@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dart';
 import '../../Controller/DashBoradController.dart';
 import '../../Controller/EducationController.dart';
+import '../CustomWidgets/CustomAppBar.dart';
 import '../CustomWidgets/MyText.dart';
 import '../CustomWidgets/colorContainer.dart';
 import '../components/style.dart';
@@ -17,13 +18,7 @@ class Tennis extends StatefulWidget {
 
 class _TennisState extends State<Tennis> {
   var controller = Get.put(QuestionController());
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   controller.getquestionByCategory();
-  // }
-
+  List<String> subcategoryList = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,125 +32,7 @@ class _TennisState extends State<Tennis> {
                   SizedBox(
                     width: 1586.w,
                     height: 70.h,
-                    child: Card(
-                      margin: EdgeInsets.zero,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 40.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  width: 260.w,
-                                  height: 30.h,
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                      color: basicColor,
-                                      width: 1.0,
-                                    )),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 4.w, bottom: 10.h, top: 1.h),
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: 'Search',
-                                          hintStyle: TextStyle(color: hideColor, fontSize: 14.sp),
-                                          suffixIcon: Icon(
-                                            Icons.search,
-                                            color: basicColor,
-                                            size: 20.h,
-                                          )),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 217.w,
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: 260.w,
-                                      height: 30.h,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                          color: basicColor,
-                                          width: 1.0,
-                                        )),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 4.w, bottom: 10.h, top: 1.h),
-                                        child: TextField(
-                                          decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              hintText: 'Select Category',
-                                              hintStyle: TextStyle(color: hideColor, fontSize: 14.sp),
-                                              suffixIcon: Icon(
-                                                Icons.keyboard_arrow_down,
-                                                color: basicColor,
-                                                size: 20.h,
-                                              )),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 260.w,
-                                      height: 30.h,
-                                      margin: EdgeInsets.only(left: 48.w),
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                          color: basicColor,
-                                          width: 1.0,
-                                        )),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 4.w, bottom: 10.h, top: 1.h),
-                                        child: TextField(
-                                          decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              hintText: 'Select Sub-Category',
-                                              hintStyle: TextStyle(color: hideColor, fontSize: 14.sp),
-                                              suffixIcon: Icon(
-                                                Icons.keyboard_arrow_down,
-                                                color: basicColor,
-                                                size: 20.h,
-                                              )),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                var dashboradCont = Get.put(DashboardController());
-                                dashboradCont.addQuestion = true;
-                                dashboradCont.update();
-                              },
-                              child: colorContainer(
-                                basicColor,
-                                Center(
-                                  child: MyText(
-                                    txt: 'Add',
-                                    color: whiteColor,
-                                    fontweight: FontWeight.w600,
-                                    size: 15.sp,
-                                  ),
-                                ),
-                                60.w,
-                                30.h,
-                                5.h,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    child: CustomAppBar(),
                   ),
                   Column(
                     children: [
