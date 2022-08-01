@@ -4,14 +4,14 @@ import 'package:get/get.dart';
 import 'package:triviaadminpanal/AdminPanel/Controllers/DashBoradController.dart';
 import 'package:triviaadminpanal/AdminPanel/views/AddQuestion.dart';
 import 'package:triviaadminpanal/AdminPanel/views/AddTeacher.dart';
-import 'package:triviaadminpanal/AdminPanel/views/AddedQuestionsList.dart';
-import 'package:triviaadminpanal/AdminPanel/views/ApproveQuestionList.dart';
+import 'package:triviaadminpanal/AdminPanel/views/ApprovedQuestionList.dart';
+import 'package:triviaadminpanal/AdminPanel/views/TeacherQuestionsList.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Categories.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Dashboard.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Teacher.dart';
 import 'package:triviaadminpanal/AdminPanel/views/components/style.dart';
 
-import 'ApproveTeacherQuestionsList.dart';
+import 'TeachersList.dart';
 import 'CustomWidgets/MyText.dart';
 import 'Users.dart';
 import 'components/string.dart';
@@ -133,7 +133,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                                 // print('screen index $screenIndex');
                                                 controller.addQuestion = false;
                                                 controller.addTeachers = false;
-                                                controller.showApprovedList = false;
+                                                controller.showTeacherQuestionsList = false;
 
                                                 controller.update();
                                               },
@@ -181,9 +181,13 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                                           controller.menuSubCatColor[j] = basicColor;
                                                           controller.addQuestion = false;
                                                           controller.addTeachers = false;
-                                                          controller.showApprovedList = false;
+                                                          controller.showTeacherQuestionsList = false;
                                                           controller.subCatIndex = j;
-
+                                                          if (controller.questionsSubCat[j] == 'Approve') {
+                                                            controller.approveScreen = true;
+                                                          } else {
+                                                            controller.approveScreen = false;
+                                                          }
                                                           controller.update();
                                                         },
                                                         child: Container(
@@ -226,7 +230,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 ? Container(width: 1586.w, height: 1080.h, child: AddQuestions())
                 : controller.addTeachers == true
                     ? Container(width: 1586.w, height: 1080.h, child: AddTeachers())
-                    : controller.showApprovedList == true
+                    : controller.showTeacherQuestionsList == true
                         ? Container(width: 1586.w, height: 1080.h, child: ApproveQuestionsList())
                         : Container(width: 1586.w, height: 1080.h, child: controller.screenIndex > 2 ? subCateScreen[controller.subCatIndex] : bodyScreens[controller.screenIndex]),
           ],

@@ -10,7 +10,32 @@ class DashboardController extends GetxController {
   int subCatIndex = 0;
   bool addQuestion = false;
   bool addTeachers = false;
-  bool showApprovedList = false;
+  bool showTeacherQuestionsList = false;
+  var category = 'Select Category';
+  var subCategory = 'Select Sub-Category';
+  var approveScreen = false;
+  var teacherQuestionScreen = false;
+
+  List<String> mainHeading = [
+    'Education',
+    'Sports',
+  ];
+  List<String> subjectsNameList = [
+    'Science',
+    'Biology',
+    'Chemistry',
+    'Physics',
+    'Math',
+    'History',
+  ];
+  List<String> sportNameList = [
+    'Cricket',
+    'Football',
+    'Pool',
+    'Badminton',
+    'Hockey',
+    'Tennis',
+  ];
   List<String> menuList = [
     dashborad,
     users,

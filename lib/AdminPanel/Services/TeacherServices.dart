@@ -7,6 +7,7 @@ import '../Models/TeacherModel.dart';
 
 var controller = Get.put(TeacherController());
 var teacherCollectionRef = FirebaseFirestore.instance.collection('teacher');
+final FirebaseAuth _auth = FirebaseAuth.instance;
 Future<List<TeacherModel>> getAllTeacherList() async {
   var teacherList = await teacherCollectionRef.get();
   var teachersList = await teacherList.docs.map((e) => TeacherModel.fromJson(e.data())).toList();
@@ -16,7 +17,7 @@ Future<List<TeacherModel>> getAllTeacherList() async {
 addTeachers(String email, password) async {
   try {
     var id = teacherCollectionRef.doc().id;
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+    await _auth.createUserWithEmailAndPassword(email: email, password: password);
     teacherCollectionRef.doc(id).set({
       'email': email,
       'password': password,
@@ -27,6 +28,16 @@ addTeachers(String email, password) async {
     Get.snackbar('Error', 'something went wrong!!');
   }
 }
+
+// updateTeacherInfo(email, password) async {
+//   try {
+//     var user = await _auth.currentUser;
+//     AuthCredential credentials = EmailAuthProvider.credential(email: 't@gmail.com', password: '111111');
+//     await user?.delete();
+//   } catch (e) {
+//     Get.snackbar('Error', '$e');
+//   }
+// }
 
 editTeacher(String email, password, tid) async {
   try {
