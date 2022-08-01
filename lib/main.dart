@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       rebuildFactor: (old, data) => true,
       builder: (context, child) => GetMaterialApp(
-        // home: TeacherDrawerMenu(),
-        home: TeacherLogin(),
+        home: TeacherDrawerMenu(),
+        // home: TeacherLogin(),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: 'Segoe UI'),
       ),
