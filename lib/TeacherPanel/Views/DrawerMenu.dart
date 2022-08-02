@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:triviaadminpanal/TeacherPanel/Controller/LoginController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/Body.dart';
 import '../Controller/CategoryController.dart';
 import '../Controller/DashBoradController.dart';
@@ -191,9 +192,15 @@ class _DrawerMenuState extends State<TeacherDrawerMenu> {
                       color: secondColor,
                     ),
                     Center(
-                      child: Icon(
-                        Icons.power_settings_new,
-                        color: basicColor,
+                      child: GestureDetector(
+                        onTap: () {
+                          var login = Get.put(LogInController());
+                          login.logOut();
+                        },
+                        child: Icon(
+                          Icons.power_settings_new,
+                          color: basicColor,
+                        ),
                       ),
                     ),
                   ],
