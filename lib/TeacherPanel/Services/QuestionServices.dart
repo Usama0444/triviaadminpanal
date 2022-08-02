@@ -5,10 +5,11 @@ import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dar
 import '../Models/QuestionModel.dart';
 
 var teacherQuestionCollectionRef = FirebaseFirestore.instance.collection('questions');
+var copyteacherQuestionCollectionRef = FirebaseFirestore.instance.collection('copyquestions');
+
 var controller = Get.put(QuestionController());
 
 Future<List<QuestionModel>> getTeacherQuestionsList(cat, subcat, email) async {
-  print('email $email');
   var questionList =
       await teacherQuestionCollectionRef.where('email', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subcat).where('isapproved', isEqualTo: 'false').get();
   var questionsList = await questionList.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
@@ -18,13 +19,14 @@ Future<List<QuestionModel>> getTeacherQuestionsList(cat, subcat, email) async {
 deleteQuestion(qid) async {
   try {
     teacherQuestionCollectionRef.doc(qid).delete();
+    copyteacherQuestionCollectionRef.doc(qid).delete();
     Get.snackbar('Confirmation Alert', 'Question Deleted successfully');
   } catch (e) {
     Get.snackbar('Error', 'something went wrong!!');
   }
 }
 
-editTeacherQuestions(String question, option1, option2, option3, option4, categpry, subcategory, qid, email) async {
+editTeacherQuestions(String question, option1, option2, option3, option4, answer, categpry, subcategory, qid, email) async {
   try {
     List<String> choice = [option1, option2, option3, option4];
     if (question == '' || option1 == '' || option2 == '' || option3 == '' || option4 == '') {
@@ -37,6 +39,17 @@ editTeacherQuestions(String question, option1, option2, option3, option4, categp
         'subcategory': subcategory,
         'question': question,
         'choices': choice,
+        'answer': answer,
+        'qid': qid,
+        'email': email,
+        'isapproved': 'false',
+      });
+      copyteacherQuestionCollectionRef.doc(qid).update({
+        'category': categpry,
+        'subcategory': subcategory,
+        'question': question,
+        'choices': choice,
+        'answer': answer,
         'qid': qid,
         'email': email,
         'isapproved': 'false',
@@ -48,7 +61,7 @@ editTeacherQuestions(String question, option1, option2, option3, option4, categp
   }
 }
 
-addQuestions(String question, option1, option2, option3, option4, category, subCategory, teacheremail) async {
+addQuestions(String question, option1, option2, option3, option4, answer, category, subCategory, teacheremail) async {
   try {
     List<String> choice = [option1, option2, option3, option4];
     var id = teacherQuestionCollectionRef.doc().id;
@@ -61,6 +74,17 @@ addQuestions(String question, option1, option2, option3, option4, category, subC
         'category': category,
         'question': question,
         'choices': choice,
+        'answer': answer,
+        'qid': id,
+        'subcategory': subCategory,
+        'email': teacheremail,
+        'isapproved': 'false',
+      });
+      copyteacherQuestionCollectionRef.doc(id).set({
+        'category': category,
+        'question': question,
+        'choices': choice,
+        'answer': answer,
         'qid': id,
         'subcategory': subCategory,
         'email': teacheremail,

@@ -23,6 +23,23 @@ class AddQuestions extends StatefulWidget {
 class _AddQuestionsState extends State<AddQuestions> {
   var dashboard = Get.put(DashboardController());
   var questionController = Get.put(QuestionController());
+  var checbox = [false, false, false, false];
+
+  updateQuestion() async {
+    setState(() {
+      checbox[questionController.answer - 1] = true;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (questionController.isEdit) {
+      updateQuestion();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,43 +145,155 @@ class _AddQuestionsState extends State<AddQuestions> {
         Container(
           height: 500.h,
           width: 400.w,
-          margin: EdgeInsets.symmetric(vertical: 30.h, horizontal: 40.w),
+          margin: EdgeInsets.symmetric(
+            vertical: 50.h,
+            horizontal: 40.w,
+          ),
           child: Column(
             children: [
-              Containers(
-                'Question',
-                360.w,
-                85.h,
-                2,
-                questionController.question,
+              Row(
+                children: [
+                  Containers(
+                    'Question',
+                    360.w,
+                    85.h,
+                    2,
+                    questionController.question,
+                  ),
+                  Container(
+                    width: 40.w,
+                    height: 40.h,
+                    margin: EdgeInsets.only(top: 10.h),
+                  ),
+                ],
               ),
-              Containers(
-                'Option 1',
-                360.w,
-                60.h,
-                1,
-                questionController.option1,
+              Row(
+                children: [
+                  Containers(
+                    'Option 1',
+                    360.w,
+                    60.h,
+                    1,
+                    questionController.option1,
+                  ),
+                  Container(
+                    width: 40.w,
+                    height: 40.h,
+                    margin: EdgeInsets.only(top: 10.h),
+                    child: Checkbox(
+                      fillColor: MaterialStateProperty.all(hideColor),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.h),
+                      ),
+                      value: checbox[0],
+                      onChanged: (val) {
+                        setState(() {
+                          for (int i = 0; i < 4; i++) {
+                            checbox[i] = false;
+                          }
+                          checbox[0] = true;
+                          questionController.answer = 1;
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
-              Containers(
-                'Option 2',
-                360.w,
-                60.h,
-                1,
-                questionController.option2,
+              Row(
+                children: [
+                  Containers(
+                    'Option 2',
+                    360.w,
+                    60.h,
+                    1,
+                    questionController.option2,
+                  ),
+                  Container(
+                    width: 40.w,
+                    height: 40.h,
+                    margin: EdgeInsets.only(top: 10.h),
+                    child: Checkbox(
+                      fillColor: MaterialStateProperty.all(hideColor),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.h),
+                      ),
+                      value: checbox[1],
+                      onChanged: (val) {
+                        setState(() {
+                          for (int i = 0; i < 4; i++) {
+                            checbox[i] = false;
+                          }
+                          checbox[1] = true;
+                          questionController.answer = 2;
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
-              Containers(
-                'Option 3',
-                360.w,
-                60.h,
-                1,
-                questionController.option3,
+              Row(
+                children: [
+                  Containers(
+                    'Option 3',
+                    360.w,
+                    60.h,
+                    1,
+                    questionController.option3,
+                  ),
+                  Container(
+                    width: 40.w,
+                    height: 40.h,
+                    margin: EdgeInsets.only(top: 10.h),
+                    child: Checkbox(
+                      fillColor: MaterialStateProperty.all(hideColor),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.h),
+                      ),
+                      value: checbox[2],
+                      onChanged: (val) {
+                        setState(() {
+                          for (int i = 0; i < 4; i++) {
+                            checbox[i] = false;
+                          }
+                          checbox[2] = true;
+                          questionController.answer = 3;
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
-              Containers(
-                'Option 4',
-                360.w,
-                60.h,
-                1,
-                questionController.option4,
+              Row(
+                children: [
+                  Containers(
+                    'Option 4',
+                    360.w,
+                    60.h,
+                    1,
+                    questionController.option4,
+                  ),
+                  Container(
+                    width: 40.w,
+                    height: 40.h,
+                    margin: EdgeInsets.only(top: 10.h),
+                    child: Checkbox(
+                      fillColor: MaterialStateProperty.all(hideColor),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.h),
+                      ),
+                      value: checbox[3],
+                      onChanged: (val) {
+                        setState(() {
+                          for (int i = 0; i < 4; i++) {
+                            checbox[i] = false;
+                          }
+                          checbox[3] = true;
+                          questionController.answer = 4;
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

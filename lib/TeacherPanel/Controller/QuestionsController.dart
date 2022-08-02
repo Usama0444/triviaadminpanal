@@ -13,6 +13,7 @@ class QuestionController extends GetxController {
   var option2 = TextEditingController();
   var option3 = TextEditingController();
   var option4 = TextEditingController();
+  var answer;
   var teacherQuestionList = [];
   var teacherChoicesList = [];
   var isEdit = false;
@@ -45,6 +46,7 @@ class QuestionController extends GetxController {
       var lst = [
         teacherQuestionModelList[i].question,
         teacherQuestionModelList[i].qid,
+        teacherQuestionModelList[i].answer,
       ];
       teacherChoicesList.add(teacherQuestionModelList[i].choiceList);
       teacherQuestionList.add(lst);
@@ -55,11 +57,11 @@ class QuestionController extends GetxController {
   }
 
   addNewQuestions(email) async {
-    await addQuestions(question.text, option1.text, option2.text, option3.text, option4.text, dashController.category, dashController.subCategory, email);
+    await addQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, dashController.category, dashController.subCategory, email);
   }
 
   teacherUpdateQuestion(email) async {
-    await editTeacherQuestions(question.text, option1.text, option2.text, option3.text, option4.text, dashController.category, dashController.subCategory, qid, email);
+    await editTeacherQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, dashController.category, dashController.subCategory, qid, email);
   }
 
   removeQuestion() async {

@@ -142,6 +142,7 @@ class _CircketState extends State<Body> {
                                                             questionController.option4.text = questionController.teacherChoicesList[index][3];
                                                             questionController.isEdit = true;
                                                             questionController.qid = questionController.teacherQuestionList[index][1];
+                                                            questionController.answer = questionController.teacherQuestionList[index][2];
                                                             questionController.update();
                                                             var dashboradCont = Get.put(DashboardController());
                                                             dashboradCont.addQuestion = true;
