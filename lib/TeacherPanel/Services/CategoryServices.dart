@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../AdminPanel/Models/CategoryModel.dart';
-import '../../AdminPanel/Models/SubCategoryModel.dart';
+import '../Models/CategoryModel.dart';
+import '../Models/SubCategoryModel.dart';
 
 var categoryCollectionRef = FirebaseFirestore.instance.collection('category');
 var subCategoryCollectionRef = FirebaseFirestore.instance.collection('subcategory');

@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:triviaadminpanal/AdminPanel/views/components/string.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/DashBoradController.dart';
 
-import '../../AdminPanel/Models/QuestionModel.dart';
-import '../../AdminPanel/Services/ApprovedQuestionServices.dart';
+import '../Models/QuestionModel.dart';
+import '../Services/QuestionServices.dart';
 
 class QuestionController extends GetxController {
   List<QuestionModel> teacherQuestionModelList = [];
@@ -18,8 +17,8 @@ class QuestionController extends GetxController {
   var teacherChoicesList = [];
   var isEdit = false;
   var isValid = true;
-
   var qid;
+  var userEmail = FirebaseAuth.instance.currentUser?.email;
   var dashController = Get.put(DashboardController());
   List<String> headingText = [
     'Question',
@@ -34,9 +33,13 @@ class QuestionController extends GetxController {
     teacherQuestionList = [];
     teacherQuestionModelList = [];
     teacherChoicesList = [];
-    print(dashController.category);
-    print(dashController.subCategory);
-    teacherQuestionModelList = await getTeacherQuestionsList(dashController.category, dashController.subCategory, FirebaseAuth.instance.currentUser?.email);
+    // print(dashController.category);
+    // print(dashController.subCategory);
+    teacherQuestionModelList = await getTeacherQuestionsList(
+      dashController.category,
+      dashController.subCategory,
+      userEmail,
+    );
 
     for (int i = 0; i < teacherQuestionModelList.length; i++) {
       var lst = [
@@ -47,16 +50,12 @@ class QuestionController extends GetxController {
       teacherQuestionList.add(lst);
     }
     update();
-    print('teacherQuestion List $teacherQuestionList');
-    print('choices $teacherChoicesList');
+    // print('teacherQuestion List $teacherQuestionList');
+    // print('choices $teacherChoicesList');
   }
 
   addNewQuestions(email) async {
-    await addApproveQuestions(question.text, option1.text, option2.text, option3.text, option4.text, dashController.category, dashController.subCategory, email);
-  }
-
-  updateQuestion(email) async {
-    await editTeacherQuestions(question.text, option1.text, option2.text, option3.text, option4.text, dashController.category, dashController.subCategory, qid, email);
+    await addQuestions(question.text, option1.text, option2.text, option3.text, option4.text, dashController.category, dashController.subCategory, email);
   }
 
   teacherUpdateQuestion(email) async {
@@ -64,6 +63,6 @@ class QuestionController extends GetxController {
   }
 
   removeQuestion() async {
-    await deleteApproveQuestion(qid);
+    await deleteQuestion(qid);
   }
 }

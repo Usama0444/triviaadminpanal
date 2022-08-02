@@ -6,22 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/Body.dart';
-import 'package:triviaadminpanal/TeacherPanel/Views/Education/Histroy.dart';
-
+import '../Controller/CategoryController.dart';
 import '../Controller/DashBoradController.dart';
-import 'CustomWidgets/MyText.dart';
 import 'AddQuestions.dart';
-import 'Education/Biology.dart';
-import 'Education/Chemistry.dart';
-import 'Education/Math.dart';
-import 'Education/Physics.dart';
-import 'Education/Science.dart';
-import 'Sports/Badminton.dart';
-import 'Sports/Circket.dart';
-import 'Sports/Football.dart';
-import 'Sports/Hockey.dart';
-import 'Sports/Pool.dart';
-import 'Sports/Tennis.dart';
+import 'CustomWidgets/MyText.dart';
 import 'components/string.dart';
 import 'components/style.dart';
 
@@ -33,21 +21,21 @@ class TeacherDrawerMenu extends StatefulWidget {
 }
 
 class _DrawerMenuState extends State<TeacherDrawerMenu> {
-  bool educationVisible = false;
-  bool sportVisible = false;
   var con = Get.put(DashboardController());
-  int educationScreenIndex = 0;
-  int sportScreenIndex = 0;
-  var educationScreens = [Science(), Biology(), Chemistry(), Physics(), Math(), History()];
-  var sportsScreens = [
-    Circket(),
-    Football(),
-    Pool(),
-    Badminton(),
-    Hockey(),
-    Tennis(),
-  ];
-  String screenName = 'Education';
+
+  var color = [secondColor, secondColor, secondColor, secondColor, secondColor];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    var categoryController = Get.put(CategoryController());
+    await categoryController.getCategories();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(builder: ((controller) {
@@ -92,231 +80,108 @@ class _DrawerMenuState extends State<TeacherDrawerMenu> {
                         width: 300,
                         height: 900.h,
                         child: ListView.builder(
-                            itemCount: 2,
+                            itemCount: controller.categoryList.length,
                             padding: EdgeInsets.only(
                               top: 10.h,
                             ),
                             itemBuilder: (context, index) {
-                              return InkWell(
-                                  onTap: () {
-                                    for (int i = 0; i < 2; i++) {
-                                      controller.menuBottomBorderColor[i] = drawerColor;
-                                      controller.menuColor[i] = secondColor;
-                                    }
+                              return Column(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      for (int i = 0; i < controller.categoryList.length; i++) {
+                                        controller.menuBottomBorderColor[i] = drawerColor;
+                                        controller.categoryTextColor[i] = secondColor;
+                                      }
 
-                                    controller.menuBottomBorderColor[index] = basicColor;
-                                    controller.menuColor[index] = basicColor;
-                                    controller.category = controller.mainHeading[index];
-                                    if (controller.category == 'Sports') {
-                                      controller.subCategory = 'Cricket';
-                                    }
-                                    controller.update();
-                                  },
-                                  child: Column(
-                                    children: [
-                                      controller.mainHeading[index] == 'Education'
-                                          ? InkWell(
-                                              onTap: () {
-                                                setState(() {
-                                                  if (educationVisible) {
-                                                    educationVisible = false;
-                                                  } else {
-                                                    educationVisible = true;
-                                                    sportVisible = false;
-                                                  }
-                                                  educationScreenIndex = index;
-                                                  screenName = 'Education';
-                                                });
-                                                for (int i = 0; i < 2; i++) {
-                                                  controller.menuBottomBorderColor[i] = drawerColor;
-                                                  controller.menuColor[i] = secondColor;
-                                                }
-                                                controller.menuColor[index] = basicColor;
-                                                controller.menuBottomBorderColor[index] = basicColor;
-                                                controller.category = 'Education';
-                                                controller.subCategory = 'Science';
-                                                controller.addQuestion = false;
-                                                controller.update();
-                                              },
-                                              child: Container(
-                                                  width: 334.w,
-                                                  height: 40.h,
-                                                  margin: EdgeInsets.only(left: 22.w, top: 33.h),
-                                                  decoration: BoxDecoration(
-                                                    border: Border(right: BorderSide(color: controller.menuBottomBorderColor[index], width: 3.5)),
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      MyText(
-                                                        txt: controller.mainHeading[index],
-                                                        color: controller.menuColor[index],
-                                                        fontweight: FontWeight.bold,
-                                                        size: 20.sp,
-                                                      ),
-                                                      Container(
-                                                        margin: EdgeInsets.only(right: 36.w),
-                                                        child: Icon(
-                                                          educationVisible == false ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
-                                                          color: secondColor,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  )),
-                                            )
-                                          : InkWell(
-                                              onTap: () {
-                                                setState(() {
-                                                  if (sportVisible) {
-                                                    sportVisible = false;
-                                                  } else {
-                                                    sportVisible = true;
-                                                    educationVisible = false;
-                                                  }
-                                                  screenName = 'Sports';
-                                                  sportScreenIndex = index;
-                                                });
-                                                for (int i = 0; i < 2; i++) {
-                                                  controller.menuBottomBorderColor[i] = drawerColor;
-                                                  controller.menuColor[i] = secondColor;
-                                                }
-                                                controller.menuColor[index] = basicColor;
-                                                controller.menuBottomBorderColor[index] = basicColor;
-                                                controller.category = 'Sports';
-                                                controller.subCategory = 'Cricket';
-                                                controller.addQuestion = false;
-                                                controller.update();
-                                              },
-                                              child: Container(
-                                                  width: 334.w,
-                                                  height: 40.h,
-                                                  margin: EdgeInsets.only(left: 22.w, top: 33.h),
-                                                  decoration: BoxDecoration(
-                                                    border: Border(right: BorderSide(color: controller.menuBottomBorderColor[index], width: 3.5)),
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      MyText(
-                                                        txt: controller.mainHeading[index],
-                                                        color: controller.menuColor[index],
-                                                        fontweight: FontWeight.bold,
-                                                        size: 20.sp,
-                                                      ),
-                                                      Container(
-                                                        margin: EdgeInsets.only(right: 36.w),
-                                                        child: Icon(
-                                                          sportVisible == false ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
-                                                          color: secondColor,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  )),
+                                      controller.menuBottomBorderColor[index] = basicColor;
+                                      controller.categoryTextColor[index] = basicColor;
+                                      controller.category = controller.categoryList[index];
+                                      controller.update();
+                                      for (int i = 0; i < con.openSubcate.length; i++) {
+                                        con.openSubcate[i] = false;
+                                      }
+                                      if (con.openSubcate[index]) {
+                                        con.openSubcate[index] = false;
+                                      } else {
+                                        con.openSubcate[index] = true;
+                                      }
+                                      con.update();
+                                      setState(() {
+                                        for (int i = 0; i < 10; i++) {
+                                          color[i] = secondColor;
+                                        }
+                                      });
+                                    },
+                                    child: Container(
+                                        width: 334.w,
+                                        height: 40.h,
+                                        margin: EdgeInsets.only(left: 22.w, top: 33.h),
+                                        decoration: BoxDecoration(
+                                          border: Border(right: BorderSide(color: controller.menuBottomBorderColor[index], width: 3.5)),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            MyText(
+                                              txt: controller.categoryList[index],
+                                              color: controller.categoryTextColor[index],
+                                              fontweight: FontWeight.bold,
+                                              size: 20.sp,
                                             ),
-                                      controller.mainHeading[index] == 'Education'
-                                          ? Visibility(
-                                              visible: educationVisible,
-                                              child: Container(
-                                                width: 334.w,
-                                                height: 300.h,
-                                                margin: EdgeInsets.only(left: 22.w, top: 20.h),
-                                                child: ListView.builder(
-                                                    itemCount: 6,
-                                                    itemBuilder: (context, j) {
-                                                      return InkWell(
-                                                        onTap: () {
-                                                          for (int i = 0; i < 6; i++) {
-                                                            controller.educationSubCatColor[i] = secondColor;
-                                                          }
-                                                          controller.educationSubCatColor[j] = basicColor;
-                                                          setState(() {
-                                                            educationScreenIndex = j;
-                                                          });
-                                                          controller.addQuestion = false;
-                                                          controller.subCategory = controller.subjectsNameList[j];
-                                                          controller.update();
-                                                        },
-                                                        child: Container(
-                                                          height: 50.h,
-                                                          child: Row(
-                                                            children: [
-                                                              MyText(
-                                                                txt: controller.subjectsNameList[j],
-                                                                color: controller.educationSubCatColor[j],
-                                                                fontweight: FontWeight.bold,
-                                                                size: 16.sp,
-                                                              ),
-                                                              SizedBox(
-                                                                width: 6.w,
-                                                              ),
-                                                              MyText(
-                                                                txt: '${controller.subjectNumberList[j]}',
-                                                                color: controller.educationSubCatColor[j],
-                                                                fontweight: FontWeight.bold,
-                                                                size: 16.sp,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      );
-                                                    }),
+                                            Container(
+                                              margin: EdgeInsets.only(right: 36.w),
+                                              child: Icon(
+                                                con.openSubcate[index] == false ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
+                                                color: secondColor,
                                               ),
-                                            )
-                                          : Visibility(
-                                              visible: sportVisible,
-                                              child: Container(
-                                                width: 334.w,
-                                                height: 300.h,
-                                                margin: EdgeInsets.only(left: 22.w, top: 20.h),
-                                                child: ListView.builder(
-                                                    itemCount: 6,
-                                                    itemBuilder: (context, j) {
-                                                      return InkWell(
-                                                        onTap: () {
-                                                          for (int i = 0; i < 6; i++) {
-                                                            controller.sportSubCatColor[i] = secondColor;
-                                                          }
-                                                          controller.sportSubCatColor[j] = basicColor;
-                                                          setState(() {
-                                                            setState(() {
-                                                              sportScreenIndex = j;
-                                                            });
-                                                          });
-                                                          controller.addQuestion = false;
-                                                          controller.subCategory = controller.sportNameList[j];
+                                            ),
+                                          ],
+                                        )),
+                                  ),
+                                  Visibility(
+                                    visible: con.openSubcate[index],
+                                    child: Container(
+                                      width: 334.w,
+                                      height: ((controller.subCategoryList[index].length) * 50).h,
+                                      margin: EdgeInsets.only(left: 22.w, top: 20.h),
+                                      child: ListView.builder(
+                                          itemCount: controller.subCategoryList[index].length,
+                                          itemBuilder: (context, j) {
+                                            return InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  for (int c = 0; c < 5; c++) {
+                                                    color[c] = secondColor;
+                                                  }
+                                                  color[j] = basicColor;
+                                                });
+                                                controller.addQuestion = false;
+                                                controller.subCategory = controller.subCategoryList[index][j];
 
-                                                          controller.update();
-                                                          print(controller.category);
-                                                          print(controller.subCategory);
-                                                        },
-                                                        child: Container(
-                                                          height: 50.h,
-                                                          child: Row(
-                                                            children: [
-                                                              MyText(
-                                                                txt: controller.sportNameList[j],
-                                                                color: controller.sportSubCatColor[j],
-                                                                fontweight: FontWeight.bold,
-                                                                size: 16.sp,
-                                                              ),
-                                                              SizedBox(
-                                                                width: 6.w,
-                                                              ),
-                                                              MyText(
-                                                                txt: '${controller.sportNumberList[j]}',
-                                                                color: controller.sportSubCatColor[j],
-                                                                fontweight: FontWeight.bold,
-                                                                size: 16.sp,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      );
-                                                    }),
+                                                controller.update();
+                                                // print(controller.category);
+                                                // print(controller.subCategory);
+                                              },
+                                              child: Container(
+                                                height: 50.h,
+                                                child: Row(
+                                                  children: [
+                                                    MyText(
+                                                      txt: controller.subCategoryList[index][j],
+                                                      color: color[j],
+                                                      fontweight: FontWeight.bold,
+                                                      size: 16.sp,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            )
-                                    ],
-                                  ));
+                                            );
+                                          }),
+                                    ),
+                                  )
+                                ],
+                              );
                             })),
                   ],
                 ),
@@ -344,17 +209,11 @@ class _DrawerMenuState extends State<TeacherDrawerMenu> {
                     height: 1080.h,
                     child: AddQuestions(),
                   )
-                : screenName != 'Sports'
-                    ? Container(
-                        width: 1586.w,
-                        height: 1080.h,
-                        child: educationScreens[educationScreenIndex],
-                      )
-                    : Container(
-                        width: 1586.w,
-                        height: 1080.h,
-                        child: sportsScreens[sportScreenIndex],
-                      )
+                : Container(
+                    width: 1586.w,
+                    height: 1080.h,
+                    child: Body(),
+                  )
           ],
         ),
       );

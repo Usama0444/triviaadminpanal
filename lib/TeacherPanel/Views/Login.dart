@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:triviaadminpanal/main.dart';
 
 import '../Services/LoginServices.dart';
 import 'CustomWidgets/MyContainer.dart';
@@ -89,6 +90,8 @@ class TeacherLogin extends StatelessWidget {
                 } else if (passCon.text.trim() == '') {
                   Get.snackbar('Error', 'Invalid Password');
                 } else {
+                  pref?.setBool('logedin', true);
+                  print(pref!.getBool('logedin'));
                   await userLogin(emailCon.text, passCon.text);
                 }
               },

@@ -68,7 +68,7 @@ class _CircketState extends State<Body> {
                                               ? EdgeInsets.only(right: 280.w)
                                               : i < 4
                                                   ? EdgeInsets.only(right: 80.w)
-                                                  : EdgeInsets.only(right: 50.w),
+                                                  : EdgeInsets.only(right: 20.w),
                                           child: MyText(
                                             txt: controller.headingText[i],
                                             color: secondColor,
