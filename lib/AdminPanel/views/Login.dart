@@ -11,6 +11,7 @@ import 'package:triviaadminpanal/AdminPanel/views/components/string.dart';
 import 'package:triviaadminpanal/AdminPanel/views/components/style.dart';
 
 import 'package:get/get.dart';
+import 'package:triviaadminpanal/main.dart';
 
 class Login extends StatelessWidget {
   Login({Key? key}) : super(key: key);
@@ -90,6 +91,7 @@ class Login extends StatelessWidget {
                 } else if (passCon.text.trim() == '') {
                   Get.snackbar('Error', 'Invalid Password');
                 } else {
+                  pref?.setBool('logedin', true);
                   await userLogin(emailCon.text, passCon.text);
                 }
               },

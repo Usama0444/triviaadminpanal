@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/AdminPanel/Controllers/DashBoradController.dart';
+import 'package:triviaadminpanal/AdminPanel/Controllers/LoginController.dart';
 import 'package:triviaadminpanal/AdminPanel/views/AddQuestion.dart';
 import 'package:triviaadminpanal/AdminPanel/views/AddTeacher.dart';
 import 'package:triviaadminpanal/AdminPanel/views/ApprovedQuestionList.dart';
@@ -28,6 +29,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
   var subCateScreen = [AddedQuestionsList(), ApproveTeacherQuestionsList(), Teacher()];
 
   var cont = Get.put(DashboardController());
+  var login = Get.put(LogInController());
 
   bool visible = false;
   @override
@@ -214,9 +216,15 @@ class _DrawerMenuState extends State<DrawerMenu> {
                       color: secondColor,
                     ),
                     Center(
-                      child: Icon(
-                        Icons.power_settings_new,
-                        color: basicColor,
+                      child: GestureDetector(
+                        onTap: () {
+                          login.logOut();
+                          print('pressed');
+                        },
+                        child: Icon(
+                          Icons.power_settings_new,
+                          color: basicColor,
+                        ),
                       ),
                     ),
                   ],
