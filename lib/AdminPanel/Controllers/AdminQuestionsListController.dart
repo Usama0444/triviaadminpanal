@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../Models/QuestionModel.dart';
 import '../Services/ApprovedQuestionServices.dart';
+import '../views/components/style.dart';
 import 'TeacherController.dart';
 
 class AdminQuestionsListController extends GetxController {
@@ -22,6 +23,7 @@ class AdminQuestionsListController extends GetxController {
   var option2 = TextEditingController();
   var option3 = TextEditingController();
   var option4 = TextEditingController();
+  var answer;
   var questionList = [];
   var choicesList = [];
   var isEdit = false;
@@ -48,6 +50,7 @@ class AdminQuestionsListController extends GetxController {
       var lst = [
         questionModelList[i].question,
         questionModelList[i].qid,
+        questionModelList[i].answer,
       ];
       choicesList.add(questionModelList[i].choiceList);
       questionList.add(lst);
@@ -55,14 +58,14 @@ class AdminQuestionsListController extends GetxController {
     update();
   }
 
-  addNewQuestions(category, subcategory, teacheremail) async {
-    await addApproveQuestions(question.text, option1.text, option2.text, option3.text, option4.text, category, subcategory, teacheremail);
-    await copyaddApproveQuestions(question.text, option1.text, option2.text, option3.text, option4.text, category, subcategory, teacheremail);
+  addNewQuestions(category, subcategory, email) async {
+    await addApproveQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, category, subcategory, email);
+    await copyaddApproveQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, category, subcategory, email);
   }
 
   updateQuestion(category, subcategory, email) async {
-    await editAdminQuestions(question.text, option1.text, option2.text, option3.text, option4.text, category, subcategory, qid, email);
-    await copyeditAdminQuestions(question.text, option1.text, option2.text, option3.text, option4.text, category, subcategory, qid, email);
+    await editAdminQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, category, subcategory, qid, email);
+    await copyeditAdminQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, category, subcategory, qid, email);
   }
 
   removeQuestion() async {

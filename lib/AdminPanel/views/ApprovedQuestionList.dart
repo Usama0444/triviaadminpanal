@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -7,6 +8,7 @@ import 'package:triviaadminpanal/AdminPanel/Controllers/AdminQuestionsListContro
 import 'package:triviaadminpanal/AdminPanel/Controllers/DashBoradController.dart';
 import 'package:triviaadminpanal/AdminPanel/views/CustomWidgets/CustomAppbar.dart';
 
+import '../../main.dart';
 import 'CustomWidgets/MyText.dart';
 import 'CustomWidgets/colorContainer.dart';
 import 'components/style.dart';
@@ -23,6 +25,7 @@ class _AddedQuestionsListState extends State<AddedQuestionsList> {
   var dashboradCont = Get.put(DashboardController());
   @override
   Widget build(BuildContext context) {
+    // print('email ${pref?.getString('email')}');
     return Scaffold(
         backgroundColor: Colors.transparent,
         body: FutureBuilder(
@@ -142,6 +145,7 @@ class _AddedQuestionsListState extends State<AddedQuestionsList> {
                                                               questionController.option4.text = questionController.choicesList[index][3];
                                                               questionController.isEdit = true;
                                                               questionController.qid = questionController.questionList[index][1];
+                                                              questionController.answer = questionController.questionList[index][2];
                                                               questionController.update();
 
                                                               dashboradCont.addQuestion = true;

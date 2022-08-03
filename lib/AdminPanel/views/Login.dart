@@ -92,6 +92,7 @@ class Login extends StatelessWidget {
                   Get.snackbar('Error', 'Invalid Password');
                 } else {
                   pref?.setBool('logedin', true);
+                  pref?.setString('email', emailCon.text);
                   await userLogin(emailCon.text, passCon.text);
                 }
               },

@@ -89,7 +89,7 @@ class _ScienceState extends State<CustomAppBar> {
                                 ),
                               ),
                               isExpanded: true,
-                              items: dashcon.mainHeading.map((String value) {
+                              items: dashcon.categoryList.map((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(value),
@@ -97,11 +97,8 @@ class _ScienceState extends State<CustomAppBar> {
                               }).toList(),
                               onChanged: (val) {
                                 dashcon.category = val.toString();
-                                if (val.toString() == 'Education') {
-                                  subcategoryList = dashcon.subjectsNameList;
-                                } else {
-                                  subcategoryList = dashcon.sportNameList;
-                                }
+                                dashcon.catIndex = dashcon.categoryList.indexOf(val.toString());
+                                dashcon.subCategory = 'Select Sub-Category';
                                 dashcon.update();
                               },
                             ),
@@ -137,7 +134,7 @@ class _ScienceState extends State<CustomAppBar> {
                                 ),
                               ),
                               isExpanded: true,
-                              items: subcategoryList.map((String value) {
+                              items: dashcon.subCategoryList[dashcon.catIndex].map((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(value),

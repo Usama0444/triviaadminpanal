@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:triviaadminpanal/AdminPanel/views/AddCategory.dart';
+import 'package:triviaadminpanal/AdminPanel/views/AddQuestion.dart';
+import 'package:triviaadminpanal/AdminPanel/views/Category.dart';
 import 'package:triviaadminpanal/AdminPanel/views/TeacherQuestionsList.dart';
 import 'package:triviaadminpanal/AdminPanel/views/TeachersList.dart';
 import 'package:triviaadminpanal/AdminPanel/views/DrawerMenu.dart';
@@ -36,6 +39,7 @@ class MyApp extends StatelessWidget {
       rebuildFactor: (old, data) => true,
       builder: (context, child) => GetMaterialApp(
         home: checkLogin == true ? DrawerMenu() : Login(),
+        // home: AddCategroy(),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: 'Segoe UI'),
       ),

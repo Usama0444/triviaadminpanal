@@ -1,4 +1,7 @@
+import 'dart:js_util';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/AdminPanel/Controllers/TeacherQuestionsListController.dart';
 import 'package:triviaadminpanal/AdminPanel/Models/QuestionModel.dart';
@@ -7,18 +10,18 @@ import 'package:triviaadminpanal/AdminPanel/Models/QuestionModel.dart';
 var controller = Get.put(TeacherQuestionContoller());
 var questionCollectionRef = FirebaseFirestore.instance.collection('questions');
 var copyquestionCollectionRef = FirebaseFirestore.instance.collection('copyquestions');
-
+var email = FirebaseAuth.instance.currentUser?.email;
 Future<List<QuestionModel>> getAllApproveQuestionList() async {
   var questionList = await questionCollectionRef.where('isapproved', isEqualTo: 'true').get();
   var questionsList = await questionList.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
   return questionsList;
 }
 
-addApproveQuestions(String question, option1, option2, option3, option4, category, subCategory, teacheremail) async {
+addApproveQuestions(String question, option1, option2, option3, option4, answer, category, subCategory, email) async {
   try {
     List<String> choice = [option1, option2, option3, option4];
     var id = questionCollectionRef.doc().id;
-    if (question == '' || option1 == '' || option2 == '' || option3 == '' || option4 == '') {
+    if (question.trim() == '' || option1.trim() == '' || option2.trim() == '' || option3.trim() == '' || option4.trim() == '') {
       Get.snackbar('Confirmation Alert', 'Invalid Data');
       controller.isValid = false;
       controller.update();
@@ -28,8 +31,9 @@ addApproveQuestions(String question, option1, option2, option3, option4, categor
         'question': question,
         'choices': choice,
         'qid': id,
+        'answer': answer,
         'subcategory': subCategory,
-        'teacheremail': teacheremail,
+        'email': email,
         'isapproved': 'true',
       });
       Get.snackbar('Confirmation Alert', 'Question Added successfully');
@@ -39,10 +43,10 @@ addApproveQuestions(String question, option1, option2, option3, option4, categor
   }
 }
 
-editAdminQuestions(String question, option1, option2, option3, option4, categpry, subcategory, qid, email) async {
+editAdminQuestions(String question, option1, option2, option3, option4, answer, categpry, subcategory, qid, email) async {
   try {
     List<String> choice = [option1, option2, option3, option4];
-    if (question == '' || option1 == '' || option2 == '' || option3 == '' || option4 == '') {
+    if (question.trim() == '' || option1.trim() == '' || option2.trim() == '' || option3.trim() == '' || option4.trim() == '') {
       Get.snackbar('Confirmation Alert', 'Invalid Data');
       controller.isValid = false;
       controller.update();
@@ -53,6 +57,7 @@ editAdminQuestions(String question, option1, option2, option3, option4, categpry
         'question': question,
         'choices': choice,
         'qid': qid,
+        'answer': answer,
         'teacheremail': email,
         'isapproved': 'true',
       });
@@ -74,11 +79,11 @@ deleteAdminQuestion(qid) async {
 
 //this is Question Collection copies
 
-copyaddApproveQuestions(String question, option1, option2, option3, option4, category, subCategory, teacheremail) async {
+copyaddApproveQuestions(String question, option1, option2, option3, option4, answer, category, subCategory, teacheremail) async {
   try {
     List<String> choice = [option1, option2, option3, option4];
     var id = copyquestionCollectionRef.doc().id;
-    if (question == '' || option1 == '' || option2 == '' || option3 == '' || option4 == '') {
+    if (question.trim() == '' || option1.trim() == '' || option2.trim() == '' || option3.trim() == '' || option4.trim() == '') {
       controller.isValid = false;
       controller.update();
     } else {
@@ -87,18 +92,19 @@ copyaddApproveQuestions(String question, option1, option2, option3, option4, cat
         'question': question,
         'choices': choice,
         'qid': id,
+        'answer': answer,
         'subcategory': subCategory,
-        'teacheremail': teacheremail,
+        'email': email,
         'isapproved': 'true',
       });
     }
   } catch (e) {}
 }
 
-copyeditAdminQuestions(String question, option1, option2, option3, option4, categpry, subcategory, qid, email) async {
+copyeditAdminQuestions(String question, option1, option2, option3, option4, answer, categpry, subcategory, qid, email) async {
   try {
     List<String> choice = [option1, option2, option3, option4];
-    if (question == '' || option1 == '' || option2 == '' || option3 == '' || option4 == '') {
+    if (question.trim() == '' || option1.trim() == '' || option2.trim() == '' || option3.trim() == '' || option4.trim() == '') {
       controller.isValid = false;
       controller.update();
     } else {
@@ -108,7 +114,8 @@ copyeditAdminQuestions(String question, option1, option2, option3, option4, cate
         'question': question,
         'choices': choice,
         'qid': qid,
-        'teacheremail': email,
+        'answer': answer,
+        'email': email,
         'isapproved': 'true',
       });
     }

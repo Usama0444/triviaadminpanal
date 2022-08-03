@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:triviaadminpanal/AdminPanel/Controllers/LoginController.dart';
 import 'package:triviaadminpanal/AdminPanel/views/AddQuestion.dart';
 import 'package:triviaadminpanal/AdminPanel/views/AddTeacher.dart';
 import 'package:triviaadminpanal/AdminPanel/views/ApprovedQuestionList.dart';
+import 'package:triviaadminpanal/AdminPanel/views/Category.dart';
 import 'package:triviaadminpanal/AdminPanel/views/TeacherQuestionsList.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Categories.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Dashboard.dart';
@@ -25,7 +27,7 @@ class DrawerMenu extends StatefulWidget {
 }
 
 class _DrawerMenuState extends State<DrawerMenu> {
-  var bodyScreens = [Dashboard(), Users(), Categories(), AddedQuestionsList()];
+  var bodyScreens = [Dashboard(), Users(), CategoryScreen(), AddedQuestionsList()];
   var subCateScreen = [AddedQuestionsList(), ApproveTeacherQuestionsList(), Teacher()];
 
   var cont = Get.put(DashboardController());

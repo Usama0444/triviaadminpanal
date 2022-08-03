@@ -3,15 +3,30 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:triviaadminpanal/AdminPanel/Controllers/CategoryController.dart';
 import 'package:triviaadminpanal/AdminPanel/Controllers/DashBoradController.dart';
 import 'package:triviaadminpanal/AdminPanel/views/CustomWidgets/MyContainer.dart';
 import 'package:triviaadminpanal/AdminPanel/views/CustomWidgets/MyText.dart';
 import 'package:triviaadminpanal/AdminPanel/views/components/string.dart';
 import 'package:triviaadminpanal/AdminPanel/views/components/style.dart';
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
   Dashboard({Key? key}) : super(key: key);
+
+  @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
   var dashboardCont = Get.put(DashboardController());
+  var getCategory = Get.put(CategoryController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // getCategory.getCategories();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

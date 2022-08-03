@@ -8,6 +8,7 @@ import '../views/components/style.dart';
 class DashboardController extends GetxController {
   int screenIndex = 0;
   int subCatIndex = 0;
+  int catIndex = 0;
   bool addQuestion = false;
   bool addTeachers = false;
   bool showTeacherQuestionsList = false;
@@ -15,7 +16,8 @@ class DashboardController extends GetxController {
   var subCategory = 'Select Sub-Category';
   var approveScreen = false;
   var teacherQuestionScreen = false;
-
+  List<String> categoryList = [];
+  List<List<String>> subCategoryList = [];
   List<String> mainHeading = [
     'Education',
     'Sports',

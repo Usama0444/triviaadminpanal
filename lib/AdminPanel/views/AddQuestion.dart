@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:triviaadminpanal/AdminPanel/Controllers/AdminQuestionsListController.dart';
 import 'package:triviaadminpanal/AdminPanel/Controllers/DashBoradController.dart';
 import 'package:triviaadminpanal/AdminPanel/views/ApprovedQuestionList.dart';
+import 'package:triviaadminpanal/main.dart';
 
 import 'CustomWidgets/MyText.dart';
 import 'CustomWidgets/colorContainer.dart';
@@ -23,10 +24,65 @@ class AddQuestions extends StatefulWidget {
 }
 
 class _AddQuestionsState extends State<AddQuestions> {
-  var controller = Get.put(DashboardController());
-  var addController = Get.put(AdminQuestionsListController());
+  var dashboard = Get.put(DashboardController());
+  var questionController = Get.put(AdminQuestionsListController());
+  var containerBorder = [hideColor, hideColor, hideColor, hideColor];
+  var containercolor = [whiteColor, whiteColor, whiteColor, whiteColor];
+
+  var txtList = [
+    'Option 1',
+    'Option 2',
+    'Option 3',
+    'Option 4',
+  ];
+  updateQuestion() async {
+    setState(() {
+      for (int i = 0; i < 4; i++) {
+        containerBorder[i] = containerWrongBorder;
+        containercolor[i] = whiteColor;
+      }
+      containercolor[questionController.answer - 1] = containerCorrectBorder;
+      containerBorder[questionController.answer - 1] = containerCorrectBorder;
+    });
+  }
+
+  erased() {
+    questionController.question.text = '';
+    questionController.option1.text = '';
+    questionController.option2.text = '';
+    questionController.option3.text = '';
+    questionController.option4.text = '';
+    questionController.qid = '';
+    questionController.answer = 0;
+    questionController.update();
+    setState(() {
+      for (int i = 0; i < 4; i++) {
+        containerBorder[i] = hideColor;
+        containercolor[i] = whiteColor;
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (questionController.isEdit) {
+      updateQuestion();
+    } else {
+      erased();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    var textConList = [
+      questionController.option1,
+      questionController.option2,
+      questionController.option3,
+      questionController.option4,
+    ];
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -59,10 +115,11 @@ class _AddQuestionsState extends State<AddQuestions> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        GestureDetector(
+                        InkWell(
                           onTap: () {
-                            controller.addQuestion = false;
-                            controller.update();
+                            var dashboradCont = Get.put(DashboardController());
+                            dashboradCont.addQuestion = false;
+                            dashboradCont.update();
                           },
                           child: colorContainer(
                             basicColor,
@@ -79,35 +136,41 @@ class _AddQuestionsState extends State<AddQuestions> {
                             5.h,
                           ),
                         ),
-                        GestureDetector(
+                        InkWell(
                           onTap: () async {
-                            if (addController.isEdit) {
-                              await addController.updateQuestion(controller.category, controller.subCategory, FirebaseAuth.instance.currentUser?.email);
-                              addController.isEdit = false;
-                              addController.update();
+                            var useremail = pref?.getString('email');
+                            if (questionController.isEdit) {
+                              await questionController.updateQuestion(dashboard.category, dashboard.subCategory, useremail);
+                              questionController.isEdit = false;
+                              questionController.update();
                             } else {
-                              await addController.addNewQuestions('Education', 'Science', null);
+                              print('useremail $useremail');
+                              await questionController.addNewQuestions(dashboard.category, dashboard.subCategory, useremail);
                             }
-
-                            // if (addController.isValid) {
-                            await addController.getquestion();
-                            addController.question.text = '';
-                            addController.option1.text = '';
-                            addController.option2.text = '';
-                            addController.option3.text = '';
-                            addController.option4.text = '';
-                            addController.qid = '';
-                            addController.update();
+                            questionController.question.text = '';
+                            questionController.option1.text = '';
+                            questionController.option2.text = '';
+                            questionController.option3.text = '';
+                            questionController.option4.text = '';
+                            questionController.qid = '';
+                            questionController.answer = 0;
+                            questionController.update();
+                            setState(() {
+                              containerBorder = [hideColor, hideColor, hideColor, hideColor];
+                              containercolor = [whiteColor, whiteColor, whiteColor, whiteColor];
+                            });
                             var dashboradCont = Get.put(DashboardController());
                             dashboradCont.addQuestion = false;
                             dashboradCont.update();
-                            // }
+
+                            // print('Catgory : ${dashboard.category}');
+                            // print('Sub-Catgory : ${dashboard.subCategory}');
                           },
                           child: colorContainer(
                             basicColor,
                             Center(
                               child: MyText(
-                                txt: addController.isEdit != true ? 'Save' : 'Update',
+                                txt: questionController.isEdit == true ? 'Update' : 'Save',
                                 color: whiteColor,
                                 fontweight: FontWeight.w600,
                                 size: 15.sp,
@@ -127,45 +190,74 @@ class _AddQuestionsState extends State<AddQuestions> {
           ),
         ),
         Container(
-          height: 500.h,
-          width: 400.w,
-          margin: EdgeInsets.symmetric(vertical: 30.h, horizontal: 40.w),
+          height: 800.h,
+          width: 500.w,
+          margin: EdgeInsets.symmetric(
+            vertical: 50.h,
+            horizontal: 40.w,
+          ),
           child: Column(
             children: [
-              Containers(
-                'Question',
-                360.w,
-                85.h,
-                2,
-                addController.question,
+              Row(
+                children: [
+                  Containers(
+                    'Question',
+                    360.w,
+                    85.h,
+                    2,
+                    hideColor,
+                    questionController.question,
+                  ),
+                  Container(
+                    width: 40.w,
+                    height: 40.h,
+                    margin: EdgeInsets.only(top: 10.h),
+                  ),
+                ],
               ),
-              Containers(
-                'Option 1',
-                360.w,
-                60.h,
-                1,
-                addController.option1,
-              ),
-              Containers(
-                'Option 2',
-                360.w,
-                60.h,
-                1,
-                addController.option2,
-              ),
-              Containers(
-                'Option 3',
-                360.w,
-                60.h,
-                1,
-                addController.option3,
-              ),
-              Containers(
-                'Option 4',
-                360.w,
-                60.h,
-                1,
-                addController.option4,
+              SizedBox(
+                width: 500.w,
+                height: 400.h,
+                child: ListView.builder(
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      return Row(
+                        children: [
+                          Containers(
+                            txtList[index],
+                            360.w,
+                            60.h,
+                            1,
+                            containerBorder[index],
+                            textConList[index],
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              for (int i = 0; i < 4; i++) {
+                                containerBorder[i] = containerWrongBorder;
+                                containercolor[i] = whiteColor;
+                              }
+                              containerBorder[index] = containerCorrectBorder;
+                              containercolor[index] = containerCorrectBorder;
+                              setState(() {});
+                              questionController.answer = index + 1;
+                              questionController.update();
+                            },
+                            child: Container(
+                              width: 20.w,
+                              height: 20.h,
+                              margin: EdgeInsets.only(left: 10.w, top: 15.h),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.h),
+                                border: Border.all(color: containerBorder[index], width: 1.h),
+                                color: containercolor[index],
+                              ),
+                            ),
+                          ),
+                          containercolor[index] == containerCorrectBorder ? greenText() : Text('')
+                        ],
+                      );
+                    }),
               ),
             ],
           ),
@@ -175,20 +267,20 @@ class _AddQuestionsState extends State<AddQuestions> {
   }
 }
 
-Widget Containers(var label, var width, var height, var maXLine, var controller) {
+Widget Containers(var label, var width, var height, var maXLine, bcolor, var controller) {
   return Container(
     width: width,
     height: height,
     margin: EdgeInsets.only(top: 20.h),
     decoration: BoxDecoration(
-      border: Border.all(color: hideColor, width: 1.h),
+      border: Border.all(color: bcolor, width: 1.h),
     ),
     child: Stack(
       children: [
         Container(
           width: 54.w,
           height: 16.h,
-          margin: EdgeInsets.only(top: 10.h, left: 10.w),
+          margin: EdgeInsets.only(top: 2.sp, left: 10.sp),
           child: FittedBox(
             child: MyText(
               txt: label,
@@ -201,7 +293,7 @@ Widget Containers(var label, var width, var height, var maXLine, var controller)
         Container(
           width: width,
           height: (height * 0.65),
-          margin: EdgeInsets.only(left: 10.w, top: 10.h),
+          margin: EdgeInsets.only(left: 10.sp),
           child: TextField(
             controller: controller,
             maxLines: maXLine,
@@ -211,6 +303,20 @@ Widget Containers(var label, var width, var height, var maXLine, var controller)
           ),
         ),
       ],
+    ),
+  );
+}
+
+Widget greenText() {
+  return Padding(
+    padding: EdgeInsets.only(left: 10.w, top: 10.h),
+    child: Text(
+      'Correct Answer',
+      style: TextStyle(
+        fontSize: 12.sp,
+        fontWeight: FontWeight.w400,
+        color: Color(0xff00D579),
+      ),
     ),
   );
 }
