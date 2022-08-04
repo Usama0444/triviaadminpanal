@@ -38,9 +38,7 @@ class CategoryDesign extends StatefulWidget {
 }
 
 class _CategoryDesignState extends State<CategoryDesign> {
-  var CategoryTextController = TextEditingController();
   File? pcikedImage;
-  var categoryLogo;
   var controller = Get.put(CategoryController());
   countSubCatLength() async {
     await controller.getCategories();
@@ -54,8 +52,8 @@ class _CategoryDesignState extends State<CategoryDesign> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return Scaffold(body: GetBuilder<CategoryController>(builder: (controler) {
+      return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
@@ -69,15 +67,18 @@ class _CategoryDesignState extends State<CategoryDesign> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     MyText(
-                      txt: 'Add Category',
+                      txt: controller.isCategoryEdit == true ? 'Update Category' : 'Add Category',
                       color: drawerColor,
                       fontweight: FontWeight.w700,
                       size: 16.sp,
                     ),
                     GestureDetector(
                       onTap: () async {
-                        if (CategoryTextController.text != '' && categoryLogo != null) {
-                          await controller.addCategories(CategoryTextController.text, categoryLogo);
+                        if (controller.isCategoryEdit == false && controller.categoryTextControllr.text.trim() != '' && controller.categoryLogo != null) {
+                          await controller.addCategories(controller.categoryTextControllr.text, controller.categoryLogo);
+                          countSubCatLength();
+                        } else if (controller.isCategoryEdit == true && controller.categoryTextControllr.text.trim() != '' && controller.categoryLogo != null) {
+                          await controller.updateCategory(controller.categoryTextControllr.text, controler.categoryLogo, controler.cid);
                           countSubCatLength();
                         } else {
                           Get.snackbar('Error', 'invalid Data');
@@ -88,7 +89,7 @@ class _CategoryDesignState extends State<CategoryDesign> {
                         basicColor,
                         Center(
                           child: MyText(
-                            txt: 'Add',
+                            txt: controller.isCategoryEdit != true ? 'Add' : 'Update',
                             color: whiteColor,
                             fontweight: FontWeight.w600,
                             size: 15.sp,
@@ -123,11 +124,11 @@ class _CategoryDesignState extends State<CategoryDesign> {
                       color: Color(0xffE6E6E6),
                       borderRadius: BorderRadius.circular(10.h),
                     ),
-                    child: categoryLogo != null
+                    child: controller.categoryLogo != null
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(10.h),
                             child: Image.memory(
-                              base64.decode(categoryLogo),
+                              base64.decode(controller.categoryLogo),
                               fit: BoxFit.cover,
                             ),
                           )
@@ -161,7 +162,7 @@ class _CategoryDesignState extends State<CategoryDesign> {
                   child: Padding(
                     padding: EdgeInsets.only(left: 10.w, bottom: 17.h),
                     child: TextField(
-                      controller: CategoryTextController,
+                      controller: controller.categoryTextControllr,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Enter Title',
@@ -176,8 +177,8 @@ class _CategoryDesignState extends State<CategoryDesign> {
             ),
           )
         ],
-      ),
-    );
+      );
+    }));
   }
 
   TakePhoto(ImageSource source) async {
@@ -186,9 +187,8 @@ class _CategoryDesignState extends State<CategoryDesign> {
       XFile? image = await _picker.pickImage(source: ImageSource.gallery);
       if (image != null) {
         final bytes = await image.readAsBytes();
-        setState(() {
-          categoryLogo = base64.encode(bytes);
-        });
+        controller.categoryLogo = base64.encode(bytes);
+        controller.update();
       } else {
         print('Not picked');
       }

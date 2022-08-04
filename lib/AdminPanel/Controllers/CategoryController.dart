@@ -10,9 +10,17 @@ import '../Models/SubCategoryModel.dart';
 import 'DashBoradController.dart';
 
 class CategoryController extends GetxController {
+  var categoryTextControllr = TextEditingController();
+  var categoryLogo;
+  var isCategoryEdit = false;
+  var subcategoryTextControllr = TextEditingController();
+  var subcategoryLogo;
+  var isSUbCategoryEdit = false;
   List<CategoryModel> categoryModelList = [];
   var catList = [];
   var subCatLength = [];
+  var cid;
+  var sid;
   var heading = [
     'Logo',
     'Categories Name',
@@ -45,6 +53,20 @@ class CategoryController extends GetxController {
     // coloring();
     categoryModelList = [];
     catList = [];
+    categoryModelList = await getAllCategoryList();
+    for (int i = 0; i < categoryModelList.length; i++) {
+      var lst = [
+        categoryModelList[i].name,
+        categoryModelList[i].image,
+        categoryModelList[i].cid,
+      ];
+      catList.add(lst);
+    }
+    // print('cat ${catList.length}');
+    update();
+  }
+
+  getCatForDropDown() async {
     dashController.categoryList.clear();
     dashController.subCategoryList.clear();
     categoryModelList = await getAllCategoryList();
@@ -56,13 +78,10 @@ class CategoryController extends GetxController {
       ];
       dashController.categoryList.add(categoryModelList[i].name);
       dashController.update();
-      catList.add(lst);
       catID.add(categoryModelList[i].cid);
     }
-    print('cat ${catList.length}');
-    print('categ ${dashController.categoryList.length}');
     update();
-    // await getSubCategoriesForDrawer();
+    await getSubCategoriesForDrawer();
   }
 
   getSubCategoriesForDrawer() async {

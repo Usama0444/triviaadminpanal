@@ -38,8 +38,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
   var cid = '';
   var sid = '';
 
-  var categoryTextControllr = TextEditingController();
-  var subCategoryTextController = TextEditingController();
   var isEdit = false;
   var isSubCatEdit = false;
   // @override
@@ -92,6 +90,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
+                                    controller.categoryTextControllr.text = '';
+                                    controller.categoryLogo = null;
+                                    controller.isCategoryEdit = false;
+                                    controller.update();
+
                                     Get.to(AddCategroy());
                                   },
                                   child: colorContainer(
@@ -194,31 +197,41 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                             SizedBox(
                                               width: 80.w,
                                             ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Get.to(SubCategory(cid: controller.catList[index][2]));
-                                              },
-                                              child: SizedBox(
-                                                  width: 42.w,
-                                                  height: 24.h,
+                                            SizedBox(
+                                                width: 42.w,
+                                                height: 24.h,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    Get.to(SubCategory(cid: controller.catList[index][2]));
+                                                  },
                                                   child: MyText(
                                                     txt: 'View',
                                                     color: basicColor,
                                                     fontweight: FontWeight.w700,
                                                     size: 18.sp,
-                                                  )),
-                                            ),
+                                                  ),
+                                                )),
                                             SizedBox(
                                               width: 80.w,
                                             ),
                                             SizedBox(
                                                 width: 42.w,
                                                 height: 24.h,
-                                                child: MyText(
-                                                  txt: 'Edit',
-                                                  color: basicColor,
-                                                  fontweight: FontWeight.w700,
-                                                  size: 18.sp,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    controller.categoryTextControllr.text = controller.catList[index][0];
+                                                    controller.categoryLogo = controller.catList[index][1];
+                                                    controller.isCategoryEdit = true;
+                                                    controller.cid = controller.catList[index][2];
+                                                    controller.update();
+                                                    Get.to(AddCategroy());
+                                                  },
+                                                  child: MyText(
+                                                    txt: 'Edit',
+                                                    color: basicColor,
+                                                    fontweight: FontWeight.w700,
+                                                    size: 18.sp,
+                                                  ),
                                                 )),
                                           ],
                                         ),

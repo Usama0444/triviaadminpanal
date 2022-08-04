@@ -31,18 +31,17 @@ class Login extends StatelessWidget {
               width: 424.w,
               height: 120.h,
               margin: EdgeInsets.zero,
-              child: Center(
-                child: MyText(
-                  txt: 'Trivia Star',
-                  color: basicColor,
-                  fontweight: FontWeight.bold,
-                  size: 90.sp,
-                ),
+              // color: Colors.grey,
+              child: MyText(
+                txt: 'Trivia Star',
+                color: basicColor,
+                fontweight: FontWeight.w700,
+                size: 90.sp,
               ),
             ),
             Container(
               width: 72.w,
-              height: 27.h,
+              height: 30.h,
               margin: EdgeInsets.only(top: 25.h, bottom: 50.h),
               child: MyText(
                 txt: loginAdmin,

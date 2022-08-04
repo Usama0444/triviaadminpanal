@@ -96,11 +96,11 @@ class _AddQuestionsState extends State<AddQuestions> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    width: 113.w,
+                  SizedBox(
+                    width: 115.w,
                     height: 24.h,
-                    margin: EdgeInsets.zero,
                     child: FittedBox(
+                      fit: BoxFit.fitWidth,
                       child: MyText(
                         txt: 'Add Question',
                         color: Colors.black,
@@ -123,13 +123,16 @@ class _AddQuestionsState extends State<AddQuestions> {
                           },
                           child: colorContainer(
                             basicColor,
-                            Center(
-                              child: MyText(
-                                txt: 'Cancel',
-                                color: whiteColor,
-                                fontweight: FontWeight.w600,
-                                size: 15.sp,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                MyText(
+                                  txt: 'Cancel',
+                                  color: whiteColor,
+                                  fontweight: FontWeight.w500,
+                                  size: 15.sp,
+                                ),
+                              ],
                             ),
                             70.w,
                             30.h,
@@ -168,13 +171,16 @@ class _AddQuestionsState extends State<AddQuestions> {
                           },
                           child: colorContainer(
                             basicColor,
-                            Center(
-                              child: MyText(
-                                txt: questionController.isEdit == true ? 'Update' : 'Save',
-                                color: whiteColor,
-                                fontweight: FontWeight.w600,
-                                size: 15.sp,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                MyText(
+                                  txt: questionController.isEdit == true ? 'Update' : 'Save',
+                                  color: whiteColor,
+                                  fontweight: FontWeight.w500,
+                                  size: 15.sp,
+                                ),
+                              ],
                             ),
                             60.w,
                             30.h,
@@ -200,7 +206,7 @@ class _AddQuestionsState extends State<AddQuestions> {
             children: [
               Row(
                 children: [
-                  Containers(
+                  myContainers(
                     'Question',
                     360.w,
                     85.h,
@@ -223,7 +229,7 @@ class _AddQuestionsState extends State<AddQuestions> {
                     itemBuilder: (context, index) {
                       return Row(
                         children: [
-                          Containers(
+                          myContainers(
                             txtList[index],
                             360.w,
                             60.h,
@@ -267,20 +273,20 @@ class _AddQuestionsState extends State<AddQuestions> {
   }
 }
 
-Widget Containers(var label, var width, var height, var maXLine, bcolor, var controller) {
+Widget myContainers(var label, var width, var height, var maXLine, bcolor, var controller) {
   return Container(
     width: width,
     height: height,
     margin: EdgeInsets.only(top: 20.h),
     decoration: BoxDecoration(
-      border: Border.all(color: bcolor, width: 1.h),
+      border: Border.all(color: bcolor, width: 1.w),
     ),
     child: Stack(
       children: [
         Container(
           width: 54.w,
           height: 16.h,
-          margin: EdgeInsets.only(top: 2.sp, left: 10.sp),
+          margin: EdgeInsets.only(top: 10.h, left: 5.w),
           child: FittedBox(
             child: MyText(
               txt: label,
@@ -292,13 +298,17 @@ Widget Containers(var label, var width, var height, var maXLine, bcolor, var con
         ),
         Container(
           width: width,
-          height: (height * 0.65),
-          margin: EdgeInsets.only(left: 10.sp),
-          child: TextField(
-            controller: controller,
-            maxLines: maXLine,
-            decoration: InputDecoration(
-              border: InputBorder.none,
+          height: height,
+          margin: EdgeInsets.only(left: 10.w, top: label == 'Question' ? 12.h : 5.h, bottom: 5.h),
+          child: Scrollbar(
+            child: TextField(
+              controller: controller,
+              maxLines: maXLine,
+
+              // maxLength: label != 'Question' ? 10 : 100,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+              ),
             ),
           ),
         ),

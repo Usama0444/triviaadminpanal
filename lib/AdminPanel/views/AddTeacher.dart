@@ -56,6 +56,10 @@ class _AddQuestionsState extends State<AddTeachers> {
                       children: [
                         GestureDetector(
                           onTap: () {
+                            controller.isTeacherEdit = false;
+                            controller.email.text = '';
+                            controller.password.text = '';
+                            controller.update();
                             var dashboradCont = Get.put(DashboardController());
                             dashboradCont.addTeachers = false;
                             dashboradCont.update();
@@ -77,12 +81,12 @@ class _AddQuestionsState extends State<AddTeachers> {
                         ),
                         InkWell(
                           onTap: () async {
-                            if (controller.email.text == '' ||
+                            if (controller.email.text.trim() == '' ||
                                 !controller.email.text.contains('@gmail.com') ||
                                 controller.email.text.length > 30 ||
-                                controller.password.text == '' ||
-                                controller.password.text == ' ' ||
-                                controller.email.text == ' ') {
+                                controller.password.text.trim() == '' ||
+                                controller.password.text.trim() == ' ' ||
+                                controller.email.text.trim() == ' ') {
                               Get.snackbar('Error', 'Invalid Teacher data!');
                             } else {
                               if (controller.isTeacherEdit) {
@@ -93,6 +97,10 @@ class _AddQuestionsState extends State<AddTeachers> {
                             }
 
                             await controller.getTeacher();
+                            controller.isTeacherEdit = false;
+                            controller.email.text = '';
+                            controller.password.text = '';
+                            controller.update();
                             var dashboradCont = Get.put(DashboardController());
                             dashboradCont.addTeachers = false;
                             dashboradCont.update();

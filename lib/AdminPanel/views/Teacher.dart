@@ -55,19 +55,24 @@ class _TeacherState extends State<Teacher> {
                                     width: 1.0,
                                   )),
                                 ),
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 4.w, bottom: 10.h, top: 1.h),
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: 'Search Teacher',
-                                        hintStyle: TextStyle(color: hideColor, fontSize: 14.sp),
-                                        suffixIcon: Icon(
-                                          Icons.search,
-                                          color: basicColor,
-                                          size: 20.h,
-                                        )),
-                                  ),
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Search Teacher',
+                                      contentPadding: EdgeInsets.only(left: 5.w, bottom: 30.h),
+                                      hintStyle: TextStyle(color: hideColor, fontSize: 14.sp),
+                                      suffixIcon: Container(
+                                        width: 20.w,
+                                        height: 20.h,
+                                        // color: hideColor,
+                                        child: FittedBox(
+                                          fit: BoxFit.contain,
+                                          child: Icon(
+                                            Icons.search,
+                                            color: basicColor,
+                                          ),
+                                        ),
+                                      )),
                                 ),
                               ),
                               InkWell(

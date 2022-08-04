@@ -19,10 +19,13 @@ file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/Services/TeacherServices.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/Services/UserServices.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/Services/loginServices.dart
+file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/AddCategory.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/AddQuestion.dart
+file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/AddSubCategory.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/AddTeacher.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/ApprovedQuestionList.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/Categories.dart
+file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/Category.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/CustomWidgets/CustomAppbar.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/CustomWidgets/MyContainer.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/CustomWidgets/MyText.dart
@@ -30,6 +33,8 @@ file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/Dashboard.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/DrawerMenu.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/Login.dart
+file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/MyDrawer.dart
+file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/SubCategory.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/Teacher.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/TeacherQuestionsList.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/TeachersList.dart

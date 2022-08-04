@@ -14,6 +14,7 @@ import 'package:triviaadminpanal/AdminPanel/views/Dashboard.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Teacher.dart';
 import 'package:triviaadminpanal/AdminPanel/views/components/style.dart';
 
+import 'MyDashboard.dart';
 import 'TeachersList.dart';
 import 'CustomWidgets/MyText.dart';
 import 'Users.dart';
@@ -28,7 +29,7 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _DrawerMenuState extends State<MyDrawer> {
-  var bodyScreens = [Dashboard(), Users(), CategoryScreen(), AddedQuestionsList()];
+  var bodyScreens = [UserDashboard(), Users(), CategoryScreen(), AddedQuestionsList()];
   var subCateScreen = [AddedQuestionsList(), ApproveTeacherQuestionsList(), Teacher()];
 
   var cont = Get.put(DashboardController());

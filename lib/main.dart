@@ -6,10 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:triviaadminpanal/AdminPanel/views/AddCategory.dart';
 import 'package:triviaadminpanal/AdminPanel/views/AddQuestion.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Category.dart';
+import 'package:triviaadminpanal/AdminPanel/views/MyDashboard.dart';
 import 'package:triviaadminpanal/AdminPanel/views/TeacherQuestionsList.dart';
 import 'package:triviaadminpanal/AdminPanel/views/TeachersList.dart';
 import 'package:triviaadminpanal/AdminPanel/views/DrawerMenu.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Login.dart';
+import 'package:triviaadminpanal/AdminPanel/views/Users.dart';
 
 SharedPreferences? pref;
 void main() async {
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
       rebuildFactor: (old, data) => true,
       builder: (context, child) => GetMaterialApp(
         home: checkLogin == true ? DrawerMenu() : Login(),
-        // home: AddCategroy(),
+        // home: UserDashboard(),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: 'Segoe UI'),
       ),

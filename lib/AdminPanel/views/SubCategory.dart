@@ -11,6 +11,7 @@ import 'package:triviaadminpanal/AdminPanel/Controllers/AdminQuestionsListContro
 import 'package:triviaadminpanal/AdminPanel/Controllers/CategoryController.dart';
 import 'package:triviaadminpanal/AdminPanel/Controllers/DashBoradController.dart';
 import 'package:triviaadminpanal/AdminPanel/Services/ApprovedQuestionServices.dart';
+import 'package:triviaadminpanal/AdminPanel/views/AddSubCategory.dart';
 import 'package:triviaadminpanal/AdminPanel/views/CustomWidgets/CustomAppbar.dart';
 import 'package:triviaadminpanal/AdminPanel/views/MyDrawer.dart';
 import 'package:triviaadminpanal/AdminPanel/views/DrawerMenu.dart';
@@ -88,8 +89,16 @@ class _ChildClassState extends State<ChildClass> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                GestureDetector(
-                                  onTap: () async {},
+                                InkWell(
+                                  onTap: () async {
+                                    controller.subcategoryTextControllr.text = '';
+                                    controller.subcategoryLogo = null;
+                                    controller.isSUbCategoryEdit = false;
+                                    controller.cid = widget.cid;
+                                    controller.update();
+
+                                    Get.to(AddSubCategroy());
+                                  },
                                   child: colorContainer(
                                     basicColor,
                                     Center(
@@ -193,11 +202,21 @@ class _ChildClassState extends State<ChildClass> {
                                             SizedBox(
                                                 width: 42.w,
                                                 height: 24.h,
-                                                child: MyText(
-                                                  txt: 'Edit',
-                                                  color: basicColor,
-                                                  fontweight: FontWeight.w700,
-                                                  size: 18.sp,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    controller.subcategoryTextControllr.text = controller.subcatList[index][0];
+                                                    controller.subcategoryLogo = controller.subcatList[index][1];
+                                                    controller.sid = controller.subcatList[index][3];
+                                                    controller.isSUbCategoryEdit = true;
+                                                    controller.update();
+                                                    Get.to(AddSubCategroy());
+                                                  },
+                                                  child: MyText(
+                                                    txt: 'Edit',
+                                                    color: basicColor,
+                                                    fontweight: FontWeight.w700,
+                                                    size: 18.sp,
+                                                  ),
                                                 )),
                                           ],
                                         ),

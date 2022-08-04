@@ -67,19 +67,24 @@ class _UsersState extends State<Users> {
                                     width: 1.0,
                                   )),
                                 ),
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 4.w, bottom: 10.h, top: 1.h),
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: 'Search User',
-                                        hintStyle: TextStyle(color: hideColor, fontSize: 14.sp),
-                                        suffixIcon: Icon(
-                                          Icons.search,
-                                          color: basicColor,
-                                          size: 20.h,
-                                        )),
-                                  ),
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Search User',
+                                      contentPadding: EdgeInsets.only(left: 5.w, bottom: 30.h),
+                                      hintStyle: TextStyle(color: hideColor, fontSize: 14.sp),
+                                      suffixIcon: Container(
+                                        width: 20.w,
+                                        height: 20.h,
+                                        // color: hideColor,
+                                        child: FittedBox(
+                                          fit: BoxFit.contain,
+                                          child: Icon(
+                                            Icons.search,
+                                            color: basicColor,
+                                          ),
+                                        ),
+                                      )),
                                 ),
                               ),
                               InkWell(
@@ -157,7 +162,7 @@ class _UsersState extends State<Users> {
                                             children: [
                                               Container(
                                                 width: 160.w,
-                                                height: 21.h,
+                                                height: 25.h,
                                                 margin: EdgeInsets.only(right: 30.w),
                                                 child: index == 0
                                                     ? MyText(
@@ -174,8 +179,8 @@ class _UsersState extends State<Users> {
                                                             size: 16.sp,
                                                           )
                                                         : Container(
-                                                            width: 46.w,
-                                                            height: 16.h,
+                                                            width: 45.w,
+                                                            height: 20.h,
                                                             child: Switch(
                                                               value: switchButton,
                                                               onChanged: (val) {

@@ -22,9 +22,8 @@ class _DashboardState extends State<Dashboard> {
   var getCategory = Get.put(CategoryController());
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    // getCategory.getCategories();
+    getCategory.getCatForDropDown();
   }
 
   @override

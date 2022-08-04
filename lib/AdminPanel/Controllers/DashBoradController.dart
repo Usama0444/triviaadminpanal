@@ -57,16 +57,13 @@ class DashboardController extends GetxController {
     drawerColor,
   ];
   List<String> countryList = [
-    'Pak',
-    'Inr',
-    'Chi',
-    'Ras',
-    'Usa',
-    'Uae',
-    'Irq',
-    'Mal',
+    'Pakistan',
+    'India',
+    'China',
+    'Rassia',
+    'America',
   ];
-  String selectedCountry = 'Pak';
+  String selectedCountry = 'Pakistan';
   List<String> position = [
     '1st',
     '2st',
