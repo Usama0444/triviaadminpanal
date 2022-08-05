@@ -6,6 +6,7 @@ import '../Views/components/style.dart';
 
 class DashboardController extends GetxController {
   int catIndex = 0;
+  int fillcat = 0;
   List<bool> openSubcate = [];
   var question = TextEditingController();
   var option1 = TextEditingController();
@@ -19,7 +20,7 @@ class DashboardController extends GetxController {
   List<Color> categoryTextColor = [];
   List<List<Color>> subcategoryColor = [];
   List<List<Color>> subcategoryTextColor = [];
-  List<String> categoryList = [];
+  List<String> categoryList = ['Select Category'];
   List<List<String>> subCategoryList = [];
   List<Color> menuBottomBorderColor = [];
 }

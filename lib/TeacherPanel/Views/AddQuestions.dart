@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dart';
 
+import '../../main.dart';
 import '../Controller/DashBoradController.dart';
 import 'CustomWidgets/MyText.dart';
 import 'CustomWidgets/colorContainer.dart';
@@ -23,11 +24,40 @@ class AddQuestions extends StatefulWidget {
 class _AddQuestionsState extends State<AddQuestions> {
   var dashboard = Get.put(DashboardController());
   var questionController = Get.put(QuestionController());
-  var checbox = [false, false, false, false];
+  var containerBorder = [hideColor, hideColor, hideColor, hideColor];
+  var containercolor = [whiteColor, whiteColor, whiteColor, whiteColor];
 
+  var txtList = [
+    'Option 1',
+    'Option 2',
+    'Option 3',
+    'Option 4',
+  ];
   updateQuestion() async {
     setState(() {
-      checbox[questionController.answer - 1] = true;
+      for (int i = 0; i < 4; i++) {
+        containerBorder[i] = containerWrongBorder;
+        containercolor[i] = whiteColor;
+      }
+      containercolor[questionController.answer - 1] = containerCorrectBorder;
+      containerBorder[questionController.answer - 1] = containerCorrectBorder;
+    });
+  }
+
+  erased() {
+    questionController.question.text = '';
+    questionController.option1.text = '';
+    questionController.option2.text = '';
+    questionController.option3.text = '';
+    questionController.option4.text = '';
+    questionController.qid = '';
+    questionController.answer = 0;
+    questionController.update();
+    setState(() {
+      for (int i = 0; i < 4; i++) {
+        containerBorder[i] = hideColor;
+        containercolor[i] = whiteColor;
+      }
     });
   }
 
@@ -37,11 +67,20 @@ class _AddQuestionsState extends State<AddQuestions> {
     super.initState();
     if (questionController.isEdit) {
       updateQuestion();
+    } else {
+      erased();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    var textConList = [
+      questionController.option1,
+      questionController.option2,
+      questionController.option3,
+      questionController.option4,
+    ];
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -55,11 +94,11 @@ class _AddQuestionsState extends State<AddQuestions> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    width: 113.w,
+                  SizedBox(
+                    width: 115.w,
                     height: 24.h,
-                    margin: EdgeInsets.zero,
                     child: FittedBox(
+                      fit: BoxFit.fitWidth,
                       child: MyText(
                         txt: 'Add Question',
                         color: Colors.black,
@@ -82,13 +121,16 @@ class _AddQuestionsState extends State<AddQuestions> {
                           },
                           child: colorContainer(
                             basicColor,
-                            Center(
-                              child: MyText(
-                                txt: 'Cancel',
-                                color: whiteColor,
-                                fontweight: FontWeight.w600,
-                                size: 15.sp,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                MyText(
+                                  txt: 'Cancel',
+                                  color: whiteColor,
+                                  fontweight: FontWeight.w500,
+                                  size: 15.sp,
+                                ),
+                              ],
                             ),
                             70.w,
                             30.h,
@@ -97,37 +139,67 @@ class _AddQuestionsState extends State<AddQuestions> {
                         ),
                         InkWell(
                           onTap: () async {
-                            var teacherEmail = FirebaseAuth.instance.currentUser?.email;
-                            if (questionController.isEdit) {
-                              await questionController.teacherUpdateQuestion(teacherEmail);
-                              questionController.isEdit = false;
-                              questionController.update();
+                            if (questionController.question.text.trim() == '' ||
+                                questionController.option1.text.trim() == '' ||
+                                questionController.option2.text.trim() == '' ||
+                                questionController.option3.text.trim() == '' ||
+                                questionController.option4.text.trim() == '') {
+                              Get.snackbar('Error', 'Invalid Data');
                             } else {
-                              print('teacherEmail $teacherEmail');
-                              await questionController.addNewQuestions(teacherEmail);
+                              if (questionController.isEdit) {
+                                await questionController.teacherUpdateQuestion();
+                                questionController.isEdit = false;
+                                questionController.update();
+                                questionController.question.text = '';
+                                questionController.option1.text = '';
+                                questionController.option2.text = '';
+                                questionController.option3.text = '';
+                                questionController.option4.text = '';
+                                questionController.qid = '';
+                                questionController.answer = 0;
+                                questionController.update();
+                                setState(() {
+                                  containerBorder = [hideColor, hideColor, hideColor, hideColor];
+                                  containercolor = [whiteColor, whiteColor, whiteColor, whiteColor];
+                                });
+                                var dashboradCont = Get.put(DashboardController());
+                                dashboradCont.addQuestion = false;
+                                dashboradCont.update();
+                              } else {
+                                await questionController.addNewQuestions();
+                                questionController.question.text = '';
+                                questionController.option1.text = '';
+                                questionController.option2.text = '';
+                                questionController.option3.text = '';
+                                questionController.option4.text = '';
+                                questionController.qid = '';
+                                questionController.answer = 0;
+                                questionController.update();
+                                setState(() {
+                                  containerBorder = [hideColor, hideColor, hideColor, hideColor];
+                                  containercolor = [whiteColor, whiteColor, whiteColor, whiteColor];
+                                });
+                                var dashboradCont = Get.put(DashboardController());
+                                dashboradCont.addQuestion = false;
+                                dashboradCont.update();
+                              }
                             }
-                            questionController.question.text = '';
-                            questionController.option1.text = '';
-                            questionController.option2.text = '';
-                            questionController.option3.text = '';
-                            questionController.option4.text = '';
-                            questionController.qid = '';
-                            questionController.update();
-                            var dashboradCont = Get.put(DashboardController());
-                            dashboradCont.addQuestion = false;
-                            dashboradCont.update();
-                            print('Catgory : ${dashboard.category}');
-                            print('Sub-Catgory : ${dashboard.subCategory}');
+
+                            // print('Catgory : ${dashboard.category}');
+                            // print('Sub-Catgory : ${dashboard.subCategory}');
                           },
                           child: colorContainer(
                             basicColor,
-                            Center(
-                              child: MyText(
-                                txt: questionController.isEdit == true ? 'Update' : 'Save',
-                                color: whiteColor,
-                                fontweight: FontWeight.w600,
-                                size: 15.sp,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                MyText(
+                                  txt: questionController.isEdit == true ? 'Update' : 'Save',
+                                  color: whiteColor,
+                                  fontweight: FontWeight.w500,
+                                  size: 15.sp,
+                                ),
+                              ],
                             ),
                             60.w,
                             30.h,
@@ -143,8 +215,8 @@ class _AddQuestionsState extends State<AddQuestions> {
           ),
         ),
         Container(
-          height: 500.h,
-          width: 400.w,
+          height: 800.h,
+          width: 500.w,
           margin: EdgeInsets.symmetric(
             vertical: 50.h,
             horizontal: 40.w,
@@ -153,11 +225,12 @@ class _AddQuestionsState extends State<AddQuestions> {
             children: [
               Row(
                 children: [
-                  Containers(
+                  myContainers(
                     'Question',
                     360.w,
                     85.h,
                     2,
+                    hideColor,
                     questionController.question,
                   ),
                   Container(
@@ -167,133 +240,49 @@ class _AddQuestionsState extends State<AddQuestions> {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  Containers(
-                    'Option 1',
-                    360.w,
-                    60.h,
-                    1,
-                    questionController.option1,
-                  ),
-                  Container(
-                    width: 40.w,
-                    height: 40.h,
-                    margin: EdgeInsets.only(top: 10.h),
-                    child: Checkbox(
-                      fillColor: MaterialStateProperty.all(hideColor),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.h),
-                      ),
-                      value: checbox[0],
-                      onChanged: (val) {
-                        setState(() {
-                          for (int i = 0; i < 4; i++) {
-                            checbox[i] = false;
-                          }
-                          checbox[0] = true;
-                          questionController.answer = 1;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Containers(
-                    'Option 2',
-                    360.w,
-                    60.h,
-                    1,
-                    questionController.option2,
-                  ),
-                  Container(
-                    width: 40.w,
-                    height: 40.h,
-                    margin: EdgeInsets.only(top: 10.h),
-                    child: Checkbox(
-                      fillColor: MaterialStateProperty.all(hideColor),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.h),
-                      ),
-                      value: checbox[1],
-                      onChanged: (val) {
-                        setState(() {
-                          for (int i = 0; i < 4; i++) {
-                            checbox[i] = false;
-                          }
-                          checbox[1] = true;
-                          questionController.answer = 2;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Containers(
-                    'Option 3',
-                    360.w,
-                    60.h,
-                    1,
-                    questionController.option3,
-                  ),
-                  Container(
-                    width: 40.w,
-                    height: 40.h,
-                    margin: EdgeInsets.only(top: 10.h),
-                    child: Checkbox(
-                      fillColor: MaterialStateProperty.all(hideColor),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.h),
-                      ),
-                      value: checbox[2],
-                      onChanged: (val) {
-                        setState(() {
-                          for (int i = 0; i < 4; i++) {
-                            checbox[i] = false;
-                          }
-                          checbox[2] = true;
-                          questionController.answer = 3;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Containers(
-                    'Option 4',
-                    360.w,
-                    60.h,
-                    1,
-                    questionController.option4,
-                  ),
-                  Container(
-                    width: 40.w,
-                    height: 40.h,
-                    margin: EdgeInsets.only(top: 10.h),
-                    child: Checkbox(
-                      fillColor: MaterialStateProperty.all(hideColor),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.h),
-                      ),
-                      value: checbox[3],
-                      onChanged: (val) {
-                        setState(() {
-                          for (int i = 0; i < 4; i++) {
-                            checbox[i] = false;
-                          }
-                          checbox[3] = true;
-                          questionController.answer = 4;
-                        });
-                      },
-                    ),
-                  ),
-                ],
+              SizedBox(
+                width: 500.w,
+                height: 400.h,
+                child: ListView.builder(
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      return Row(
+                        children: [
+                          myContainers(
+                            txtList[index],
+                            360.w,
+                            60.h,
+                            1,
+                            containerBorder[index],
+                            textConList[index],
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              for (int i = 0; i < 4; i++) {
+                                containerBorder[i] = containerWrongBorder;
+                                containercolor[i] = whiteColor;
+                              }
+                              containerBorder[index] = containerCorrectBorder;
+                              containercolor[index] = containerCorrectBorder;
+                              setState(() {});
+                              questionController.answer = index + 1;
+                              questionController.update();
+                            },
+                            child: Container(
+                              width: 20.w,
+                              height: 20.h,
+                              margin: EdgeInsets.only(left: 10.w, top: 15.h),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.h),
+                                border: Border.all(color: containerBorder[index], width: 1.h),
+                                color: containercolor[index],
+                              ),
+                            ),
+                          ),
+                          containercolor[index] == containerCorrectBorder ? greenText() : Text('')
+                        ],
+                      );
+                    }),
               ),
             ],
           ),
@@ -303,20 +292,20 @@ class _AddQuestionsState extends State<AddQuestions> {
   }
 }
 
-Widget Containers(var label, var width, var height, var maXLine, var controller) {
+Widget myContainers(var label, var width, var height, var maXLine, bcolor, var controller) {
   return Container(
     width: width,
     height: height,
     margin: EdgeInsets.only(top: 20.h),
     decoration: BoxDecoration(
-      border: Border.all(color: hideColor, width: 1.h),
+      border: Border.all(color: bcolor, width: 1.w),
     ),
     child: Stack(
       children: [
         Container(
           width: 54.w,
           height: 16.h,
-          margin: EdgeInsets.only(top: 2.sp, left: 10.sp),
+          margin: EdgeInsets.only(top: 10.h, left: 5.w),
           child: FittedBox(
             child: MyText(
               txt: label,
@@ -328,17 +317,32 @@ Widget Containers(var label, var width, var height, var maXLine, var controller)
         ),
         Container(
           width: width,
-          height: (height * 0.65),
-          margin: EdgeInsets.only(left: 10.sp),
-          child: TextField(
+          height: height,
+          margin: EdgeInsets.only(left: 10.w, top: label == 'Question' ? 12.h : 5.h, bottom: 5.h),
+          child: TextFormField(
             controller: controller,
-            maxLines: maXLine,
+            minLines: 1,
+            maxLines: 20,
             decoration: InputDecoration(
               border: InputBorder.none,
             ),
           ),
         ),
       ],
+    ),
+  );
+}
+
+Widget greenText() {
+  return Padding(
+    padding: EdgeInsets.only(left: 10.w, top: 10.h),
+    child: Text(
+      'Correct Answer',
+      style: TextStyle(
+        fontSize: 12.sp,
+        fontWeight: FontWeight.w400,
+        color: Color(0xff00D579),
+      ),
     ),
   );
 }

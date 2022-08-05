@@ -28,6 +28,7 @@ class CategoryController extends GetxController {
         dashController.categoryColor.add(whiteColor);
         dashController.categoryTextColor.add(secondColor);
         dashController.menuBottomBorderColor.add(drawerColor);
+
         dashController.update();
         catID.add(categoryModelList[i].cid);
       }
@@ -48,6 +49,7 @@ class CategoryController extends GetxController {
         name.add(subcategoryModelList[i].name);
       }
       dashController.subCategoryList.add(name);
+      dashController.fillcat = 1;
       dashController.update();
     }
   }

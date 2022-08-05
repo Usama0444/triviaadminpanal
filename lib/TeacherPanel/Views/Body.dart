@@ -21,18 +21,18 @@ class _CircketState extends State<Body> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: FutureBuilder(
-          future: controller.getquestionByCategory(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return GetBuilder<QuestionController>(builder: (questionController) {
-                return Column(children: [
-                  SizedBox(
-                    width: 1586.w,
-                    height: 70.h,
-                    child: CustomAppBar(),
-                  ),
-                  Column(
+      body: Column(children: [
+        SizedBox(
+          width: 1586.w,
+          height: 70.h,
+          child: CustomAppBar(),
+        ),
+        FutureBuilder(
+            future: controller.getquestionByCategory(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return GetBuilder<QuestionController>(builder: (questionController) {
+                  return Column(
                     children: [
                       SizedBox(
                         height: 40.h,
@@ -175,16 +175,20 @@ class _CircketState extends State<Body> {
                             }),
                       ),
                     ],
-                  )
-                ]);
-              });
-            } else {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [Center(child: CircularProgressIndicator())],
-              );
-            }
-          }),
+                  );
+                });
+              } else {
+                return SizedBox(
+                  height: 900.h,
+                  width: 1500.w,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [Center(child: CircularProgressIndicator())],
+                  ),
+                );
+              }
+            })
+      ]),
     );
   }
 }

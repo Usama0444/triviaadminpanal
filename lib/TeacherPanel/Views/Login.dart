@@ -91,6 +91,7 @@ class TeacherLogin extends StatelessWidget {
                   Get.snackbar('Error', 'Invalid Password');
                 } else {
                   pref?.setBool('logedin', true);
+                  pref?.setString('email', emailCon.text.trim());
                   print(pref!.getBool('logedin'));
                   await userLogin(emailCon.text, passCon.text);
                 }

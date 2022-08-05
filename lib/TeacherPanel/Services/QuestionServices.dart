@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dart';
+import 'package:triviaadminpanal/main.dart';
 
 import '../Models/QuestionModel.dart';
 
@@ -8,8 +9,8 @@ var teacherQuestionCollectionRef = FirebaseFirestore.instance.collection('questi
 var copyteacherQuestionCollectionRef = FirebaseFirestore.instance.collection('copyquestions');
 
 var controller = Get.put(QuestionController());
-
-Future<List<QuestionModel>> getTeacherQuestionsList(cat, subcat, email) async {
+var email = pref?.getString('email');
+Future<List<QuestionModel>> getTeacherQuestionsList(cat, subcat) async {
   var questionList =
       await teacherQuestionCollectionRef.where('email', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subcat).where('isapproved', isEqualTo: 'false').get();
   var questionsList = await questionList.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
@@ -26,7 +27,7 @@ deleteQuestion(qid) async {
   }
 }
 
-editTeacherQuestions(String question, option1, option2, option3, option4, answer, categpry, subcategory, qid, email) async {
+editTeacherQuestions(String question, option1, option2, option3, option4, answer, categpry, subcategory, qid) async {
   try {
     List<String> choice = [option1, option2, option3, option4];
     if (question == '' || option1 == '' || option2 == '' || option3 == '' || option4 == '') {
@@ -61,7 +62,7 @@ editTeacherQuestions(String question, option1, option2, option3, option4, answer
   }
 }
 
-addQuestions(String question, option1, option2, option3, option4, answer, category, subCategory, teacheremail) async {
+addQuestions(String question, option1, option2, option3, option4, answer, category, subCategory) async {
   try {
     List<String> choice = [option1, option2, option3, option4];
     var id = teacherQuestionCollectionRef.doc().id;
@@ -77,7 +78,7 @@ addQuestions(String question, option1, option2, option3, option4, answer, catego
         'answer': answer,
         'qid': id,
         'subcategory': subCategory,
-        'email': teacheremail,
+        'email': email,
         'isapproved': 'false',
       });
       copyteacherQuestionCollectionRef.doc(id).set({
@@ -87,7 +88,7 @@ addQuestions(String question, option1, option2, option3, option4, answer, catego
         'answer': answer,
         'qid': id,
         'subcategory': subCategory,
-        'email': teacheremail,
+        'email': email,
         'isapproved': 'false',
       });
       Get.snackbar('Confirmation Alert', 'Question Added successfully');

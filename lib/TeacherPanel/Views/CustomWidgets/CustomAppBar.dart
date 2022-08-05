@@ -93,12 +93,19 @@ class _ScienceState extends State<CustomAppBar> {
                                 ),
                               ),
                               isExpanded: true,
-                              items: dashcon.categoryList.map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
+                              items: dashboradCont.fillcat == 0
+                                  ? ['', ''].map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList()
+                                  : dashcon.categoryList.map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
                               onChanged: (val) {
                                 dashcon.category = val.toString();
                                 dashcon.catIndex = dashcon.categoryList.indexOf(val.toString());
@@ -138,12 +145,19 @@ class _ScienceState extends State<CustomAppBar> {
                                 ),
                               ),
                               isExpanded: true,
-                              items: dashcon.subCategoryList[dashcon.catIndex].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
+                              items: dashboradCont.fillcat == 0
+                                  ? ['', ''].map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList()
+                                  : dashcon.subCategoryList[dashcon.catIndex].map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
                               onChanged: (val) {
                                 dashcon.subCategory = val.toString();
                                 dashcon.update();

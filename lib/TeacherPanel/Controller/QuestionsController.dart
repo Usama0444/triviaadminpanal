@@ -29,18 +29,14 @@ class QuestionController extends GetxController {
     'Option 4',
     'Total Question : 50000',
   ];
-
+  int done = 0;
   getquestionByCategory() async {
     teacherQuestionList = [];
     teacherQuestionModelList = [];
     teacherChoicesList = [];
     // print(dashController.category);
     // print(dashController.subCategory);
-    teacherQuestionModelList = await getTeacherQuestionsList(
-      dashController.category,
-      dashController.subCategory,
-      userEmail,
-    );
+    teacherQuestionModelList = await getTeacherQuestionsList(dashController.category, dashController.subCategory);
 
     for (int i = 0; i < teacherQuestionModelList.length; i++) {
       var lst = [
@@ -51,17 +47,19 @@ class QuestionController extends GetxController {
       teacherChoicesList.add(teacherQuestionModelList[i].choiceList);
       teacherQuestionList.add(lst);
     }
+    done = 1;
     update();
+
     // print('teacherQuestion List $teacherQuestionList');
     // print('choices $teacherChoicesList');
   }
 
-  addNewQuestions(email) async {
-    await addQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, dashController.category, dashController.subCategory, email);
+  addNewQuestions() async {
+    await addQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, dashController.category, dashController.subCategory);
   }
 
-  teacherUpdateQuestion(email) async {
-    await editTeacherQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, dashController.category, dashController.subCategory, qid, email);
+  teacherUpdateQuestion() async {
+    await editTeacherQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, dashController.category, dashController.subCategory, qid);
   }
 
   removeQuestion() async {
