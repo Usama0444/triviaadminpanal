@@ -10,7 +10,6 @@ import 'package:triviaadminpanal/AdminPanel/views/ApprovedQuestionList.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Category.dart';
 import 'package:triviaadminpanal/AdminPanel/views/TeacherQuestionsList.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Categories.dart';
-import 'package:triviaadminpanal/AdminPanel/views/Dashboard.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Teacher.dart';
 import 'package:triviaadminpanal/AdminPanel/views/components/style.dart';
 

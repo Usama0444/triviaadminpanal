@@ -83,27 +83,35 @@ class _AddQuestionsState extends State<AddTeachers> {
                           onTap: () async {
                             if (controller.email.text.trim() == '' ||
                                 !controller.email.text.contains('@gmail.com') ||
+                                !controller.email.text.endsWith('com') ||
                                 controller.email.text.length > 30 ||
-                                controller.password.text.trim() == '' ||
-                                controller.password.text.trim() == ' ' ||
-                                controller.email.text.trim() == ' ') {
+                                controller.password.text.trim() == '') {
                               Get.snackbar('Error', 'Invalid Teacher data!');
+                            } else if (controller.password.text.trim().length < 6) {
+                              Get.snackbar('Error', 'password length must be greater than or equal to 6!');
                             } else {
                               if (controller.isTeacherEdit) {
                                 await controller.updateTeacher(controller.email.text, controller.password.text);
+                                await controller.getTeacher();
+                                controller.isTeacherEdit = false;
+                                controller.email.text = '';
+                                controller.password.text = '';
+                                controller.update();
+                                var dashboradCont = Get.put(DashboardController());
+                                dashboradCont.addTeachers = false;
+                                dashboradCont.update();
                               } else {
                                 await controller.addNewTeachers(controller.email.text, controller.password.text);
+                                await controller.getTeacher();
+                                controller.isTeacherEdit = false;
+                                controller.email.text = '';
+                                controller.password.text = '';
+                                controller.update();
+                                var dashboradCont = Get.put(DashboardController());
+                                dashboradCont.addTeachers = false;
+                                dashboradCont.update();
                               }
                             }
-
-                            await controller.getTeacher();
-                            controller.isTeacherEdit = false;
-                            controller.email.text = '';
-                            controller.password.text = '';
-                            controller.update();
-                            var dashboradCont = Get.put(DashboardController());
-                            dashboradCont.addTeachers = false;
-                            dashboradCont.update();
                           },
                           child: colorContainer(
                             basicColor,

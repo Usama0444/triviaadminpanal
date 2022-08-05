@@ -79,10 +79,15 @@ class _ScienceState extends State<CustomAppBar> {
                           child: Padding(
                             padding: EdgeInsets.only(left: 4.w, bottom: 10.h),
                             child: DropdownButton(
-                              icon: Icon(
-                                Icons.keyboard_arrow_down,
-                                color: basicColor,
-                                size: 20.h,
+                              icon: Container(
+                                margin: EdgeInsets.only(bottom: 18.h, right: 15.w),
+                                width: 12.w,
+                                height: 7.75.h,
+                                child: Icon(
+                                  Icons.keyboard_arrow_down,
+                                  color: basicColor,
+                                  // size: 20.h,
+                                ),
                               ),
                               underline: Container(),
                               hint: Text(
@@ -124,10 +129,15 @@ class _ScienceState extends State<CustomAppBar> {
                             padding: EdgeInsets.only(left: 4.w, bottom: 10.h),
                             child: DropdownButton(
                               focusColor: Colors.transparent,
-                              icon: Icon(
-                                Icons.keyboard_arrow_down,
-                                color: basicColor,
-                                size: 20.h,
+                              icon: Container(
+                                margin: EdgeInsets.only(bottom: 18.h, right: 15.w),
+                                width: 12.w,
+                                height: 7.75.h,
+                                child: Icon(
+                                  Icons.keyboard_arrow_down,
+                                  color: basicColor,
+                                  // size: 20.h,
+                                ),
                               ),
                               underline: Container(),
                               hint: Text(

@@ -142,14 +142,19 @@ class _AddQuestionsState extends State<AddQuestions> {
                         InkWell(
                           onTap: () async {
                             var useremail = pref?.getString('email');
-                            if (questionController.isEdit) {
-                              await questionController.updateQuestion(dashboard.category, dashboard.subCategory, useremail);
-                              questionController.isEdit = false;
-                              questionController.update();
+                            if (!questionController.question.text.contains(' ')) {
+                              Get.snackbar('Error', 'Invalid Data');
                             } else {
-                              print('useremail $useremail');
-                              await questionController.addNewQuestions(dashboard.category, dashboard.subCategory, useremail);
+                              if (questionController.isEdit) {
+                                await questionController.updateQuestion(dashboard.category, dashboard.subCategory, useremail);
+                                questionController.isEdit = false;
+                                questionController.update();
+                              } else {
+                                print('useremail $useremail');
+                                await questionController.addNewQuestions(dashboard.category, dashboard.subCategory, useremail);
+                              }
                             }
+
                             questionController.question.text = '';
                             questionController.option1.text = '';
                             questionController.option2.text = '';
@@ -300,15 +305,12 @@ Widget myContainers(var label, var width, var height, var maXLine, bcolor, var c
           width: width,
           height: height,
           margin: EdgeInsets.only(left: 10.w, top: label == 'Question' ? 12.h : 5.h, bottom: 5.h),
-          child: Scrollbar(
-            child: TextField(
-              controller: controller,
-              maxLines: maXLine,
-
-              // maxLength: label != 'Question' ? 10 : 100,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-              ),
+          child: TextFormField(
+            controller: controller,
+            minLines: 1,
+            maxLines: 20,
+            decoration: InputDecoration(
+              border: InputBorder.none,
             ),
           ),
         ),

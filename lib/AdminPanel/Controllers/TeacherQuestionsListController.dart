@@ -34,10 +34,7 @@ class TeacherQuestionContoller extends GetxController {
     questionList = [];
     questionModelList = [];
     choicesList = [];
-    print(teacherEmail);
-    print(dashboradCon.category);
-    print(dashboradCon.subCategory);
-    questionModelList = await getAllQuestionListByEmail(teacherEmail, dashboradCon.category, dashboradCon.subCategory);
+    questionModelList = await getAllQuestionListByEmail(teacherEmail);
 
     for (int i = 0; i < questionModelList.length; i++) {
       var lst = [

@@ -34,7 +34,56 @@ class _ApproveQuestionsListState extends State<ApproveTeacherQuestionsList> {
               if (snapshot.connectionState == ConnectionState.done) {
                 return GetBuilder<TeacherController>(builder: ((teacherController) {
                   return Column(children: [
-                    SizedBox(width: 1586.w, height: 70.h, child: CustomAppBar()),
+                    SizedBox(
+                      width: 1586.w,
+                      height: 70.h,
+                      child: Card(
+                        margin: EdgeInsets.zero,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 40.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: 260.w,
+                                    height: 30.h,
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                        color: basicColor,
+                                        width: 1.0,
+                                      )),
+                                    ),
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: 'Search',
+                                          contentPadding: EdgeInsets.only(left: 5.w, bottom: 30.h),
+                                          hintStyle: TextStyle(color: hideColor, fontSize: 14.sp),
+                                          suffixIcon: Container(
+                                            width: 20.w,
+                                            height: 20.h,
+                                            // color: hideColor,
+                                            child: FittedBox(
+                                              fit: BoxFit.contain,
+                                              child: Icon(
+                                                Icons.search,
+                                                color: basicColor,
+                                              ),
+                                            ),
+                                          )),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                     Column(
                       children: [
                         SizedBox(
@@ -111,16 +160,11 @@ class _ApproveQuestionsListState extends State<ApproveTeacherQuestionsList> {
                                                           InkWell(
                                                             onTap: () {
                                                               var dashboradCont = Get.put(DashboardController());
-                                                              if (dashboradCont.category != 'Select Category' && dashboradCont.subCategory != 'Select Sub-Category') {
-                                                                dashboradCont.showTeacherQuestionsList = true;
-                                                                dashboradCont.teacherQuestionScreen = true;
-                                                                dashboradCont.update();
-                                                                teacherQuestion.teacherEmail = teacherController.teacherList[index][0];
-                                                                print('TEacher Email  ${teacherQuestion.teacherEmail}');
-                                                                teacherQuestion.update();
-                                                              } else {
-                                                                Get.snackbar('Error', 'Select Category and SunCategory!');
-                                                              }
+                                                              dashboradCont.showTeacherQuestionsList = true;
+                                                              dashboradCont.teacherQuestionScreen = true;
+                                                              dashboradCont.update();
+                                                              teacherQuestion.teacherEmail = teacherController.teacherList[index][0];
+                                                              teacherQuestion.update();
                                                             },
                                                             child: MyText(txt: 'View', color: Color(0xff00C2FF), fontweight: FontWeight.w800, size: 16.sp),
                                                           ),

@@ -9,6 +9,7 @@ import 'package:triviaadminpanal/AdminPanel/Controllers/DashBoradController.dart
 import 'package:triviaadminpanal/AdminPanel/views/CustomWidgets/CustomAppbar.dart';
 
 import '../../main.dart';
+import '../Controllers/CategoryController.dart';
 import 'CustomWidgets/MyText.dart';
 import 'CustomWidgets/colorContainer.dart';
 import 'components/style.dart';
@@ -23,6 +24,15 @@ class AddedQuestionsList extends StatefulWidget {
 class _AddedQuestionsListState extends State<AddedQuestionsList> {
   var controller = Get.put(AdminQuestionsListController());
   var dashboradCont = Get.put(DashboardController());
+  var categroy = Get.find<CategoryController>();
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   categroy.getCatForDropDown();
+  // }
+
   @override
   Widget build(BuildContext context) {
     // print('email ${pref?.getString('email')}');
@@ -31,7 +41,7 @@ class _AddedQuestionsListState extends State<AddedQuestionsList> {
         body: FutureBuilder(
             future: controller.getquestion(),
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.connectionState == ConnectionState.done && dashboradCont.categoryList.length != 0) {
                 return GetBuilder<AdminQuestionsListController>(builder: ((questionController) {
                   return Column(children: [
                     SizedBox(width: 1586.w, height: 70.h, child: CustomAppBar()),

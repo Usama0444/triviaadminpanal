@@ -8,9 +8,8 @@ import '../Controllers/TeacherQuestionsListController.dart';
 var controller = Get.put(TeacherQuestionContoller());
 var questionCollectionRef = FirebaseFirestore.instance.collection('questions');
 
-Future<List<QuestionModel>> getAllQuestionListByEmail(email, cat, subCate) async {
-  var questionList =
-      await questionCollectionRef.where('email', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subCate).where('isapproved', isEqualTo: 'false').get();
+Future<List<QuestionModel>> getAllQuestionListByEmail(email) async {
+  var questionList = await questionCollectionRef.where('email', isEqualTo: email).where('isapproved', isEqualTo: 'false').get();
   var questionsList = await questionList.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
   return questionsList;
 }

@@ -18,26 +18,11 @@ class DashboardController extends GetxController {
   var teacherQuestionScreen = false;
   List<String> categoryList = [];
   List<List<String>> subCategoryList = [];
-  List<String> mainHeading = [
-    'Education',
-    'Sports',
-  ];
-  List<String> subjectsNameList = [
-    'Science',
-    'Biology',
-    'Chemistry',
-    'Physics',
-    'Math',
-    'History',
-  ];
-  List<String> sportNameList = [
-    'Cricket',
-    'Football',
-    'Pool',
-    'Badminton',
-    'Hockey',
-    'Tennis',
-  ];
+  String selectedUserCountry = 'Pakistan';
+  String selectedAvgCountry = 'Pakistan';
+  String selectedMonthCountry = 'Pakistan';
+  String selectedWeekCountry = 'Pakistan';
+
   List<String> menuList = [
     dashborad,
     users,
@@ -56,14 +41,34 @@ class DashboardController extends GetxController {
     drawerColor,
     drawerColor,
   ];
-  List<String> countryList = [
+  List<String> userCountryList = [
     'Pakistan',
     'India',
     'China',
     'Rassia',
     'America',
   ];
-  String selectedCountry = 'Pakistan';
+  List<String> AvgCountryList = [
+    'Pakistan',
+    'India',
+    'China',
+    'Rassia',
+    'America',
+  ];
+  List<String> lMonthlycountryList = [
+    'Pakistan',
+    'India',
+    'China',
+    'Rassia',
+    'America',
+  ];
+  List<String> lWeeklycountryList = [
+    'Pakistan',
+    'India',
+    'China',
+    'Rassia',
+    'America',
+  ];
   List<String> position = [
     '1st',
     '2st',

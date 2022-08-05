@@ -14,19 +14,9 @@ import 'package:triviaadminpanal/AdminPanel/Services/ApprovedQuestionServices.da
 import 'package:triviaadminpanal/AdminPanel/views/AddSubCategory.dart';
 import 'package:triviaadminpanal/AdminPanel/views/CustomWidgets/CustomAppbar.dart';
 import 'package:triviaadminpanal/AdminPanel/views/MyDrawer.dart';
-import 'package:triviaadminpanal/AdminPanel/views/DrawerMenu.dart';
 
-import '../../main.dart';
-import '../Controllers/LoginController.dart';
-import 'ApprovedQuestionList.dart';
-import 'Category.dart';
 import 'CustomWidgets/MyText.dart';
 import 'CustomWidgets/colorContainer.dart';
-import 'Dashboard.dart';
-import 'Teacher.dart';
-import 'TeachersList.dart';
-import 'Users.dart';
-import 'components/string.dart';
 import 'components/style.dart';
 
 class SubCategory extends StatefulWidget {

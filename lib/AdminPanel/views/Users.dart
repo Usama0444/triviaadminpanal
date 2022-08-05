@@ -126,7 +126,7 @@ class _UsersState extends State<Users> {
                                         size: 12.sp,
                                       ),
                                       Icon(
-                                        Icons.keyboard_arrow_down_outlined,
+                                        pushNoti == false ? Icons.keyboard_arrow_down_outlined : Icons.keyboard_arrow_up_outlined,
                                         color: whiteColor,
                                       ),
                                     ],
@@ -182,10 +182,11 @@ class _UsersState extends State<Users> {
                                                             width: 45.w,
                                                             height: 20.h,
                                                             child: Switch(
-                                                              value: switchButton,
+                                                              value: userController.active[index],
                                                               onChanged: (val) {
                                                                 setState(() {
-                                                                  switchButton = val;
+                                                                  userController.active[index] = val;
+                                                                  userController.update();
                                                                 });
                                                               },
                                                               activeColor: basicColor,
@@ -219,91 +220,99 @@ class _UsersState extends State<Users> {
           },
         ));
   }
-}
 
-Widget pushNotificationDialog(titleController, descriptionController) {
-  return Container(
-    width: 282.w,
-    height: 284.h,
-    decoration: BoxDecoration(
-      border: Border.all(
-        color: hideColor,
-        width: 1.h,
+  Widget pushNotificationDialog(titleController, descriptionController) {
+    return Container(
+      width: 282.w,
+      height: 284.h,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: hideColor,
+          width: 1.h,
+        ),
+        borderRadius: BorderRadius.circular(10.h),
+        color: Colors.white,
       ),
-      borderRadius: BorderRadius.circular(10.h),
-      color: Colors.white,
-    ),
-    child: Column(
-      children: [
-        Container(
-          width: 241.w,
-          height: 40.h,
-          margin: EdgeInsets.only(top: 22.h, bottom: 12.h),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.h),
-              border: Border.all(
-                color: hideColor,
-                width: 2.h,
-              )),
-          child: Padding(
-            padding: EdgeInsets.only(left: 10.w, bottom: 12.h),
-            child: TextField(
-              controller: titleController,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Enter Title',
-                  hintStyle: TextStyle(
-                    fontSize: 12.sp,
-                    color: hideColor,
-                  )),
-            ),
-          ),
-        ),
-        Container(
-          width: 241.w,
-          height: 153.h,
-          margin: EdgeInsets.zero,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.h),
-              border: Border.all(
-                color: hideColor,
-                width: 2.h,
-              )),
-          child: Padding(
-            padding: EdgeInsets.only(left: 10.w, bottom: 12.h),
-            child: TextField(
-              controller: descriptionController,
-              maxLines: 10,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Enter Description',
-                  hintStyle: TextStyle(
-                    fontSize: 12.sp,
-                    color: hideColor,
-                  )),
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: () {},
-          child: Container(
-            width: 70.w,
-            height: 26.h,
-            margin: EdgeInsets.only(top: 19.h),
+      child: Column(
+        children: [
+          Container(
+            width: 241.w,
+            height: 40.h,
+            margin: EdgeInsets.only(top: 22.h, bottom: 12.h),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.h),
-              color: btnColor,
+                borderRadius: BorderRadius.circular(5.h),
+                border: Border.all(
+                  color: hideColor,
+                  width: 2.h,
+                )),
+            child: Padding(
+              padding: EdgeInsets.only(left: 10.w, bottom: 12.h),
+              child: TextField(
+                controller: titleController,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Enter Title',
+                    hintStyle: TextStyle(
+                      fontSize: 12.sp,
+                      color: hideColor,
+                    )),
+              ),
             ),
-            child: Center(
-                child: MyText(
-              txt: 'Send',
-              color: whiteColor,
-              fontweight: FontWeight.w600,
-              size: 10.sp,
-            )),
           ),
-        )
-      ],
-    ),
-  );
+          Container(
+            width: 241.w,
+            height: 153.h,
+            margin: EdgeInsets.zero,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5.h),
+                border: Border.all(
+                  color: hideColor,
+                  width: 2.h,
+                )),
+            child: Padding(
+              padding: EdgeInsets.only(left: 10.w, bottom: 12.h),
+              child: TextField(
+                controller: descriptionController,
+                maxLines: 10,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Enter Description',
+                    hintStyle: TextStyle(
+                      fontSize: 12.sp,
+                      color: hideColor,
+                    )),
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              setState(() {
+                if (pushNoti) {
+                  pushNoti = false;
+                } else {
+                  pushNoti = true;
+                }
+              });
+            },
+            child: Container(
+              width: 70.w,
+              height: 26.h,
+              margin: EdgeInsets.only(top: 19.h),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5.h),
+                color: btnColor,
+              ),
+              child: Center(
+                  child: MyText(
+                txt: 'Send',
+                color: whiteColor,
+                fontweight: FontWeight.w600,
+                size: 10.sp,
+              )),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }

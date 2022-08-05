@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:triviaadminpanal/AdminPanel/Controllers/TeacherQuestionsListController.dart';
 import 'package:triviaadminpanal/AdminPanel/Controllers/AdminQuestionsListController.dart';
 import 'package:triviaadminpanal/AdminPanel/Controllers/DashBoradController.dart';
+import 'package:triviaadminpanal/AdminPanel/views/CustomWidgets/CustomAppbar.dart';
 
 import 'CustomWidgets/MyText.dart';
 import 'CustomWidgets/colorContainer.dart';
@@ -45,142 +46,40 @@ class _AddedQuestionsListState extends State<ApproveQuestionsList> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 260.w,
-                                    height: 30.h,
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(
-                                        color: basicColor,
-                                        width: 1.0,
+                              Container(
+                                width: 260.w,
+                                height: 30.h,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                    color: basicColor,
+                                    width: 1.0,
+                                  )),
+                                ),
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Search',
+                                      contentPadding: EdgeInsets.only(left: 5.w, bottom: 30.h),
+                                      hintStyle: TextStyle(color: hideColor, fontSize: 14.sp),
+                                      suffixIcon: Container(
+                                        width: 20.w,
+                                        height: 20.h,
+                                        // color: hideColor,
+                                        child: FittedBox(
+                                          fit: BoxFit.contain,
+                                          child: Icon(
+                                            Icons.search,
+                                            color: basicColor,
+                                          ),
+                                        ),
                                       )),
-                                    ),
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: 'Search',
-                                          contentPadding: EdgeInsets.only(left: 5.w, bottom: 30.h),
-                                          hintStyle: TextStyle(color: hideColor, fontSize: 14.sp),
-                                          suffixIcon: Container(
-                                            width: 20.w,
-                                            height: 20.h,
-                                            // color: hideColor,
-                                            child: FittedBox(
-                                              fit: BoxFit.contain,
-                                              child: Icon(
-                                                Icons.search,
-                                                color: basicColor,
-                                              ),
-                                            ),
-                                          )),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 217.w,
-                                  ),
-                                  GetBuilder<DashboardController>(builder: (dashcon) {
-                                    return Row(
-                                      children: [
-                                        Container(
-                                          width: 260.w,
-                                          height: 31.h,
-                                          margin: EdgeInsets.zero,
-                                          decoration: BoxDecoration(
-                                            border: Border(
-                                                bottom: BorderSide(
-                                              color: basicColor,
-                                              width: 1.0,
-                                            )),
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.only(left: 4.w, bottom: 10.h),
-                                            child: DropdownButton(
-                                              icon: Icon(
-                                                Icons.keyboard_arrow_down,
-                                                color: basicColor,
-                                                size: 20.h,
-                                              ),
-                                              underline: Container(),
-                                              hint: Text(
-                                                dashcon.category,
-                                                style: TextStyle(
-                                                  color: dashcon.category != 'Select Category' ? basicColor : hideColor,
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              isExpanded: true,
-                                              items: dashcon.mainHeading.map((String value) {
-                                                return DropdownMenuItem<String>(
-                                                  value: value,
-                                                  child: Text(value),
-                                                );
-                                              }).toList(),
-                                              onChanged: (val) {
-                                                dashcon.category = val.toString();
-                                                if (val.toString() == 'Education') {
-                                                  subcategoryList = dashcon.subjectsNameList;
-                                                } else {
-                                                  subcategoryList = dashcon.sportNameList;
-                                                }
-                                                dashcon.update();
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 260.w,
-                                          height: 31.h,
-                                          margin: EdgeInsets.only(left: 48.h),
-                                          decoration: BoxDecoration(
-                                            border: Border(
-                                                bottom: BorderSide(
-                                              color: basicColor,
-                                              width: 1.0,
-                                            )),
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.only(left: 4.w, bottom: 10.h),
-                                            child: DropdownButton(
-                                              focusColor: Colors.transparent,
-                                              icon: Icon(
-                                                Icons.keyboard_arrow_down,
-                                                color: basicColor,
-                                                size: 20.h,
-                                              ),
-                                              underline: Container(),
-                                              hint: Text(
-                                                dashcon.subCategory,
-                                                style: TextStyle(
-                                                  color: dashcon.subCategory != 'Select Sub-Category' ? basicColor : hideColor,
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              isExpanded: true,
-                                              items: subcategoryList.map((String value) {
-                                                return DropdownMenuItem<String>(
-                                                  value: value,
-                                                  child: Text(value),
-                                                );
-                                              }).toList(),
-                                              onChanged: (val) {
-                                                dashcon.subCategory = val.toString();
-                                                dashcon.update();
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  })
-                                ],
+                                ),
                               ),
                               GestureDetector(
                                 onTap: () {
                                   dashboradCont.showTeacherQuestionsList = false;
+                                  dashboradCont.teacherQuestionScreen = false;
                                   dashboradCont.update();
                                 },
                                 child: colorContainer(

@@ -5,6 +5,7 @@ import 'package:triviaadminpanal/AdminPanel/Services/UserServices.dart';
 class UserController extends GetxController {
   List<UserModel> userModelList = [];
   var userList = [];
+  var active = [];
   List<String> headings = [
     'User Name',
     'Points',
@@ -27,6 +28,7 @@ class UserController extends GetxController {
         'false',
       ];
       userList.add(lst);
+      active.add(true);
     }
     update();
   }

@@ -79,13 +79,13 @@ class _UserDashboardState extends State<UserDashboard> {
                             padding: EdgeInsets.only(left: 10.w),
                             child: DropdownButton(
                               hint: MyText(
-                                txt: controller.countryList[0],
+                                txt: controller.userCountryList[0],
                                 color: secondColor,
                                 fontweight: FontWeight.w400,
                                 size: 12.sp,
                               ),
                               iconEnabledColor: basicColor,
-                              value: controller.selectedCountry,
+                              value: controller.selectedUserCountry,
                               icon: Container(
                                 width: 8.w,
                                 height: 5.17.h,
@@ -103,10 +103,10 @@ class _UserDashboardState extends State<UserDashboard> {
                                 // setState(() {
                                 //   direction = newValue!;
                                 // });
-                                controller.selectedCountry = newValue.toString();
+                                controller.selectedUserCountry = newValue.toString();
                                 controller.update();
                               },
-                              items: controller.countryList.map<DropdownMenuItem<String>>((String value) {
+                              items: controller.userCountryList.map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(value),
@@ -162,13 +162,13 @@ class _UserDashboardState extends State<UserDashboard> {
                             padding: EdgeInsets.only(left: 10.w),
                             child: DropdownButton(
                               hint: MyText(
-                                txt: controller.countryList[0],
+                                txt: controller.AvgCountryList[0],
                                 color: secondColor,
                                 fontweight: FontWeight.w400,
                                 size: 12.sp,
                               ),
                               iconEnabledColor: basicColor,
-                              value: controller.selectedCountry,
+                              value: controller.selectedAvgCountry,
                               icon: Container(
                                 width: 8.w,
                                 height: 5.17.h,
@@ -186,10 +186,10 @@ class _UserDashboardState extends State<UserDashboard> {
                                 // setState(() {
                                 //   direction = newValue!;
                                 // });
-                                controller.selectedCountry = newValue.toString();
+                                controller.selectedAvgCountry = newValue.toString();
                                 controller.update();
                               },
-                              items: controller.countryList.map<DropdownMenuItem<String>>((String value) {
+                              items: controller.AvgCountryList.map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(value),
@@ -339,7 +339,7 @@ class _UserDashboardState extends State<UserDashboard> {
                                   Expanded(
                                     flex: 1,
                                     child: MyText(
-                                      txt: controller.countryList[index],
+                                      txt: controller.lWeeklycountryList[index],
                                       color: secondColor,
                                       fontweight: FontWeight.w400,
                                       size: 18.sp,
@@ -389,13 +389,13 @@ class _UserDashboardState extends State<UserDashboard> {
                                   padding: EdgeInsets.only(left: 10.w),
                                   child: DropdownButton(
                                     hint: MyText(
-                                      txt: controller.countryList[0],
+                                      txt: controller.lWeeklycountryList[0],
                                       color: secondColor,
                                       fontweight: FontWeight.w400,
                                       size: 12.sp,
                                     ),
                                     iconEnabledColor: basicColor,
-                                    value: controller.selectedCountry,
+                                    value: controller.selectedWeekCountry,
                                     icon: Container(
                                       width: 8.w,
                                       height: 5.17.h,
@@ -413,10 +413,10 @@ class _UserDashboardState extends State<UserDashboard> {
                                       // setState(() {
                                       //   direction = newValue!;
                                       // });
-                                      controller.selectedCountry = newValue.toString();
+                                      controller.selectedWeekCountry = newValue.toString();
                                       controller.update();
                                     },
-                                    items: controller.countryList.map<DropdownMenuItem<String>>((String value) {
+                                    items: controller.lWeeklycountryList.map<DropdownMenuItem<String>>((String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
                                         child: Text(value),
@@ -476,7 +476,7 @@ class _UserDashboardState extends State<UserDashboard> {
                                         Expanded(
                                           flex: 1,
                                           child: MyText(
-                                            txt: controller.countryList[index],
+                                            txt: controller.lWeeklycountryList[index],
                                             color: secondColor,
                                             fontweight: FontWeight.w400,
                                             size: 18.sp,
@@ -529,13 +529,13 @@ class _UserDashboardState extends State<UserDashboard> {
                                   padding: EdgeInsets.only(left: 10.w),
                                   child: DropdownButton(
                                     hint: MyText(
-                                      txt: controller.countryList[0],
+                                      txt: controller.lWeeklycountryList[0],
                                       color: secondColor,
                                       fontweight: FontWeight.w400,
                                       size: 12.sp,
                                     ),
                                     iconEnabledColor: basicColor,
-                                    value: controller.selectedCountry,
+                                    value: controller.selectedMonthCountry,
                                     icon: Container(
                                       width: 8.w,
                                       height: 5.17.h,
@@ -553,10 +553,10 @@ class _UserDashboardState extends State<UserDashboard> {
                                       // setState(() {
                                       //   direction = newValue!;
                                       // });
-                                      controller.selectedCountry = newValue.toString();
+                                      controller.selectedMonthCountry = newValue.toString();
                                       controller.update();
                                     },
-                                    items: controller.countryList.map<DropdownMenuItem<String>>((String value) {
+                                    items: controller.lMonthlycountryList.map<DropdownMenuItem<String>>((String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
                                         child: Text(value),
@@ -616,7 +616,7 @@ class _UserDashboardState extends State<UserDashboard> {
                                         Expanded(
                                           flex: 1,
                                           child: MyText(
-                                            txt: controller.countryList[index],
+                                            txt: controller.lMonthlycountryList[index],
                                             color: secondColor,
                                             fontweight: FontWeight.w400,
                                             size: 18.sp,
