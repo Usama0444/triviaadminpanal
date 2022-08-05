@@ -7,11 +7,20 @@ import '../Controllers/TeacherQuestionsListController.dart';
 
 var controller = Get.put(TeacherQuestionContoller());
 var questionCollectionRef = FirebaseFirestore.instance.collection('questions');
+var approveQuestionCollectionRef = FirebaseFirestore.instance.collection('Approvedquestions');
 
 Future<List<QuestionModel>> getAllQuestionListByEmail(email) async {
   var questionList = await questionCollectionRef.where('email', isEqualTo: email).where('isapproved', isEqualTo: 'false').get();
-  var questionsList = await questionList.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
-  return questionsList;
+  var questions = await questionList.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
+  return questions;
+}
+
+Future<List<QuestionModel>> getApprovedQuestionListByEmail(email) async {
+  print('get approved $email');
+  var questionList = await approveQuestionCollectionRef.where('email', isEqualTo: email).get();
+  var list = await questionList.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
+  print(list);
+  return list;
 }
 
 addQuestions(String question, option1, option2, option3, option4, category, subcategory, email, userType) async {
@@ -36,8 +45,9 @@ addQuestions(String question, option1, option2, option3, option4, category, subc
 
 approvedQuestionsByAdmin(String question, option1, option2, option3, option4, category, subcategory, email, qid) async {
   try {
+    print('in add');
     List<String> choice = [option1, option2, option3, option4];
-    questionCollectionRef.doc(qid).update({
+    approveQuestionCollectionRef.doc(qid).set({
       'category': category,
       'subcategory': subcategory,
       'question': question,
@@ -53,6 +63,15 @@ approvedQuestionsByAdmin(String question, option1, option2, option3, option4, ca
 }
 
 deleteQuestion(qid) async {
+  try {
+    questionCollectionRef.doc(qid).delete();
+    Get.snackbar('Confirmation Alert', 'Question Deleted successfully');
+  } catch (e) {
+    Get.snackbar('Error', 'something went wrong!!');
+  }
+}
+
+deleteApprovedQuestion(qid) async {
   try {
     questionCollectionRef.doc(qid).delete();
     Get.snackbar('Confirmation Alert', 'Question Deleted successfully');

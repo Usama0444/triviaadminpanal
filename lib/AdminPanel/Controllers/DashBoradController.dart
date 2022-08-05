@@ -12,6 +12,8 @@ class DashboardController extends GetxController {
   bool addQuestion = false;
   bool addTeachers = false;
   bool showTeacherQuestionsList = false;
+  bool showTeacherApprovedQuestionsList = false;
+
   var category = 'Select Category';
   var subCategory = 'Select Sub-Category';
   var approveScreen = false;
@@ -102,11 +104,13 @@ class DashboardController extends GetxController {
   ];
   List<String> questionsSubCat = [
     'Add',
-    'Approve',
+    'Approve View Question',
+    'View Approved Question',
     'Teacher',
   ];
   List<Color> menuSubCatColor = [
     basicColor,
+    secondColor,
     secondColor,
     secondColor,
   ];

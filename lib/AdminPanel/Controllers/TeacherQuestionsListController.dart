@@ -47,8 +47,30 @@ class TeacherQuestionContoller extends GetxController {
     update();
   }
 
+  getApprovedquestionByteacherEmail() async {
+    print('in apporved');
+    questionList = [];
+    questionModelList = [];
+    choicesList = [];
+    questionModelList = await getApprovedQuestionListByEmail(teacherEmail);
+
+    for (int i = 0; i < questionModelList.length; i++) {
+      var lst = [
+        questionModelList[i].question,
+        questionModelList[i].qid,
+      ];
+      choicesList.add(questionModelList[i].choiceList);
+      questionList.add(lst);
+    }
+    update();
+  }
+
   removeQuestion() async {
     await deleteQuestion(qid);
+  }
+
+  removeApprovedQuestion() async {
+    await deleteApprovedQuestion(qid);
   }
 
   approveQuestion() async {

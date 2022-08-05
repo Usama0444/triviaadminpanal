@@ -175,14 +175,14 @@ class _DrawerMenuState extends State<MyDrawer> {
                                               visible: visible,
                                               child: Container(
                                                 width: 334.w,
-                                                height: 200.h,
+                                                height: 300.h,
                                                 margin: EdgeInsets.only(left: 22.w, top: 20.h),
                                                 child: ListView.builder(
-                                                    itemCount: 3,
+                                                    itemCount: 4,
                                                     itemBuilder: (context, j) {
                                                       return GestureDetector(
                                                         onTap: () {
-                                                          for (int i = 0; i < 3; i++) {
+                                                          for (int i = 0; i < 4; i++) {
                                                             controller.menuSubCatColor[i] = secondColor;
                                                           }
                                                           controller.menuSubCatColor[j] = basicColor;
@@ -190,7 +190,7 @@ class _DrawerMenuState extends State<MyDrawer> {
                                                           controller.addTeachers = false;
                                                           controller.showTeacherQuestionsList = false;
                                                           controller.subCatIndex = j;
-                                                          if (controller.questionsSubCat[j] == 'Approve') {
+                                                          if (controller.questionsSubCat[j] == 'Approve View Question') {
                                                             controller.approveScreen = true;
                                                           } else {
                                                             controller.approveScreen = false;

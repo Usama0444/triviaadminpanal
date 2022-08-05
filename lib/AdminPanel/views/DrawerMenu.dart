@@ -11,12 +11,14 @@ import 'package:triviaadminpanal/AdminPanel/views/Category.dart';
 import 'package:triviaadminpanal/AdminPanel/views/TeacherQuestionsList.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Categories.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Teacher.dart';
+import 'package:triviaadminpanal/AdminPanel/views/ViewTeacherQuestionList.dart';
 import 'package:triviaadminpanal/AdminPanel/views/components/style.dart';
 
 import 'MyDashboard.dart';
 import 'TeachersList.dart';
 import 'CustomWidgets/MyText.dart';
 import 'Users.dart';
+import 'ViewApprovedTeacher.dart';
 import 'components/string.dart';
 
 class DrawerMenu extends StatefulWidget {
@@ -28,7 +30,7 @@ class DrawerMenu extends StatefulWidget {
 
 class _DrawerMenuState extends State<DrawerMenu> {
   var bodyScreens = [UserDashboard(), Users(), CategoryScreen(), AddedQuestionsList()];
-  var subCateScreen = [AddedQuestionsList(), ApproveTeacherQuestionsList(), Teacher()];
+  var subCateScreen = [AddedQuestionsList(), ApproveTeacherQuestionsList(), ApprovedTeacherList(), Teacher()];
 
   var cont = Get.put(DashboardController());
   var login = Get.put(LogInController());
@@ -174,14 +176,14 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                               visible: visible,
                                               child: Container(
                                                 width: 334.w,
-                                                height: 200.h,
+                                                height: 250.h,
                                                 margin: EdgeInsets.only(left: 22.w, top: 20.h),
                                                 child: ListView.builder(
-                                                    itemCount: 3,
+                                                    itemCount: 4,
                                                     itemBuilder: (context, j) {
                                                       return GestureDetector(
                                                         onTap: () {
-                                                          for (int i = 0; i < 3; i++) {
+                                                          for (int i = 0; i < 4; i++) {
                                                             controller.menuSubCatColor[i] = secondColor;
                                                           }
                                                           controller.menuSubCatColor[j] = basicColor;
@@ -189,7 +191,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                                           controller.addTeachers = false;
                                                           controller.showTeacherQuestionsList = false;
                                                           controller.subCatIndex = j;
-                                                          if (controller.questionsSubCat[j] == 'Approve') {
+                                                          if (controller.questionsSubCat[j] == 'Approve View Question') {
                                                             controller.approveScreen = true;
                                                           } else {
                                                             controller.approveScreen = false;
@@ -244,7 +246,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
                     ? Container(width: 1586.w, height: 1080.h, child: AddTeachers())
                     : controller.showTeacherQuestionsList == true
                         ? Container(width: 1586.w, height: 1080.h, child: ApproveQuestionsList())
-                        : Container(width: 1586.w, height: 1080.h, child: controller.screenIndex > 2 ? subCateScreen[controller.subCatIndex] : bodyScreens[controller.screenIndex]),
+                        : controller.showTeacherApprovedQuestionsList == true
+                            ? Container(width: 1586.w, height: 1080.h, child: ViewTeacherQuestionList())
+                            : Container(width: 1586.w, height: 1080.h, child: controller.screenIndex > 2 ? subCateScreen[controller.subCatIndex] : bodyScreens[controller.screenIndex]),
           ],
         ),
       );
