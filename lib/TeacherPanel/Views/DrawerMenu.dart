@@ -37,9 +37,8 @@ class _DrawerMenuState extends State<TeacherDrawerMenu> {
   getData() async {
     var categoryController = Get.put(CategoryController());
     await categoryController.getCategories();
-    setState(() {
-      flag = true;
-    });
+    flag = true;
+    setState(() {});
   }
 
   @override
@@ -106,13 +105,15 @@ class _DrawerMenuState extends State<TeacherDrawerMenu> {
                                             controller.categoryTextColor[index] = basicColor;
                                             controller.category = controller.categoryList[index];
                                             controller.update();
-                                            for (int i = 0; i < con.openSubcate.length; i++) {
-                                              con.openSubcate[i] = false;
-                                            }
                                             if (con.openSubcate[index]) {
                                               con.openSubcate[index] = false;
                                             } else {
                                               con.openSubcate[index] = true;
+                                            }
+                                            for (int i = 0; i < con.openSubcate.length; i++) {
+                                              if (i != index) {
+                                                con.openSubcate[i] = false;
+                                              }
                                             }
                                             con.update();
                                             setState(() {
