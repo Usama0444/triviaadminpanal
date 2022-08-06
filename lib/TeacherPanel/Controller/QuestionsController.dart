@@ -36,7 +36,7 @@ class QuestionController extends GetxController {
     teacherChoicesList = [];
     // print(dashController.category);
     // print(dashController.subCategory);
-    teacherQuestionModelList = await getTeacherQuestionsList(dashController.category, dashController.subCategory);
+    teacherQuestionModelList = await getTeacherQuestionsList(dashController.ondrawercategory, dashController.ondrawersubCategory);
 
     for (int i = 0; i < teacherQuestionModelList.length; i++) {
       var lst = [

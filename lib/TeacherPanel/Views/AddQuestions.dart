@@ -318,13 +318,15 @@ Widget myContainers(var label, var width, var height, var maXLine, bcolor, var c
         Container(
           width: width,
           height: height,
-          margin: EdgeInsets.only(left: 10.w, top: label == 'Question' ? 12.h : 5.h, bottom: 5.h),
-          child: TextFormField(
+          margin: EdgeInsets.only(left: 10.w, top: label == 'Question' ? 12.h : 5.h),
+          child: TextField(
             controller: controller,
             minLines: 1,
             maxLines: 20,
+            maxLength: label == 'Question' ? 40 : 30,
             decoration: InputDecoration(
               border: InputBorder.none,
+              counterText: '',
             ),
           ),
         ),

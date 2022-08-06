@@ -103,7 +103,7 @@ class _DrawerMenuState extends State<TeacherDrawerMenu> {
 
                                             controller.menuBottomBorderColor[index] = basicColor;
                                             controller.categoryTextColor[index] = basicColor;
-                                            controller.category = controller.categoryList[index];
+                                            controller.ondrawercategory = controller.categoryList[index];
                                             controller.update();
                                             if (con.openSubcate[index]) {
                                               con.openSubcate[index] = false;
@@ -166,7 +166,7 @@ class _DrawerMenuState extends State<TeacherDrawerMenu> {
                                                         color[j] = basicColor;
                                                       });
                                                       controller.addQuestion = false;
-                                                      controller.subCategory = controller.subCategoryList[index][j];
+                                                      controller.ondrawersubCategory = controller.subCategoryList[index][j];
 
                                                       controller.update();
                                                       // print(controller.category);

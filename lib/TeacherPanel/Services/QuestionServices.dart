@@ -9,7 +9,7 @@ var teacherQuestionCollectionRef = FirebaseFirestore.instance.collection('questi
 var copyteacherQuestionCollectionRef = FirebaseFirestore.instance.collection('copyquestions');
 
 var controller = Get.put(QuestionController());
-var email = pref?.getString('email');
+var email = pref?.getString('teacheremail');
 Future<List<QuestionModel>> getTeacherQuestionsList(cat, subcat) async {
   var questionList =
       await teacherQuestionCollectionRef.where('email', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subcat).where('isapproved', isEqualTo: 'false').get();

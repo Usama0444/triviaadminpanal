@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool? checkLogin;
-    checkLogin = pref?.getBool('logedin');
+    checkLogin = pref?.getBool('teacherlogedin');
     checkLogin ??= false;
     print(checkLogin);
     return ScreenUtilInit(

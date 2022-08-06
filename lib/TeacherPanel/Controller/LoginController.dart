@@ -13,9 +13,9 @@ class LogInController extends GetxController {
   }
 
   logOut() async {
+    pref?.setBool('teacherlogedin', false);
+    pref?.setString('teacheremail', ' ');
     FirebaseAuth.instance.signOut();
-    pref?.setBool('logedin', false);
-    pref?.setString('email', '');
     Get.offAll(TeacherLogin());
   }
 }

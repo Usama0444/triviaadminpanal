@@ -43,19 +43,24 @@ class _ScienceState extends State<CustomAppBar> {
                         width: 1.0,
                       )),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 4.w, bottom: 10.h, top: 1.h),
-                      child: TextField(
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Search',
-                            hintStyle: TextStyle(color: hideColor, fontSize: 14.sp),
-                            suffixIcon: Icon(
-                              Icons.search,
-                              color: basicColor,
-                              size: 20.h,
-                            )),
-                      ),
+                    child: TextField(
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Search',
+                          contentPadding: EdgeInsets.only(left: 5.w, bottom: 30.h),
+                          hintStyle: TextStyle(color: hideColor, fontSize: 14.sp),
+                          suffixIcon: Container(
+                            width: 20.w,
+                            height: 20.h,
+                            // color: hideColor,
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Icon(
+                                Icons.search,
+                                color: basicColor,
+                              ),
+                            ),
+                          )),
                     ),
                   ),
                   SizedBox(
@@ -78,10 +83,15 @@ class _ScienceState extends State<CustomAppBar> {
                           child: Padding(
                             padding: EdgeInsets.only(left: 4.w, bottom: 10.h),
                             child: DropdownButton(
-                              icon: Icon(
-                                Icons.keyboard_arrow_down,
-                                color: basicColor,
-                                size: 20.h,
+                              icon: Container(
+                                margin: EdgeInsets.only(bottom: 18.h, right: 15.w),
+                                width: 12.w,
+                                height: 7.75.h,
+                                child: Icon(
+                                  Icons.keyboard_arrow_down,
+                                  color: basicColor,
+                                  // size: 20.h,
+                                ),
                               ),
                               underline: Container(),
                               hint: Text(
@@ -130,10 +140,15 @@ class _ScienceState extends State<CustomAppBar> {
                             padding: EdgeInsets.only(left: 4.w, bottom: 10.h),
                             child: DropdownButton(
                               focusColor: Colors.transparent,
-                              icon: Icon(
-                                Icons.keyboard_arrow_down,
-                                color: basicColor,
-                                size: 20.h,
+                              icon: Container(
+                                margin: EdgeInsets.only(bottom: 18.h, right: 15.w),
+                                width: 12.w,
+                                height: 7.75.h,
+                                child: Icon(
+                                  Icons.keyboard_arrow_down,
+                                  color: basicColor,
+                                  // size: 20.h,
+                                ),
                               ),
                               underline: Container(),
                               hint: Text(

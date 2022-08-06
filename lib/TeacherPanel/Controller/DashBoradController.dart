@@ -15,6 +15,8 @@ class DashboardController extends GetxController {
   var option4 = TextEditingController();
   var category = 'Select Category';
   var subCategory = 'Select Sub-Category';
+  var ondrawercategory = 'Select Category';
+  var ondrawersubCategory = 'Select Sub-Category';
   bool addQuestion = false;
   List<Color> categoryColor = [];
   List<Color> categoryTextColor = [];
