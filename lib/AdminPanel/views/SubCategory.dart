@@ -167,12 +167,14 @@ class _ChildClassState extends State<ChildClass> {
                                             ),
                                             SizedBox(
                                                 width: 156.w,
-                                                height: 24.h,
-                                                child: MyText(
-                                                  txt: controller.subcatList[index][0],
-                                                  color: drawerColor,
-                                                  fontweight: FontWeight.w400,
-                                                  size: 18.sp,
+                                                height: 28.h,
+                                                child: FittedBox(
+                                                  child: MyText(
+                                                    txt: controller.subcatList[index][0],
+                                                    color: drawerColor,
+                                                    fontweight: FontWeight.w400,
+                                                    size: 18.sp,
+                                                  ),
                                                 )),
                                             SizedBox(
                                               width: 73.w,

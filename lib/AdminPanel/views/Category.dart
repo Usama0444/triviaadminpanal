@@ -144,101 +144,100 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           SizedBox(
                             width: 1586.w,
                             height: 900.h,
-                            child: Scrollbar(
-                              controller: ScrollController(keepScrollOffset: true),
-                              child: ListView.builder(
-                                  itemCount: controller.catList.length,
-                                  scrollDirection: Axis.vertical,
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      width: 1586.w,
-                                      height: 60.h,
-                                      margin: EdgeInsets.only(top: 40.h),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: hideColor, width: 1.h),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 35.w),
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              width: 60.w,
-                                              height: 60.h,
-                                              // color: hideColor,
-                                              child: Image.memory(
-                                                base64.decode(controller.catList[index][1]),
-                                                fit: BoxFit.cover,
-                                              ),
+                            child: ListView.builder(
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                controller: ScrollController(),
+                                itemCount: controller.catList.length,
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    width: 1586.w,
+                                    height: 60.h,
+                                    margin: EdgeInsets.only(top: 40.h),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: hideColor, width: 1.h),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 35.w),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 60.w,
+                                            height: 60.h,
+                                            // color: hideColor,
+                                            child: Image.memory(
+                                              base64.decode(controller.catList[index][1]),
+                                              fit: BoxFit.cover,
                                             ),
-                                            SizedBox(
-                                              width: 50.w,
-                                            ),
-                                            SizedBox(
-                                                width: 156.w,
-                                                height: 24.h,
+                                          ),
+                                          SizedBox(
+                                            width: 50.w,
+                                          ),
+                                          SizedBox(
+                                              width: 156.w,
+                                              height: 24.h,
+                                              child: MyText(
+                                                txt: controller.catList[index][0],
+                                                color: drawerColor,
+                                                fontweight: FontWeight.w400,
+                                                size: 18.sp,
+                                              )),
+                                          SizedBox(
+                                            width: 50.w,
+                                          ),
+                                          SizedBox(
+                                              width: 156.w,
+                                              height: 24.h,
+                                              child: MyText(
+                                                txt: '${controller.subCatLength[index]}',
+                                                color: drawerColor,
+                                                fontweight: FontWeight.w400,
+                                                size: 18.sp,
+                                              )),
+                                          SizedBox(
+                                            width: 80.w,
+                                          ),
+                                          SizedBox(
+                                              width: 42.w,
+                                              height: 24.h,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Get.to(SubCategory(cid: controller.catList[index][2]));
+                                                },
                                                 child: MyText(
-                                                  txt: controller.catList[index][0],
-                                                  color: drawerColor,
-                                                  fontweight: FontWeight.w400,
+                                                  txt: 'View',
+                                                  color: basicColor,
+                                                  fontweight: FontWeight.w700,
                                                   size: 18.sp,
-                                                )),
-                                            SizedBox(
-                                              width: 50.w,
-                                            ),
-                                            SizedBox(
-                                                width: 156.w,
-                                                height: 24.h,
+                                                ),
+                                              )),
+                                          SizedBox(
+                                            width: 80.w,
+                                          ),
+                                          SizedBox(
+                                              width: 42.w,
+                                              height: 24.h,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  controller.categoryTextControllr.text = controller.catList[index][0];
+                                                  controller.categoryLogo = controller.catList[index][1];
+                                                  controller.isCategoryEdit = true;
+                                                  controller.cid = controller.catList[index][2];
+                                                  controller.update();
+                                                  Get.to(AddCategroy());
+                                                },
                                                 child: MyText(
-                                                  txt: '${controller.subCatLength[index]}',
-                                                  color: drawerColor,
-                                                  fontweight: FontWeight.w400,
+                                                  txt: 'Edit',
+                                                  color: basicColor,
+                                                  fontweight: FontWeight.w700,
                                                   size: 18.sp,
-                                                )),
-                                            SizedBox(
-                                              width: 80.w,
-                                            ),
-                                            SizedBox(
-                                                width: 42.w,
-                                                height: 24.h,
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    Get.to(SubCategory(cid: controller.catList[index][2]));
-                                                  },
-                                                  child: MyText(
-                                                    txt: 'View',
-                                                    color: basicColor,
-                                                    fontweight: FontWeight.w700,
-                                                    size: 18.sp,
-                                                  ),
-                                                )),
-                                            SizedBox(
-                                              width: 80.w,
-                                            ),
-                                            SizedBox(
-                                                width: 42.w,
-                                                height: 24.h,
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    controller.categoryTextControllr.text = controller.catList[index][0];
-                                                    controller.categoryLogo = controller.catList[index][1];
-                                                    controller.isCategoryEdit = true;
-                                                    controller.cid = controller.catList[index][2];
-                                                    controller.update();
-                                                    Get.to(AddCategroy());
-                                                  },
-                                                  child: MyText(
-                                                    txt: 'Edit',
-                                                    color: basicColor,
-                                                    fontweight: FontWeight.w700,
-                                                    size: 18.sp,
-                                                  ),
-                                                )),
-                                          ],
-                                        ),
+                                                ),
+                                              )),
+                                        ],
                                       ),
-                                    );
-                                  }),
-                            ),
+                                    ),
+                                  );
+                                }),
                           )
                         ],
                       )

@@ -8,8 +8,7 @@ import 'package:triviaadminpanal/AdminPanel/views/AddQuestion.dart';
 import 'package:triviaadminpanal/AdminPanel/views/AddTeacher.dart';
 import 'package:triviaadminpanal/AdminPanel/views/ApprovedQuestionList.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Category.dart';
-import 'package:triviaadminpanal/AdminPanel/views/TeacherQuestionsList.dart';
-import 'package:triviaadminpanal/AdminPanel/views/Categories.dart';
+import 'package:triviaadminpanal/AdminPanel/views/TeacherNewQuestionsList.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Teacher.dart';
 import 'package:triviaadminpanal/AdminPanel/views/components/style.dart';
 
@@ -17,6 +16,7 @@ import 'MyDashboard.dart';
 import 'TeachersList.dart';
 import 'CustomWidgets/MyText.dart';
 import 'Users.dart';
+import 'ViewApprovedTeacher.dart';
 import 'components/string.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -29,13 +29,12 @@ class MyDrawer extends StatefulWidget {
 
 class _DrawerMenuState extends State<MyDrawer> {
   var bodyScreens = [UserDashboard(), Users(), CategoryScreen(), AddedQuestionsList()];
-  var subCateScreen = [AddedQuestionsList(), ApproveTeacherQuestionsList(), Teacher()];
+  var subCateScreen = [AddedQuestionsList(), ApproveTeacherQuestionsList(), ApprovedTeacherList(), Teacher()];
 
   var cont = Get.put(DashboardController());
   var login = Get.put(LogInController());
 
   bool visible = false;
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(builder: ((controller) {
@@ -121,6 +120,7 @@ class _DrawerMenuState extends State<MyDrawer> {
                                           children: [
                                             InkWell(
                                               onTap: () {
+                                                Get.back();
                                                 setState(() {
                                                   if (visible) {
                                                     visible = false;
@@ -141,6 +141,7 @@ class _DrawerMenuState extends State<MyDrawer> {
                                                 controller.addQuestion = false;
                                                 controller.addTeachers = false;
                                                 controller.showTeacherQuestionsList = false;
+                                                controller.showTeacherApprovedQuestionsList == false;
 
                                                 controller.update();
                                               },
@@ -161,7 +162,9 @@ class _DrawerMenuState extends State<MyDrawer> {
                                                       size: 20.sp,
                                                     ),
                                                     Container(
-                                                      margin: EdgeInsets.only(right: 36.w),
+                                                      width: 8.w,
+                                                      height: 5.17.h,
+                                                      margin: EdgeInsets.only(right: 36.w, bottom: 10.h),
                                                       child: Icon(
                                                         visible == false ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
                                                         color: secondColor,
@@ -175,13 +178,14 @@ class _DrawerMenuState extends State<MyDrawer> {
                                               visible: visible,
                                               child: Container(
                                                 width: 334.w,
-                                                height: 300.h,
+                                                height: 250.h,
                                                 margin: EdgeInsets.only(left: 22.w, top: 20.h),
                                                 child: ListView.builder(
                                                     itemCount: 4,
                                                     itemBuilder: (context, j) {
                                                       return GestureDetector(
                                                         onTap: () {
+                                                          Get.back();
                                                           for (int i = 0; i < 4; i++) {
                                                             controller.menuSubCatColor[i] = secondColor;
                                                           }
@@ -189,6 +193,7 @@ class _DrawerMenuState extends State<MyDrawer> {
                                                           controller.addQuestion = false;
                                                           controller.addTeachers = false;
                                                           controller.showTeacherQuestionsList = false;
+                                                          controller.showTeacherApprovedQuestionsList == false;
                                                           controller.subCatIndex = j;
                                                           if (controller.questionsSubCat[j] == 'Approve View Question') {
                                                             controller.approveScreen = true;
@@ -223,6 +228,7 @@ class _DrawerMenuState extends State<MyDrawer> {
                     Center(
                       child: GestureDetector(
                         onTap: () {
+                          Get.back();
                           login.logOut();
                           print('pressed');
                         },

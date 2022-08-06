@@ -30,7 +30,6 @@ file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/CustomWidgets/MyContainer.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/CustomWidgets/MyText.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/CustomWidgets/colorContainer.dart
-file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/Dashboard.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/DrawerMenu.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/Login.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/MyDashboard.dart
@@ -40,6 +39,8 @@ file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/TeacherQuestionsList.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/TeachersList.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/Users.dart
+file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/ViewApprovedTeacher.dart
+file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/ViewTeacherQuestionList.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/components/string.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/AdminPanel/views/components/style.dart
 file:///C:/Users/WALEED%20TRADERS/Desktop/Flutter%20Pojects/triviaadminpanal/lib/generated_plugin_registrant.dart

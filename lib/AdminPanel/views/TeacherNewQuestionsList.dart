@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -13,14 +14,14 @@ import 'CustomWidgets/MyText.dart';
 import 'CustomWidgets/colorContainer.dart';
 import 'components/style.dart';
 
-class ViewTeacherQuestionList extends StatefulWidget {
-  ViewTeacherQuestionList({Key? key}) : super(key: key);
+class TeacherNewQuestionsList extends StatefulWidget {
+  TeacherNewQuestionsList({Key? key}) : super(key: key);
 
   @override
-  State<ViewTeacherQuestionList> createState() => _AddedQuestionsListState();
+  State<TeacherNewQuestionsList> createState() => _AddedQuestionsListState();
 }
 
-class _AddedQuestionsListState extends State<ViewTeacherQuestionList> {
+class _AddedQuestionsListState extends State<TeacherNewQuestionsList> {
   var controller = Get.put(TeacherQuestionContoller());
   var dashboradCont = Get.put(DashboardController());
   List<String> subcategoryList = [];
@@ -30,7 +31,7 @@ class _AddedQuestionsListState extends State<ViewTeacherQuestionList> {
     return Scaffold(
         backgroundColor: Colors.transparent,
         body: FutureBuilder(
-            future: controller.getApprovedquestionByteacherEmail(),
+            future: controller.getquestionByteacherEmail(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 return GetBuilder<TeacherQuestionContoller>(builder: ((questionController) {
@@ -60,11 +61,11 @@ class _AddedQuestionsListState extends State<ViewTeacherQuestionList> {
                                       border: InputBorder.none,
                                       hintText: 'Search',
                                       contentPadding: EdgeInsets.only(left: 5.w, bottom: 30.h),
-                                      hintStyle: TextStyle(color: hideColor, fontSize: 14.sp),
+                                      hintStyle: TextStyle(fontSize: 14.sp),
                                       suffixIcon: Container(
                                         width: 20.w,
                                         height: 20.h,
-                                        // color: hideColor,
+                                        //
                                         child: FittedBox(
                                           fit: BoxFit.contain,
                                           child: Icon(
@@ -77,7 +78,8 @@ class _AddedQuestionsListState extends State<ViewTeacherQuestionList> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  dashboradCont.showTeacherApprovedQuestionsList = false;
+                                  dashboradCont.showTeacherQuestionsList = false;
+                                  dashboradCont.teacherQuestionScreen = false;
                                   dashboradCont.update();
                                 },
                                 child: colorContainer(
@@ -240,6 +242,7 @@ class _AddedQuestionsListState extends State<ViewTeacherQuestionList> {
                                                           questionController.qid = questionController.questionList[index][1];
                                                           questionController.update();
                                                           await questionController.approveQuestion();
+                                                          await questionController.getquestionByteacherEmail();
                                                         },
                                                         child: MyText(txt: 'Add', color: Color(0xff00C2FF), fontweight: FontWeight.w800, size: 16.sp),
                                                       ),
@@ -247,7 +250,7 @@ class _AddedQuestionsListState extends State<ViewTeacherQuestionList> {
                                                         onTap: () async {
                                                           questionController.qid = questionController.questionList[index][1];
                                                           questionController.update();
-                                                          questionController.removeQuestion();
+                                                          questionController.removeApprovedQuestion();
                                                           await questionController.getquestionByteacherEmail();
                                                           questionController.qid = '';
                                                           questionController.update();

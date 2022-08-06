@@ -123,19 +123,24 @@ class _ApproveQuestionsListState extends State<ApproveTeacherQuestionsList> {
                                 );
                               }),
                         ),
-                        SizedBox(
-                          height: 946.h,
-                          width: 1586.w,
-                          child: ListView.builder(
-                              itemCount: teacherController.teacherList.length,
-                              padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 40.h),
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 900.h,
+                              width: 850.w,
+                              child: ListView.builder(
+                                  physics: const AlwaysScrollableScrollPhysics(),
+                                  controller: ScrollController(),
+                                  itemCount: teacherController.teacherList.length,
+                                  padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 40.h),
+                                  scrollDirection: Axis.vertical,
+                                  itemBuilder: (context, index) {
+                                    return Container(
                                       width: double.infinity,
                                       height: 24.h,
+                                      margin: EdgeInsets.only(bottom: 36.h),
                                       child: ListView.builder(
                                           itemCount: 3,
                                           padding: EdgeInsets.zero,
@@ -161,6 +166,7 @@ class _ApproveQuestionsListState extends State<ApproveTeacherQuestionsList> {
                                                             onTap: () {
                                                               var dashboradCont = Get.put(DashboardController());
                                                               dashboradCont.showTeacherQuestionsList = true;
+                                                              dashboradCont.showTeacherApprovedQuestionsList = false;
                                                               dashboradCont.teacherQuestionScreen = true;
                                                               dashboradCont.update();
                                                               teacherQuestion.teacherEmail = teacherController.teacherList[index][0];
@@ -173,13 +179,10 @@ class _ApproveQuestionsListState extends State<ApproveTeacherQuestionsList> {
                                               ],
                                             );
                                           }),
-                                    ),
-                                    SizedBox(
-                                      height: 36.h,
-                                    ),
-                                  ],
-                                );
-                              }),
+                                    );
+                                  }),
+                            ),
+                          ],
                         ),
                       ],
                     ),

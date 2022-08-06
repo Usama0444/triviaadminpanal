@@ -140,17 +140,21 @@ class _TeacherState extends State<Teacher> {
                                 );
                               }),
                         ),
-                        SizedBox(
-                          height: 946.h,
-                          width: 1586.w,
-                          child: ListView.builder(
-                              itemCount: controller.TeacherModelList.length,
-                              padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 40.h),
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 900.h,
+                              width: 850.w,
+                              child: ListView.builder(
+                                  physics: const AlwaysScrollableScrollPhysics(),
+                                  controller: ScrollController(),
+                                  itemCount: controller.TeacherModelList.length,
+                                  padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 40.h),
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      margin: EdgeInsets.only(bottom: 36.h),
                                       width: double.infinity,
                                       height: 24.h,
                                       child: ListView.builder(
@@ -202,13 +206,10 @@ class _TeacherState extends State<Teacher> {
                                               ],
                                             );
                                           }),
-                                    ),
-                                    SizedBox(
-                                      height: 36.h,
-                                    ),
-                                  ],
-                                );
-                              }),
+                                    );
+                                  }),
+                            ),
+                          ],
                         ),
                       ],
                     ),

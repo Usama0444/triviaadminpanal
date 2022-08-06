@@ -48,7 +48,6 @@ class TeacherQuestionContoller extends GetxController {
   }
 
   getApprovedquestionByteacherEmail() async {
-    print('in apporved');
     questionList = [];
     questionModelList = [];
     choicesList = [];
@@ -74,6 +73,6 @@ class TeacherQuestionContoller extends GetxController {
   }
 
   approveQuestion() async {
-    await approvedQuestionsByAdmin(question.text, option1.text, option2.text, option3.text, option4.text, dashboradCon.category, dashboradCon.subCategory, teacherEmail, qid);
+    await approvedQuestionsByAdmin(qid);
   }
 }

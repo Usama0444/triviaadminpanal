@@ -43,20 +43,13 @@ addQuestions(String question, option1, option2, option3, option4, category, subc
   }
 }
 
-approvedQuestionsByAdmin(String question, option1, option2, option3, option4, category, subcategory, email, qid) async {
+approvedQuestionsByAdmin(qid) async {
   try {
-    print('in add');
-    List<String> choice = [option1, option2, option3, option4];
-    approveQuestionCollectionRef.doc(qid).set({
-      'category': category,
-      'subcategory': subcategory,
-      'question': question,
-      'choices': choice,
-      'qid': qid,
-      'email': email,
+    approveQuestionCollectionRef.doc(qid).update({
       'isapproved': 'true',
     });
     Get.snackbar('Confirmation Alert', 'Question Approved successfully');
+    questionCollectionRef.doc(qid).delete();
   } catch (e) {
     Get.snackbar('Error', 'something went wrong!!');
   }
@@ -73,7 +66,7 @@ deleteQuestion(qid) async {
 
 deleteApprovedQuestion(qid) async {
   try {
-    questionCollectionRef.doc(qid).delete();
+    approveQuestionCollectionRef.doc(qid).delete();
     Get.snackbar('Confirmation Alert', 'Question Deleted successfully');
   } catch (e) {
     Get.snackbar('Error', 'something went wrong!!');

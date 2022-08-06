@@ -104,7 +104,7 @@ class DashboardController extends GetxController {
   ];
   List<String> questionsSubCat = [
     'Add',
-    'Approve View Question',
+    'Approve New Question',
     'View Approved Question',
     'Teacher',
   ];
