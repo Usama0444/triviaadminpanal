@@ -94,6 +94,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                     controller.menuBottomBorderColor[index] = basicColor;
                                     controller.menuColor[index] = basicColor;
                                     controller.screenIndex = index;
+                                    controller.showTeacherApprovedQuestionsList = 0;
                                     controller.update();
                                     setState(() {
                                       visible = false;
@@ -125,6 +126,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                                   } else {
                                                     visible = true;
                                                   }
+                                                  controller.showTeacherApprovedQuestionsList = 0;
+
+                                                  controller.update();
                                                 });
                                                 for (int i = 0; i < 4; i++) {
                                                   controller.menuBottomBorderColor[i] = drawerColor;
@@ -139,11 +143,11 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                                 controller.addQuestion = false;
                                                 controller.addTeachers = false;
                                                 controller.showTeacherQuestionsList = false;
-                                                controller.showTeacherApprovedQuestionsList == false;
-                                                print('controller.showTeacherApprovedQuestionsList');
-                                                print(controller.showTeacherApprovedQuestionsList);
+                                                controller.showTeacherApprovedQuestionsList = 0;
 
                                                 controller.update();
+                                                print('controller.showTeacherApprovedQuestionsList');
+                                                print(controller.showTeacherApprovedQuestionsList);
                                               },
                                               child: Container(
                                                 width: 334.w,
@@ -192,7 +196,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                                           controller.addQuestion = false;
                                                           controller.addTeachers = false;
                                                           controller.showTeacherQuestionsList = false;
-                                                          controller.showTeacherApprovedQuestionsList == false;
+                                                          controller.showTeacherApprovedQuestionsList = 0;
                                                           controller.subCatIndex = j;
                                                           if (controller.questionsSubCat[j] == 'Approve View Question') {
                                                             controller.approveScreen = true;
@@ -249,7 +253,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                     ? Container(width: 1586.w, height: 1080.h, child: AddTeachers())
                     : controller.showTeacherQuestionsList == true
                         ? Container(width: 1586.w, height: 1080.h, child: TeacherNewQuestionsList())
-                        : controller.showTeacherApprovedQuestionsList == true
+                        : controller.showTeacherApprovedQuestionsList == 1
                             ? Container(width: 1586.w, height: 1080.h, child: ViewTeacherQuestionList())
                             : Container(width: 1586.w, height: 1080.h, child: controller.screenIndex > 2 ? subCateScreen[controller.subCatIndex] : bodyScreens[controller.screenIndex]),
           ],

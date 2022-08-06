@@ -77,7 +77,7 @@ class _AddedQuestionsListState extends State<ViewTeacherQuestionList> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  dashboradCont.showTeacherApprovedQuestionsList = false;
+                                  dashboradCont.showTeacherApprovedQuestionsList = 1;
                                   dashboradCont.update();
                                 },
                                 child: colorContainer(

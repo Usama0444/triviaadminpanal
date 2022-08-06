@@ -6,6 +6,8 @@ class UserController extends GetxController {
   List<UserModel> userModelList = [];
   var userList = [];
   var active = [];
+  var searchUser = [];
+
   List<String> headings = [
     'User Name',
     'Points',
@@ -15,20 +17,34 @@ class UserController extends GetxController {
     'Active/Suspend',
   ];
   getUser() async {
-    print('in get');
-    userModelList = await getAllUsers();
+    if (userList.length == 0) {
+      userModelList = await getAllUsers();
 
-    for (int i = 0; i < userModelList.length; i++) {
-      var lst = [
-        userModelList[i].fullname,
-        userModelList[i].points,
-        userModelList[i].worldrank,
-        userModelList[i].socialrank,
-        userModelList[i].email,
-        'false',
-      ];
-      userList.add(lst);
-      active.add(true);
+      for (int i = 0; i < userModelList.length; i++) {
+        var lst = [
+          userModelList[i].fullname,
+          userModelList[i].points,
+          userModelList[i].worldrank,
+          userModelList[i].socialrank,
+          userModelList[i].email,
+          'false',
+        ];
+        userList.add(lst);
+        active.add(true);
+      }
+    }
+    update();
+  }
+
+  searchTap(String txt) {
+    searchUser = [];
+    for (int i = 0; i < userList.length; i++) {
+      if (txt.toLowerCase().trim() == userList[i][0].toString().toLowerCase().trim() || txt.toLowerCase().trim() == userList[i][4].toString().toLowerCase().trim()) {
+        searchUser.add(userList[i]);
+        print('matching user data is \n');
+        print(searchUser[0]);
+        active.add(true);
+      }
     }
     update();
   }

@@ -166,7 +166,7 @@ class _ApproveQuestionsListState extends State<ApproveTeacherQuestionsList> {
                                                             onTap: () {
                                                               var dashboradCont = Get.put(DashboardController());
                                                               dashboradCont.showTeacherQuestionsList = true;
-                                                              dashboradCont.showTeacherApprovedQuestionsList = false;
+                                                              dashboradCont.showTeacherApprovedQuestionsList = 1;
                                                               dashboradCont.teacherQuestionScreen = true;
                                                               dashboradCont.update();
                                                               teacherQuestion.teacherEmail = teacherController.teacherList[index][0];

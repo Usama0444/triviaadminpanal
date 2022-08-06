@@ -165,7 +165,7 @@ class _ApproveQuestionsListState extends State<ApprovedTeacherList> {
                                                           InkWell(
                                                             onTap: () {
                                                               var dashboradCont = Get.put(DashboardController());
-                                                              dashboradCont.showTeacherApprovedQuestionsList = true;
+                                                              dashboradCont.showTeacherApprovedQuestionsList = 1;
                                                               dashboradCont.showTeacherQuestionsList = false;
                                                               dashboradCont.teacherQuestionScreen = true;
                                                               dashboradCont.update();

@@ -21,7 +21,7 @@ class _UsersState extends State<Users> {
   var pushNoti = false;
   var title = TextEditingController();
   var description = TextEditingController();
-
+  var txtController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -52,37 +52,42 @@ class _UsersState extends State<Users> {
                       child: Card(
                         margin: EdgeInsets.zero,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 40.w),
+                          padding: EdgeInsets.symmetric(horizontal: 40.w),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 260.w,
-                                height: 32.h,
-                                margin: EdgeInsets.zero,
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                    color: basicColor,
-                                    width: 1.0,
-                                  )),
-                                ),
+                                height: 45.h,
                                 child: TextField(
+                                  controller: txtController,
+                                  onChanged: (val) async {
+                                    userController.searchTap(val);
+                                    if (val.isEmpty) {
+                                      userController.searchUser.clear();
+                                      userController.update();
+                                      await userController.getUser();
+                                    }
+                                  },
+                                  maxLength: 25,
                                   decoration: InputDecoration(
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: basicColor),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: basicColor),
+                                      ),
+                                      counterText: '',
                                       border: InputBorder.none,
                                       hintText: 'Search User',
-                                      contentPadding: EdgeInsets.only(left: 5.w, bottom: 30.h),
-                                      hintStyle: TextStyle(color: hideColor, fontSize: 14.sp),
+                                      contentPadding: EdgeInsets.only(left: 5.w),
+                                      hintStyle: TextStyle(color: hideColor, fontSize: txtController.text.length > 20 ? 10.sp : 14.sp),
                                       suffixIcon: Container(
                                         width: 20.w,
                                         height: 20.h,
-                                        // color: hideColor,
-                                        child: FittedBox(
-                                          fit: BoxFit.contain,
-                                          child: Icon(
-                                            Icons.search,
-                                            color: basicColor,
-                                          ),
+                                        child: Icon(
+                                          Icons.search,
+                                          color: basicColor,
                                         ),
                                       )),
                                 ),
@@ -144,7 +149,7 @@ class _UsersState extends State<Users> {
                         height: 1010.h,
                         width: 1586.w,
                         child: ListView.builder(
-                            itemCount: userController.userModelList.length,
+                            itemCount: userController.searchUser.length == 0 ? userController.userModelList.length : userController.searchUser.length + 1,
                             padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 40.h),
                             itemBuilder: (context, index) {
                               return Column(
@@ -173,7 +178,8 @@ class _UsersState extends State<Users> {
                                                       )
                                                     : i < 5
                                                         ? MyText(
-                                                            txt: '${userController.userList[index][i]}',
+                                                            // txt: '${userController.userList[index][i]}',
+                                                            txt: userController.searchUser.length == 0 ? '${userController.userList[index][i]}' : '${userController.searchUser[index - 1][i]}',
                                                             color: secondColor,
                                                             fontweight: FontWeight.w400,
                                                             size: 16.sp,
@@ -184,10 +190,8 @@ class _UsersState extends State<Users> {
                                                             child: Switch(
                                                               value: userController.active[index],
                                                               onChanged: (val) {
-                                                                setState(() {
-                                                                  userController.active[index] = val;
-                                                                  userController.update();
-                                                                });
+                                                                userController.active[index] = val;
+                                                                userController.update();
                                                               },
                                                               activeColor: basicColor,
                                                               activeTrackColor: hideColor,

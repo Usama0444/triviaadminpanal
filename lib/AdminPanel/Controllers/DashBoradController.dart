@@ -12,7 +12,7 @@ class DashboardController extends GetxController {
   bool addQuestion = false;
   bool addTeachers = false;
   bool showTeacherQuestionsList = false;
-  bool showTeacherApprovedQuestionsList = false;
+  int showTeacherApprovedQuestionsList = 0;
 
   var category = 'Select Category';
   var subCategory = 'Select Sub-Category';
