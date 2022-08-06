@@ -6,11 +6,10 @@ import 'package:triviaadminpanal/AdminPanel/Controllers/DashBoradController.dart
 import 'package:triviaadminpanal/AdminPanel/Controllers/LoginController.dart';
 import 'package:triviaadminpanal/AdminPanel/views/AddQuestion.dart';
 import 'package:triviaadminpanal/AdminPanel/views/AddTeacher.dart';
-import 'package:triviaadminpanal/AdminPanel/views/ApprovedQuestionList.dart';
+import 'package:triviaadminpanal/AdminPanel/views/AdminQuestionList.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Category.dart';
 import 'package:triviaadminpanal/AdminPanel/views/TeacherNewQuestionsList.dart';
 import 'package:triviaadminpanal/AdminPanel/views/Teacher.dart';
-import 'package:triviaadminpanal/AdminPanel/views/ViewTeacherQuestionList.dart';
 import 'package:triviaadminpanal/AdminPanel/views/components/style.dart';
 
 import 'MyDashboard.dart';
@@ -18,6 +17,7 @@ import 'TeachersList.dart';
 import 'CustomWidgets/MyText.dart';
 import 'Users.dart';
 import 'ViewApprovedTeacher.dart';
+import 'ViewTeacherQuestionList.dart';
 import 'components/string.dart';
 
 class DrawerMenu extends StatefulWidget {
@@ -28,8 +28,8 @@ class DrawerMenu extends StatefulWidget {
 }
 
 class _DrawerMenuState extends State<DrawerMenu> {
-  var bodyScreens = [UserDashboard(), Users(), CategoryScreen(), AddedQuestionsList()];
-  var subCateScreen = [AddedQuestionsList(), ApproveTeacherQuestionsList(), ApprovedTeacherList(), Teacher()];
+  var bodyScreens = [UserDashboard(), Users(), CategoryScreen(), AdminQuestionList()];
+  var subCateScreen = [AdminQuestionList(), ApproveTeacherQuestionsList(), ApprovedTeacherList(), Teacher()];
 
   var cont = Get.put(DashboardController());
   var login = Get.put(LogInController());

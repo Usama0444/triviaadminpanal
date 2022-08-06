@@ -6,18 +6,19 @@ import 'package:get/get.dart';
 import 'package:triviaadminpanal/AdminPanel/Controllers/TeacherQuestionsListController.dart';
 import 'package:triviaadminpanal/AdminPanel/Models/QuestionModel.dart';
 import 'package:triviaadminpanal/AdminPanel/Models/QuestionModel.dart';
+import 'package:triviaadminpanal/main.dart';
 
 var controller = Get.put(TeacherQuestionContoller());
 var questionCollectionRef = FirebaseFirestore.instance.collection('questions');
 var copyquestionCollectionRef = FirebaseFirestore.instance.collection('copyquestions');
-var email = FirebaseAuth.instance.currentUser?.email;
-Future<List<QuestionModel>> getAllApproveQuestionList() async {
-  var questionList = await questionCollectionRef.where('isapproved', isEqualTo: 'true').get();
+var adminEmail = pref?.getString('email');
+Future<List<QuestionModel>> getAdminQuestionList() async {
+  var questionList = await questionCollectionRef.where('email', isEqualTo: adminEmail).where('isapproved', isEqualTo: 'admin').get();
   var questionsList = await questionList.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
   return questionsList;
 }
 
-addApproveQuestions(String question, option1, option2, option3, option4, answer, category, subCategory, email) async {
+addQuestionsByAdmin(String question, option1, option2, option3, option4, answer, category, subCategory, email) async {
   try {
     List<String> choice = [option1, option2, option3, option4];
     var id = questionCollectionRef.doc().id;
@@ -34,7 +35,7 @@ addApproveQuestions(String question, option1, option2, option3, option4, answer,
         'answer': answer,
         'subcategory': subCategory,
         'email': email,
-        'isapproved': 'true',
+        'isapproved': 'admin',
       });
       Get.snackbar('Confirmation Alert', 'Question Added successfully');
     }
@@ -59,7 +60,7 @@ editAdminQuestions(String question, option1, option2, option3, option4, answer, 
         'qid': qid,
         'answer': answer,
         'teacheremail': email,
-        'isapproved': 'true',
+        'isapproved': 'admin',
       });
       Get.snackbar('Confirmation Alert', 'Question Updated successfully');
     }
@@ -79,7 +80,7 @@ deleteAdminQuestion(qid) async {
 
 //this is Question Collection copies
 
-copyaddApproveQuestions(String question, option1, option2, option3, option4, answer, category, subCategory, teacheremail) async {
+copyaddQuestionsByAdmin(String question, option1, option2, option3, option4, answer, category, subCategory, teacheremail) async {
   try {
     List<String> choice = [option1, option2, option3, option4];
     var id = copyquestionCollectionRef.doc().id;
@@ -94,8 +95,8 @@ copyaddApproveQuestions(String question, option1, option2, option3, option4, ans
         'qid': id,
         'answer': answer,
         'subcategory': subCategory,
-        'email': email,
-        'isapproved': 'true',
+        'email': adminEmail,
+        'isapproved': 'admin',
       });
     }
   } catch (e) {}
@@ -116,7 +117,7 @@ copyeditAdminQuestions(String question, option1, option2, option3, option4, answ
         'qid': qid,
         'answer': answer,
         'email': email,
-        'isapproved': 'true',
+        'isapproved': 'admin',
       });
     }
   } catch (e) {}

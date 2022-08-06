@@ -44,7 +44,7 @@ class AdminQuestionsListController extends GetxController {
     questionList = [];
     questionModelList = [];
     choicesList = [];
-    questionModelList = await getAllApproveQuestionList();
+    questionModelList = await getAdminQuestionList();
 
     for (int i = 0; i < questionModelList.length; i++) {
       var lst = [
@@ -59,8 +59,8 @@ class AdminQuestionsListController extends GetxController {
   }
 
   addNewQuestions(category, subcategory, email) async {
-    await addApproveQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, category, subcategory, email);
-    await copyaddApproveQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, category, subcategory, email);
+    await addQuestionsByAdmin(question.text, option1.text, option2.text, option3.text, option4.text, answer, category, subcategory, email);
+    await copyaddQuestionsByAdmin(question.text, option1.text, option2.text, option3.text, option4.text, answer, category, subcategory, email);
   }
 
   updateQuestion(category, subcategory, email) async {

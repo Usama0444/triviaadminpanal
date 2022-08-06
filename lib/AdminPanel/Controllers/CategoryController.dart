@@ -80,8 +80,8 @@ class CategoryController extends GetxController {
       dashController.update();
       catID.add(categoryModelList[i].cid);
     }
-    print('category List');
-    print(dashController.categoryList);
+    // print('category List');
+    // print(dashController.categoryList);
     update();
     await getSubCategoriesForDrawer();
   }

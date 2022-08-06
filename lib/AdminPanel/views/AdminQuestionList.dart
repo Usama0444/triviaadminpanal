@@ -14,14 +14,14 @@ import 'CustomWidgets/MyText.dart';
 import 'CustomWidgets/colorContainer.dart';
 import 'components/style.dart';
 
-class AddedQuestionsList extends StatefulWidget {
-  AddedQuestionsList({Key? key}) : super(key: key);
+class AdminQuestionList extends StatefulWidget {
+  AdminQuestionList({Key? key}) : super(key: key);
 
   @override
-  State<AddedQuestionsList> createState() => _AddedQuestionsListState();
+  State<AdminQuestionList> createState() => _AdminQuestionListState();
 }
 
-class _AddedQuestionsListState extends State<AddedQuestionsList> {
+class _AdminQuestionListState extends State<AdminQuestionList> {
   var controller = Get.put(AdminQuestionsListController());
   var dashboradCont = Get.put(DashboardController());
   var categroy = Get.find<CategoryController>();

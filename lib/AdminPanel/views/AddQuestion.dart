@@ -8,7 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/AdminPanel/Controllers/AdminQuestionsListController.dart';
 import 'package:triviaadminpanal/AdminPanel/Controllers/DashBoradController.dart';
-import 'package:triviaadminpanal/AdminPanel/views/ApprovedQuestionList.dart';
+import 'package:triviaadminpanal/AdminPanel/views/AdminQuestionList.dart';
 import 'package:triviaadminpanal/main.dart';
 
 import 'CustomWidgets/MyText.dart';
@@ -304,12 +304,14 @@ Widget myContainers(var label, var width, var height, var maXLine, bcolor, var c
         Container(
           width: width,
           height: height,
-          margin: EdgeInsets.only(left: 10.w, top: label == 'Question' ? 12.h : 5.h, bottom: 5.h),
-          child: TextFormField(
+          margin: EdgeInsets.only(left: 10.w, top: label == 'Question' ? 12.h : 5.h),
+          child: TextField(
             controller: controller,
             minLines: 1,
             maxLines: 20,
+            maxLength: label == 'Question' ? 40 : 30,
             decoration: InputDecoration(
+              counterText: '',
               border: InputBorder.none,
             ),
           ),

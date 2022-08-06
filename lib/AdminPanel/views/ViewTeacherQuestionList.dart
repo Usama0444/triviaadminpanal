@@ -228,21 +228,7 @@ class _AddedQuestionsListState extends State<ViewTeacherQuestionList> {
                                                     width: 150.w,
                                                     height: 28.h,
                                                     margin: EdgeInsets.only(left: 20.w),
-                                                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                                      InkWell(
-                                                        onTap: () async {
-                                                          questionController.question.text = questionController.questionList[index][0];
-                                                          questionController.option1.text = questionController.choicesList[index][0];
-                                                          questionController.option2.text = questionController.choicesList[index][1];
-                                                          questionController.option3.text = questionController.choicesList[index][2];
-                                                          questionController.option4.text = questionController.choicesList[index][3];
-                                                          questionController.isEdit = true;
-                                                          questionController.qid = questionController.questionList[index][1];
-                                                          questionController.update();
-                                                          await questionController.approveQuestion();
-                                                        },
-                                                        child: MyText(txt: 'Add', color: Color(0xff00C2FF), fontweight: FontWeight.w800, size: 16.sp),
-                                                      ),
+                                                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                                                       InkWell(
                                                         onTap: () async {
                                                           questionController.qid = questionController.questionList[index][1];
