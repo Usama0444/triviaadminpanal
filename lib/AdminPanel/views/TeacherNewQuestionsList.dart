@@ -46,32 +46,44 @@ class _AddedQuestionsListState extends State<TeacherNewQuestionsList> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 260.w,
-                                height: 30.h,
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                    color: basicColor,
-                                    width: 1.0,
-                                  )),
-                                ),
+                                height: 45.h,
+                                // decoration: BoxDecoration(
+                                //   border: Border(
+                                //       bottom: BorderSide(
+                                //     color: basicColor,
+                                //     width: 1.0,
+                                //   )),
+                                // ),
                                 child: TextField(
+                                  onChanged: (val) async {
+                                    // admin.seachQuestion(val);
+                                    // if (val.isEmpty) {
+                                    //   admin.searchQuestion.clear();
+                                    //   admin.searchChoice.clear();
+                                    //   admin.update();
+                                    //   await admin.getquestion();
+                                    // }
+                                  },
                                   decoration: InputDecoration(
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: basicColor),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: basicColor),
+                                      ),
+                                      counterText: '',
                                       border: InputBorder.none,
-                                      hintText: 'Search',
-                                      contentPadding: EdgeInsets.only(left: 5.w, bottom: 30.h),
-                                      hintStyle: TextStyle(fontSize: 14.sp),
+                                      hintText: 'Search ',
+                                      contentPadding: EdgeInsets.only(left: 5.w),
+                                      hintStyle: TextStyle(color: hideColor, fontSize: 14.sp),
                                       suffixIcon: Container(
                                         width: 20.w,
                                         height: 20.h,
-                                        //
-                                        child: FittedBox(
-                                          fit: BoxFit.contain,
-                                          child: Icon(
-                                            Icons.search,
-                                            color: basicColor,
-                                          ),
+                                        child: Icon(
+                                          Icons.search,
+                                          color: basicColor,
                                         ),
                                       )),
                                 ),
@@ -198,14 +210,18 @@ class _AddedQuestionsListState extends State<TeacherNewQuestionsList> {
                                                         child: Row(
                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
-                                                            FittedBox(
-                                                              child: MyText(
-                                                                txt: '${questionController.questionList[index][i]}',
-                                                                color: secondColor,
-                                                                fontweight: FontWeight.w800,
-                                                                size: 18.sp,
+                                                            SizedBox(
+                                                              width: 360.w,
+                                                              child: Text(
+                                                                '''${questionController.questionList[index][i]}''',
+                                                                style: TextStyle(
+                                                                  color: secondColor,
+                                                                  fontWeight: FontWeight.w800,
+                                                                  fontSize: 18.sp,
+                                                                ),
+                                                                overflow: TextOverflow.visible,
                                                               ),
-                                                            ),
+                                                            )
                                                           ],
                                                         ),
                                                       )
@@ -215,14 +231,18 @@ class _AddedQuestionsListState extends State<TeacherNewQuestionsList> {
                                                         child: Row(
                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
-                                                            FittedBox(
-                                                              child: MyText(
-                                                                txt: '${questionController.choicesList[index][i - 1]}',
-                                                                color: secondColor,
-                                                                fontweight: FontWeight.w800,
-                                                                size: 18.sp,
+                                                            SizedBox(
+                                                              width: 160.w,
+                                                              child: Text(
+                                                                '''${questionController.choicesList[index][i - 1]}''',
+                                                                style: TextStyle(
+                                                                  color: secondColor,
+                                                                  fontWeight: FontWeight.w800,
+                                                                  fontSize: 18.sp,
+                                                                ),
+                                                                overflow: TextOverflow.visible,
                                                               ),
-                                                            ),
+                                                            )
                                                           ],
                                                         ),
                                                       )

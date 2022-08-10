@@ -28,6 +28,8 @@ class AdminQuestionsListController extends GetxController {
   var choicesList = [];
   var isEdit = false;
   var isValid = true;
+  var searchQuestion = [];
+  var searchChoice = [];
 
   var qid;
 
@@ -71,5 +73,20 @@ class AdminQuestionsListController extends GetxController {
   removeQuestion() async {
     await deleteAdminQuestion(qid);
     await copydeleteAdminQuestion(qid);
+  }
+
+  seachQuestion(String txt) {
+    searchQuestion.clear();
+    searchChoice.clear();
+    for (int i = 0; i < questionList.length; i++) {
+      if (txt.toLowerCase().trim() == questionList[i][0].toString().toLowerCase().trim()) {
+        searchQuestion.add(questionList[i][0]);
+        searchChoice.add(choicesList[i]);
+      }
+    }
+    update();
+    print('macthing questions');
+    print(searchQuestion);
+    print(searchChoice);
   }
 }

@@ -112,7 +112,7 @@ class _AdminQuestionListState extends State<AdminQuestionList> {
                           child: ListView.builder(
                               physics: const AlwaysScrollableScrollPhysics(),
                               controller: ScrollController(),
-                              itemCount: questionController.questionModelList.length,
+                              itemCount: questionController.searchQuestion.length == 0 ? questionController.questionModelList.length : questionController.searchQuestion.length,
                               padding: EdgeInsets.only(
                                 left: 40.w,
                                 right: 10.w,
@@ -141,14 +141,28 @@ class _AdminQuestionListState extends State<AdminQuestionList> {
                                                         child: Row(
                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
-                                                            FittedBox(
-                                                              child: MyText(
-                                                                txt: '${questionController.questionList[index][i]}',
-                                                                color: secondColor,
-                                                                fontweight: FontWeight.w800,
-                                                                size: 18.sp,
+                                                            // MyText(
+                                                            // txt: questionController.searchQuestion.length == 0
+                                                            //     ? '${questionController.questionList[index][i]}'
+                                                            //     : questionController.searchQuestion[index],
+                                                            // color: secondColor,
+                                                            // fontweight: FontWeight.w800,
+                                                            // size: 18.sp,
+                                                            // ),
+                                                            SizedBox(
+                                                              width: 360.w,
+                                                              child: Text(
+                                                                questionController.searchQuestion.length == 0
+                                                                    ? '''${questionController.questionList[index][i]}'''
+                                                                    : '''${questionController.searchQuestion[index]}''',
+                                                                style: TextStyle(
+                                                                  color: secondColor,
+                                                                  fontWeight: FontWeight.w800,
+                                                                  fontSize: 18.sp,
+                                                                ),
+                                                                overflow: TextOverflow.visible,
                                                               ),
-                                                            ),
+                                                            )
                                                           ],
                                                         ),
                                                       )
@@ -158,14 +172,20 @@ class _AdminQuestionListState extends State<AdminQuestionList> {
                                                         child: Row(
                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
-                                                            FittedBox(
-                                                              child: MyText(
-                                                                txt: '${questionController.choicesList[index][i - 1]}',
-                                                                color: secondColor,
-                                                                fontweight: FontWeight.w800,
-                                                                size: 18.sp,
+                                                            SizedBox(
+                                                              width: 160.w,
+                                                              child: Text(
+                                                                questionController.searchQuestion.length == 0
+                                                                    ? '''${questionController.choicesList[index][i - 1]}'''
+                                                                    : '''${questionController.searchChoice[index][i - 1]}''',
+                                                                style: TextStyle(
+                                                                  color: secondColor,
+                                                                  fontWeight: FontWeight.w800,
+                                                                  fontSize: 18.sp,
+                                                                ),
+                                                                overflow: TextOverflow.visible,
                                                               ),
-                                                            ),
+                                                            )
                                                           ],
                                                         ),
                                                       )

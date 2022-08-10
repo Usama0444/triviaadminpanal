@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/AdminPanel/Controllers/DashBoradController.dart';
+import '../../Controllers/AdminQuestionsListController.dart';
 import '../CustomWidgets/MyText.dart';
 import '../CustomWidgets/colorContainer.dart';
 import '../components/style.dart';
@@ -15,6 +16,7 @@ class CustomAppBar extends StatefulWidget {
 
 class _ScienceState extends State<CustomAppBar> {
   var dashboradCont = Get.put(DashboardController());
+  var admin = Get.put(AdminQuestionsListController());
   List<String> subcategoryList = [];
   @override
   Widget build(BuildContext context) {
@@ -29,32 +31,44 @@ class _ScienceState extends State<CustomAppBar> {
             children: [
               Row(
                 children: [
-                  Container(
+                  SizedBox(
                     width: 260.w,
-                    height: 30.h,
-                    decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                        color: basicColor,
-                        width: 1.0,
-                      )),
-                    ),
+                    height: 45.h,
+                    // decoration: BoxDecoration(
+                    //   border: Border(
+                    //       bottom: BorderSide(
+                    //     color: basicColor,
+                    //     width: 1.0,
+                    //   )),
+                    // ),
                     child: TextField(
+                      onChanged: (val) async {
+                        admin.seachQuestion(val);
+                        if (val.isEmpty) {
+                          admin.searchQuestion.clear();
+                          admin.searchChoice.clear();
+                          admin.update();
+                          await admin.getquestion();
+                        }
+                      },
                       decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: basicColor),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: basicColor),
+                          ),
+                          counterText: '',
                           border: InputBorder.none,
-                          hintText: 'Search',
-                          contentPadding: EdgeInsets.only(left: 5.w, bottom: 30.h),
+                          hintText: 'Search ',
+                          contentPadding: EdgeInsets.only(left: 5.w),
                           hintStyle: TextStyle(color: hideColor, fontSize: 14.sp),
                           suffixIcon: Container(
                             width: 20.w,
                             height: 20.h,
-                            // color: hideColor,
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: Icon(
-                                Icons.search,
-                                color: basicColor,
-                              ),
+                            child: Icon(
+                              Icons.search,
+                              color: basicColor,
                             ),
                           )),
                     ),
