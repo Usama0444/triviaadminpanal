@@ -14,6 +14,7 @@
     This is a placeholder for base href that will be replaced by the value of
     the `--base-href` argument provided to `flutter build`.
   -->
+  <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -39,24 +40,6 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-
-  <script type="module">
- 
-    const firebaseConfig = {
-      apiKey: "AIzaSyARxG5xZxdQ0jbNs8ziQq2zTCxlxFM_dJ8",
-      authDomain: "triviastar-a10ff.firebaseapp.com",
-      projectId: "triviastar-a10ff",
-      storageBucket: "triviastar-a10ff.appspot.com",
-      messagingSenderId: "5416121892",
-      appId: "1:5416121892:web:a07611c7364dfd15724ab1",
-      measurementId: "G-WX4RNC39N0"
-    };
-    
-    const app = initializeApp(firebaseConfig);
-  </script>
   <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
@@ -71,16 +54,5 @@
       });
     });
   </script>
-
-
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('flutter-first-frame', function () {
-      navigator.serviceWorker.register('flutter_service_worker.js?v=2330050811');
-    });
-  }
-</script>
-<script src="main.dart.js" type="application/javascript"></script>
 </body>
-
 </html>

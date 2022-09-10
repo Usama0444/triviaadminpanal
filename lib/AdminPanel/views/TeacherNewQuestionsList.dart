@@ -88,6 +88,7 @@ class _AddedQuestionsListState extends State<TeacherNewQuestionsList> {
                                       )),
                                 ),
                               ),
+                             
                               GestureDetector(
                                 onTap: () {
                                   dashboradCont.showTeacherQuestionsList = false;
