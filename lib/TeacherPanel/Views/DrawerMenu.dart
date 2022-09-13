@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import 'package:triviaadminpanal/TeacherPanel/Controller/LoginController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/Body.dart';
 import 'package:triviaadminpanal/main.dart';
 import '../Controller/CategoryController.dart';
@@ -201,10 +200,7 @@ class _DrawerMenuState extends State<TeacherDrawerMenu> {
                           ),
                           Center(
                             child: InkWell(
-                              onTap: () {
-                                var login = Get.put(LogInController());
-                                login.logOut();
-                              },
+                              onTap: () {},
                               child: Icon(
                                 Icons.power_settings_new,
                                 color: basicColor,
@@ -218,17 +214,6 @@ class _DrawerMenuState extends State<TeacherDrawerMenu> {
                       ),
                     ]),
             ),
-            controller.addQuestion == true
-                ? Container(
-                    width: 1586.w,
-                    height: 1080.h,
-                    child: AddQuestions(),
-                  )
-                : Container(
-                    width: 1586.w,
-                    height: 1080.h,
-                    child: Body(),
-                  )
           ],
         ),
       );

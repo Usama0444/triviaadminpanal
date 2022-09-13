@@ -17,6 +17,7 @@ class MyText extends StatelessWidget {
       textDirection: Get.locale == Locale('ur') ? TextDirection.ltr : TextDirection.ltr,
       child: Text(
         txt,
+        textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: size,
           fontWeight: fontweight,

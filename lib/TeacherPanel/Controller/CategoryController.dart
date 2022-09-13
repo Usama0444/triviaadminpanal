@@ -14,6 +14,52 @@ class CategoryController extends GetxController {
   var catList = [];
   var catID = [];
   var dashController = Get.put(DashboardController());
+  List<String> cateHeader = [
+    'Logo',
+    'Categories Name',
+    'Total Sub-Categories',
+    '500 Question',
+  ];
+  List<String> subCateHeader = [
+    'Logo',
+    'Sub-Categories Name',
+    'Total Question',
+    '500 Question',
+  ];
+  List<String> cateNameList = [
+    'General',
+    'Technical',
+    'Social',
+    'Education',
+    'Sports',
+    'General',
+    'Technical',
+    'Social',
+    'Education',
+    'Sports',
+    'General',
+    'Technical',
+    'Social',
+    'Education',
+    'Sports',
+  ];
+  List<int> totalSubCate = [
+    11,
+    12,
+    23,
+    45,
+    66,
+    11,
+    12,
+    23,
+    45,
+    66,
+    11,
+    12,
+    23,
+    45,
+    66,
+  ];
   List<SubCategoryModel> subcategoryModelList = [];
 
   getCategories() async {

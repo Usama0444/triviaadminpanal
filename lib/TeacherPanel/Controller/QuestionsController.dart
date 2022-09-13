@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/DashBoradController.dart';
-
 import '../Models/QuestionModel.dart';
 import '../Services/QuestionServices.dart';
 
@@ -34,10 +33,10 @@ class QuestionController extends GetxController {
     teacherQuestionList = [];
     teacherQuestionModelList = [];
     teacherChoicesList = [];
-    // print(dashController.category);
-    // print(dashController.subCategory);
-    teacherQuestionModelList = await getTeacherQuestionsList(dashController.ondrawercategory, dashController.ondrawersubCategory);
-
+    teacherQuestionModelList = await getTeacherQuestionsList(
+      dashController.ondrawercategory,
+      dashController.ondrawersubCategory,
+    );
     for (int i = 0; i < teacherQuestionModelList.length; i++) {
       var lst = [
         teacherQuestionModelList[i].question,

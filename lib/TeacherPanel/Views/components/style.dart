@@ -8,3 +8,6 @@ Color drawerColor = Color(0xff2E2E2E);
 Color btnColor = Color(0xff00C2FF);
 Color containerCorrectBorder = Color(0xff00D579);
 Color containerWrongBorder = Color(0xffD50000);
+Color headerColor = Color(0xff2E2E2E);
+Color greyColor = Color(0xff939393);
+Color cateContainerColor = Color(0xffFDFDFD);

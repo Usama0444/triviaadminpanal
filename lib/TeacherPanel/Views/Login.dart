@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/main.dart';
 
-import '../Services/LoginServices.dart';
 import 'CustomWidgets/MyContainer.dart';
 import 'CustomWidgets/MyText.dart';
 import 'components/string.dart';
@@ -84,18 +83,7 @@ class TeacherLogin extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: () async {
-                if (emailCon.text.trim() == '' || !emailCon.text.contains('@gmail.com')) {
-                  Get.snackbar('Error', 'Invalid Email');
-                } else if (passCon.text.trim() == '') {
-                  Get.snackbar('Error', 'Invalid Password');
-                } else {
-                  pref?.setBool('teacherlogedin', true);
-                  pref?.setString('teacheremail', emailCon.text.trim());
-                  print(pref!.getBool('teacherlogedin'));
-                  await userLogin(emailCon.text, passCon.text);
-                }
-              },
+              onTap: () async {},
               child: MyContainer(
                   180.w,
                   60.h,
