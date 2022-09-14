@@ -41,7 +41,7 @@ class SubCategory extends StatelessWidget {
                     SizedBox(
                       width: 57.w,
                       height: 47.h,
-                      child: SvgPicture.asset('assets/triviaLogo.svg'),
+                      child: Image.asset('assets/triviaLogo.png'),
                     ),
                     Row(
                       children: [
@@ -285,7 +285,7 @@ class SubCategory extends StatelessWidget {
                                         width: 40.w,
                                         height: 40.h,
                                         margin: EdgeInsets.all(5.h),
-                                        child: SvgPicture.asset('assets/triviaLogo.svg'),
+                                        child: Image.asset('assets/triviaLogo.png'),
                                       )),
                                   Expanded(
                                     flex: 2,
@@ -362,7 +362,7 @@ class SubCategory extends StatelessWidget {
                           ),
                           child: ClipOval(
                             child: Image.asset(
-                              'assets/defaultPic.jpg',
+                              'assets/defaultPic.png',
                             ),
                           ),
                         ),

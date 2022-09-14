@@ -51,7 +51,7 @@ class QuestionList extends StatelessWidget {
                     SizedBox(
                       width: 57.w,
                       height: 47.h,
-                      child: SvgPicture.asset('assets/triviaLogo.svg'),
+                      child: Image.asset('assets/triviaLogo.png'),
                     ),
                     Row(
                       children: [

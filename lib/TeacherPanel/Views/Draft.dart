@@ -81,7 +81,7 @@ class _DraftState extends State<Draft> {
                     SizedBox(
                       width: 57.w,
                       height: 47.h,
-                      child: SvgPicture.asset('assets/triviaLogo.svg'),
+                      child: Image.asset('assets/triviaLogo.png'),
                     ),
                     Row(
                       children: [
@@ -219,11 +219,11 @@ class _DraftState extends State<Draft> {
             children: [
               Container(
                 color: Color(0xffFAFAFA),
-                child: Column(
+                child: Stack(
                   children: [
                     Container(
                       width: 375.w,
-                      height: 400.h,
+                      height: 900.h,
                       child: ListView.builder(
                           itemCount: 5,
                           itemBuilder: (context, index) {
@@ -273,7 +273,7 @@ class _DraftState extends State<Draft> {
                                                     ),
                                                     child: Padding(
                                                       padding: EdgeInsets.all(5.h),
-                                                      child: SvgPicture.asset('assets/triviaLogo.svg'),
+                                                      child: Image.asset('assets/triviaLogo.png'),
                                                     ),
                                                   ),
                                                   SizedBox(
@@ -368,7 +368,7 @@ class _DraftState extends State<Draft> {
                                                                 ),
                                                                 child: Padding(
                                                                   padding: EdgeInsets.all(5.h),
-                                                                  child: SvgPicture.asset('assets/triviaLogo.svg'),
+                                                                  child: Image.asset('assets/triviaLogo.png'),
                                                                 ),
                                                               ),
                                                               SizedBox(
@@ -411,41 +411,44 @@ class _DraftState extends State<Draft> {
                             );
                           }),
                     ),
-                    InkWell(
-                      onTap: () {
-                        Get.to(ArticleList());
-                      },
-                      child: Container(
-                        width: 355.w,
-                        height: 60.h,
-                        color: Colors.white,
-                        margin: EdgeInsets.only(top: 40.h),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 30.w, right: 20.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(Icons.mail_outline_outlined, size: 40.h),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  SizedBox(width: 30.w),
-                                  MyText(
-                                    txt: 'Drafts',
-                                    color: drawerColor,
-                                    fontweight: FontWeight.w300,
-                                    size: 14.sp,
-                                  ),
-                                ],
-                              ),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 20.h,
-                                color: basicColor,
-                              ),
-                            ],
+                    Positioned(
+                      top: 400.h,
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(ArticleList());
+                        },
+                        child: Container(
+                          width: 355.w,
+                          height: 60.h,
+                          color: Colors.white,
+                          margin: EdgeInsets.only(top: 40.h),
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 30.w, right: 20.w),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(Icons.mail_outline_outlined, size: 40.h),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    SizedBox(width: 30.w),
+                                    MyText(
+                                      txt: 'Drafts',
+                                      color: drawerColor,
+                                      fontweight: FontWeight.w300,
+                                      size: 14.sp,
+                                    ),
+                                  ],
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 20.h,
+                                  color: basicColor,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

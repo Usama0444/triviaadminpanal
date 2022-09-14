@@ -10,6 +10,7 @@ import 'package:triviaadminpanal/TeacherPanel/Views/Login.dart';
 
 import 'TeacherPanel/Views/AddQuestions.dart';
 import 'TeacherPanel/Views/Categories.dart';
+import 'TeacherPanel/Views/LoginPage.dart';
 import 'TeacherPanel/Views/QuestionList.dart';
 
 SharedPreferences? pref;
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
       rebuildFactor: (old, data) => true,
       builder: (context, child) => GetMaterialApp(
         // home: checkLogin == false ? TeacherLogin() : TeacherDrawerMenu(),
-        home: Categories(),
+        home: LoginPage(),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: 'Nexa'),
       ),

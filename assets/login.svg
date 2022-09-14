@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1195" height="1438.27" viewBox="0 0 1195 1438.27">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="0.519" stop-color="#fafafa"/>
+      <stop offset="1" stop-color="gray"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#d5d5d5"/>
+      <stop offset="0.502" stop-color="#dcdcdc"/>
+      <stop offset="1" stop-color="#fff"/>
+      <stop offset="1" stop-color="gray"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="0.736" stop-color="#c7c7c7"/>
+      <stop offset="1" stop-color="gray"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_130" data-name="Group 130" transform="translate(0 216.716)">
+    <path id="Path_10" data-name="Path 10" d="M0,0H145l-1.811,854.689L17.12,898.5Z" transform="matrix(0.788, 0.616, -0.616, 0.788, 885.59, -216.716)" fill="url(#linear-gradient)" style="mix-blend-mode: soft-light;isolation: isolate"/>
+    <path id="Path_11" data-name="Path 11" d="M0,0H145V847L8.09,799.03Z" transform="translate(112.686 1221.554) rotate(-141)" fill="url(#linear-gradient-2)" style="mix-blend-mode: soft-light;isolation: isolate"/>
+    <rect id="Rectangle_6" data-name="Rectangle 6" width="145" height="847" transform="translate(1195 640.9) rotate(109)" fill="url(#linear-gradient-3)" style="mix-blend-mode: soft-light;isolation: isolate"/>
+  </g>
+</svg>

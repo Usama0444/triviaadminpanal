@@ -80,7 +80,7 @@ class _ArticleListState extends State<ArticleList> {
                     SizedBox(
                       width: 57.w,
                       height: 47.h,
-                      child: SvgPicture.asset('assets/triviaLogo.svg'),
+                      child: Image.asset('assets/triviaLogo.png'),
                     ),
                     Row(
                       children: [
@@ -272,7 +272,7 @@ class _ArticleListState extends State<ArticleList> {
                                                     ),
                                                     child: Padding(
                                                       padding: EdgeInsets.all(5.h),
-                                                      child: SvgPicture.asset('assets/triviaLogo.svg'),
+                                                      child: Image.asset('assets/triviaLogo.png'),
                                                     ),
                                                   ),
                                                   SizedBox(
@@ -367,7 +367,7 @@ class _ArticleListState extends State<ArticleList> {
                                                                 ),
                                                                 child: Padding(
                                                                   padding: EdgeInsets.all(5.h),
-                                                                  child: SvgPicture.asset('assets/triviaLogo.svg'),
+                                                                  child: Image.asset('assets/triviaLogo.png'),
                                                                 ),
                                                               ),
                                                               SizedBox(
