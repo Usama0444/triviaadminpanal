@@ -11,7 +11,7 @@ import '../Views/components/style.dart';
 
 class CategoryController extends GetxController {
   List<CategoryModel> categoryModelList = [];
-  var catList = [];
+  List<CategoryModel> catList = [];
   var catID = [];
   var dashController = Get.put(DashboardController());
   List<String> cateHeader = [
@@ -62,27 +62,22 @@ class CategoryController extends GetxController {
   ];
   List<SubCategoryModel> subcategoryModelList = [];
 
-  getCategories() async {
+  Future<bool> getCategories() async {
     try {
       categoryModelList = [];
       dashController.categoryList.clear();
       dashController.subCategoryList.clear();
       categoryModelList = await getAllCategoryList();
       for (int i = 0; i < categoryModelList.length; i++) {
-        dashController.categoryList.add(categoryModelList[i].name);
-        dashController.openSubcate.add(false);
-        dashController.categoryColor.add(whiteColor);
-        dashController.categoryTextColor.add(secondColor);
-        dashController.menuBottomBorderColor.add(drawerColor);
-
-        dashController.update();
-        catID.add(categoryModelList[i].cid);
+        catList.add(categoryModelList[i]);
       }
       update();
-      await getSubCategories();
-      // print('subcate ${await dashController.subCategoryList}');
+      // await getSubCategories();
+      print('categroy getted ${catList[0].name}');
+      return true;
     } catch (e) {
       print(e);
+      return false;
     }
   }
 

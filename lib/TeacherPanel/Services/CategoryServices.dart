@@ -7,8 +7,8 @@ var categoryCollectionRef = FirebaseFirestore.instance.collection('category');
 var subCategoryCollectionRef = FirebaseFirestore.instance.collection('subcategory');
 
 Future<List<CategoryModel>> getAllCategoryList() async {
-  var categpryList = await categoryCollectionRef.get();
-  var categoryList = await categpryList.docs.map((e) => CategoryModel.fromJson(e.data())).toList();
+  var cateList = await categoryCollectionRef.get();
+  var categoryList = await cateList.docs.map((e) => CategoryModel.fromJson(e.data())).toList();
   return categoryList;
 }
 

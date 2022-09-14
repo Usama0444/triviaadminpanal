@@ -234,7 +234,7 @@ class _LoginPageState extends State<LoginPage> {
                   if (isLoading) {
                     reusableInstance.loader();
                   }
-                  isLoading = await loginController.userLogin();
+                  isLoading = await loginController.loginBtnClick();
                   setState(() {});
                   if (!isLoading) {
                     Navigator.pop(context);
