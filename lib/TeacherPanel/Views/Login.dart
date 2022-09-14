@@ -4,6 +4,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:triviaadminpanal/TeacherPanel/Controller/LogInController.dart';
+import 'package:triviaadminpanal/TeacherPanel/Views/Categories.dart';
 import 'package:triviaadminpanal/main.dart';
 
 import 'CustomWidgets/MyContainer.dart';
@@ -11,11 +13,16 @@ import 'CustomWidgets/MyText.dart';
 import 'components/string.dart';
 import 'components/style.dart';
 
-class TeacherLogin extends StatelessWidget {
+class TeacherLogin extends StatefulWidget {
   TeacherLogin({Key? key}) : super(key: key);
-  var emailCon = TextEditingController();
-  var passCon = TextEditingController();
 
+  @override
+  State<TeacherLogin> createState() => _TeacherLoginState();
+}
+
+class _TeacherLoginState extends State<TeacherLogin> {
+  var loginController = Get.find<LogInController>();
+  bool isLoading = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +61,7 @@ class TeacherLogin extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(left: 10.w),
                 child: TextFormField(
-                  controller: emailCon,
+                  controller: loginController.email,
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: email,
@@ -77,13 +84,22 @@ class TeacherLogin extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(left: 10.w),
                 child: TextFormField(
-                  controller: passCon,
+                  controller: loginController.password,
                   decoration: InputDecoration(border: InputBorder.none, hintText: password, hintStyle: TextStyle(fontSize: 20.sp, color: hideColor)),
                 ),
               ),
             ),
             InkWell(
-              onTap: () async {},
+              onTap: () async {
+                if (isLoading) {
+                  reusableInstance.loader();
+                }
+                isLoading = await loginController.userLogin();
+                setState(() {});
+                if (!isLoading) {
+                  Get.back();
+                }
+              },
               child: MyContainer(
                   180.w,
                   60.h,

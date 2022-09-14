@@ -10,6 +10,7 @@ import 'package:triviaadminpanal/TeacherPanel/Views/Categories.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/MyText.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/components/style.dart';
 
+import '../Controller/LogInController.dart';
 import 'CustomWidgets/MyContainer.dart';
 import 'components/string.dart';
 
@@ -22,6 +23,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   CarouselController controller = CarouselController();
+  var loginController = Get.find<LogInController>();
+  bool isLoading = true;
   double dotIndex = 0.0;
   bool obxTxt = true;
   List<Widget> imageSliders = [
@@ -175,6 +178,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Padding(
                   padding: EdgeInsets.only(left: 5.w),
                   child: TextField(
+                    controller: loginController.email,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Email',
@@ -196,6 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                       width: 530.w,
                       margin: EdgeInsets.only(left: 5.w),
                       child: TextField(
+                        controller: loginController.password,
                         obscureText: obxTxt,
                         decoration: InputDecoration(
                           border: InputBorder.none,
@@ -225,7 +230,18 @@ class _LoginPageState extends State<LoginPage> {
               ),
               InkWell(
                 onTap: () async {
-                  Get.to(Categories());
+                  isLoading = true;
+                  if (isLoading) {
+                    reusableInstance.loader();
+                  }
+                  isLoading = await loginController.userLogin();
+                  setState(() {});
+                  if (!isLoading) {
+                    Navigator.pop(context);
+                    print('false');
+                  } else {
+                    Get.offAll(Categories());
+                  }
                 },
                 child: MyContainer(
                     180.w,
