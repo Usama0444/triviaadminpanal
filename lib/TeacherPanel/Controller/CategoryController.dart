@@ -12,8 +12,10 @@ import '../Views/components/style.dart';
 class CategoryController extends GetxController {
   List<CategoryModel> categoryModelList = [];
   List<CategoryModel> catList = [];
-  var catID = [];
-  var dashController = Get.put(DashboardController());
+  List<SubCategoryModel> subCatList=[];
+  List<int> totalSubCate = [];
+  List<SubCategoryModel> subcategoryModelList = [];
+  String? categoryName,subCategoryName;
   List<String> cateHeader = [
     'Logo',
     'Categories Name',
@@ -43,37 +45,17 @@ class CategoryController extends GetxController {
     'Education',
     'Sports',
   ];
-  List<int> totalSubCate = [
-    11,
-    12,
-    23,
-    45,
-    66,
-    11,
-    12,
-    23,
-    45,
-    66,
-    11,
-    12,
-    23,
-    45,
-    66,
-  ];
-  List<SubCategoryModel> subcategoryModelList = [];
 
   Future<bool> getCategories() async {
     try {
-      categoryModelList = [];
-      dashController.categoryList.clear();
-      dashController.subCategoryList.clear();
-      categoryModelList = await getAllCategoryList();
-      for (int i = 0; i < categoryModelList.length; i++) {
-        catList.add(categoryModelList[i]);
-      }
-      update();
-      // await getSubCategories();
-      print('categroy getted ${catList[0].name}');
+
+         categoryModelList = [];
+         categoryModelList = await getAllCategoryList();
+         for (int i = 0; i < categoryModelList.length; i++) {
+           catList.add(categoryModelList[i]);
+         }
+         update();
+
       return true;
     } catch (e) {
       print(e);
@@ -82,16 +64,21 @@ class CategoryController extends GetxController {
   }
 
   getSubCategories() async {
-    dashController.subCategoryList.clear();
-    for (int j = 0; j < catID.length; j++) {
-      List<String> name = [];
-      subcategoryModelList = await getAllSubCategoryList(catID[j]);
+       for (int j = 0; j < catList.length; j++) {
+         subcategoryModelList = await getAllSubCategoryList(catList[j].cid);
+         totalSubCate.add(subcategoryModelList.length);
+       }
+       update();
+  }
+  categoryViewBtnClick(cid) async
+  {
+    subCatList=[];
+    try{
+      subcategoryModelList = await getAllSubCategoryList(cid);
       for (int i = 0; i < subcategoryModelList.length; i++) {
-        name.add(subcategoryModelList[i].name);
+        subCatList.add(subcategoryModelList[i]);
       }
-      dashController.subCategoryList.add(name);
-      dashController.fillcat = 1;
-      dashController.update();
-    }
+      update();
+    }catch(e){Get.snackbar('Error', '$e');}
   }
 }

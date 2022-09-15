@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dart';
 import 'package:triviaadminpanal/main.dart';
@@ -7,13 +8,17 @@ import '../Models/QuestionModel.dart';
 
 var teacherQuestionCollectionRef = FirebaseFirestore.instance.collection('questions');
 var copyteacherQuestionCollectionRef = FirebaseFirestore.instance.collection('copyquestions');
-
+var questionsList;
 var controller = Get.put(QuestionController());
-var email = pref?.getString('teacheremail');
-Future<List<QuestionModel>> getTeacherQuestionsList(cat, subcat) async {
-  var questionList =
-      await teacherQuestionCollectionRef.where('email', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subcat).where('isapproved', isEqualTo: 'false').get();
-  var questionsList = await questionList.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
+var email=FirebaseAuth.instance.currentUser?.email;
+Future<List<QuestionModel>> getQuestionsList(cat, subcat) async {
+  try{
+    var getQuestions =
+    await teacherQuestionCollectionRef.where('email', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subcat).get();
+     questionsList = await getQuestions.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
+  }catch(e){
+    Get.snackbar('Error', '$e');
+  }
   return questionsList;
 }
 

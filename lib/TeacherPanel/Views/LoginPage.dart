@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/Categories.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/MyText.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/components/style.dart';
+import 'package:triviaadminpanal/main.dart';
 
 import '../Controller/LogInController.dart';
 import 'CustomWidgets/MyContainer.dart';
@@ -232,14 +233,16 @@ class _LoginPageState extends State<LoginPage> {
                 onTap: () async {
                   isLoading = true;
                   if (isLoading) {
-                    reusableInstance.loader();
+                   Get.dialog(Container(child: Center(child: CircularProgressIndicator()),));
                   }
+
                   isLoading = await loginController.loginBtnClick();
                   setState(() {});
                   if (!isLoading) {
                     Navigator.pop(context);
                     print('false');
                   } else {
+                    await pref?.setBool('logedin', true);
                     Get.offAll(Categories());
                   }
                 },

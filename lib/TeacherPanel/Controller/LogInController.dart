@@ -26,4 +26,5 @@ class LogInController extends GetxController {
   Future<bool> userLogin() async {
     return await loginService(email.text, password.text);
   }
+
 }

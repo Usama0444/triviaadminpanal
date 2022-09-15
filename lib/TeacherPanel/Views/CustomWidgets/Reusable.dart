@@ -32,9 +32,14 @@ class Reusable {
     );
   }
 
-  loader() {
-    Get.dialog(Center(
-      child: CircularProgressIndicator(),
-    ));
+ Widget loader() {
+   return Column(
+     children: [
+       SizedBox(height: 400.h,),
+       Text('Loading...'),
+       SizedBox(height: 5.h,),
+       CircularProgressIndicator(),
+     ],
+   );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -15,9 +17,27 @@ import 'Draft.dart';
 
 Reusable reusableInstance = Reusable();
 
-class SubCategory extends StatelessWidget {
-  SubCategory({Key? key}) : super(key: key);
+class SubCategory extends StatefulWidget {
+  var cid;
+  SubCategory({Key? key,required this.cid}) : super(key: key);
+
+  @override
+  State<SubCategory> createState() => _SubCategoryState();
+}
+
+class _SubCategoryState extends State<SubCategory> {
   CategoryController cateController = Get.find<CategoryController>();
+  bool isLoading=true;
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    cateController.categoryViewBtnClick(widget.cid).whenComplete((){
+      setState(() {
+        isLoading=false;
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -227,7 +247,7 @@ class SubCategory extends StatelessWidget {
           SizedBox(
             height: 41.h,
           ),
-          Column(
+         isLoading?reusableInstance.loader() :  Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -261,7 +281,7 @@ class SubCategory extends StatelessWidget {
                     width: 1345.w,
                     height: 882.h,
                     child: ListView.builder(
-                        itemCount: cateController.cateNameList.length,
+                        itemCount: cateController.subCatList.length,
                         padding: EdgeInsets.zero,
                         itemBuilder: (context, index) {
                           return Container(
@@ -285,7 +305,7 @@ class SubCategory extends StatelessWidget {
                                         width: 40.w,
                                         height: 40.h,
                                         margin: EdgeInsets.all(5.h),
-                                        child: Image.asset('assets/triviaLogo.png'),
+                                        child: Image.memory(base64Decode(cateController.subCatList[index].image)),
                                       )),
                                   Expanded(
                                     flex: 2,
@@ -294,7 +314,7 @@ class SubCategory extends StatelessWidget {
                                         Expanded(
                                           flex: 1,
                                           child: MyText(
-                                            txt: cateController.cateNameList[index],
+                                            txt: cateController.subCatList[index].name,
                                             color: Colors.black,
                                             fontweight: FontWeight.w500,
                                             size: 20.sp,
@@ -313,6 +333,8 @@ class SubCategory extends StatelessWidget {
                                           flex: 1,
                                           child: InkWell(
                                             onTap: () {
+                                              cateController.subCategoryName=cateController.subCatList[index].name;
+                                              cateController.update();
                                               Get.to(QuestionList());
                                             },
                                             child: MyText(

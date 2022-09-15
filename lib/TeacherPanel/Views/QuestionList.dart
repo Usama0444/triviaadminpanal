@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart';
+import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/AddQuestions.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/MyText.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/Reusable.dart';
@@ -13,21 +14,44 @@ import 'package:triviaadminpanal/TeacherPanel/Views/components/style.dart';
 
 Reusable reusableInstance = Reusable();
 
-class QuestionList extends StatelessWidget {
+class QuestionList extends StatefulWidget {
   QuestionList({Key? key}) : super(key: key);
+
+  @override
+  State<QuestionList> createState() => _QuestionListState();
+}
+
+class _QuestionListState extends State<QuestionList> {
   CategoryController cateController = Get.find<CategoryController>();
+  QuestionController questionController=Get.find<QuestionController>();
   var optionNumber = [
     'a)',
     'b)',
     'c)',
     'd)',
   ];
+
   var option = [
     1,
     2,
     3,
     4,
   ];
+bool isLoading=true;
+var catName,subCateName;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    questionController.getQuestions(cateController.categoryName!, cateController.subCategoryName!).whenComplete((){
+      setState(() {
+        catName=cateController.categoryName!;
+        subCateName=cateController.subCategoryName!;
+        isLoading=false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -237,12 +261,12 @@ class QuestionList extends StatelessWidget {
           SizedBox(
             height: 41.h,
           ),
-          Column(
+        isLoading? reusableInstance.loader() : Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                  height: 25.h,
+                  height: 31.h,
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 40.w),
                     child: Row(
@@ -251,13 +275,13 @@ class QuestionList extends StatelessWidget {
                         Row(
                           children: [
                             MyText(
-                              txt: 'Education/',
+                              txt: '${catName}/',
                               color: Colors.black,
                               fontweight: FontWeight.w800,
                               size: 25.sp,
                             ),
                             MyText(
-                              txt: 'Math',
+                              txt: '$subCateName',
                               color: Colors.black,
                               fontweight: FontWeight.w300,
                               size: 25.sp,
@@ -273,11 +297,11 @@ class QuestionList extends StatelessWidget {
                       ],
                     ),
                   )),
-              SizedBox(height: 50.h),
+              SizedBox(height: 44.h),
               SizedBox(
                 height: 882.h,
                 child: ListView.builder(
-                  itemCount: 10,
+                  itemCount: questionController.teacherQuestionModelList.length,
                   padding: EdgeInsets.zero,
                   itemBuilder: (context, index) {
                     return Container(
@@ -304,7 +328,7 @@ class QuestionList extends StatelessWidget {
                                         size: 25.sp,
                                       ),
                                       MyText(
-                                        txt: ' 2+2-4 = ?',
+                                        txt: ' ${questionController.teacherQuestionModelList[index].question}',
                                         color: Colors.black,
                                         fontweight: FontWeight.w800,
                                         size: 25.sp,
@@ -334,7 +358,7 @@ class QuestionList extends StatelessWidget {
                                     child: ListView.builder(
                                         itemCount: 4,
                                         scrollDirection: Axis.horizontal,
-                                        itemBuilder: (context, index) {
+                                        itemBuilder: (context, j) {
                                           return Container(
                                             margin: EdgeInsets.only(right: 20.w),
                                             child: reusableInstance.inputBox(
@@ -342,25 +366,32 @@ class QuestionList extends StatelessWidget {
                                                 45.h,
                                                 index != 1 ? containerWrongBorder : containerCorrectBorder,
                                                 Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    SizedBox(
-                                                      width: 15.w,
+                                                    Padding(
+                                                      padding:  EdgeInsets.only(left : 10.w),
+                                                      child: MyText(
+                                                        txt: '${optionNumber[index]}',
+                                                        color: basicColor,
+                                                        fontweight: FontWeight.w800,
+                                                        size: 25.sp,
+                                                      ),
                                                     ),
-                                                    MyText(
-                                                      txt: '${optionNumber[index]}',
-                                                      color: basicColor,
-                                                      fontweight: FontWeight.w800,
-                                                      size: 25.sp,
+                                                    Container(
+                                                      width: 250.w,
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        children: [
+                                                          MyText(
+                                                            txt: '${questionController.teacherQuestionModelList[index].choiceList[j]}',
+                                                            color: Colors.black,
+                                                            fontweight: FontWeight.w800,
+                                                            size: 25.sp,
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                    SizedBox(
-                                                      width: 120.w,
-                                                    ),
-                                                    MyText(
-                                                      txt: '${option[index]}',
-                                                      color: Colors.black,
-                                                      fontweight: FontWeight.w800,
-                                                      size: 25.sp,
-                                                    ),
+
                                                   ],
                                                 )),
                                           );

@@ -18,47 +18,20 @@ class QuestionController extends GetxController {
   var isEdit = false;
   var isValid = true;
   var qid;
-  var userEmail = FirebaseAuth.instance.currentUser?.email;
-  var dashController = Get.put(DashboardController());
-  List<String> headingText = [
-    'Question',
-    'Option 1',
-    'Option 2',
-    'Option 3',
-    'Option 4',
-    'Total Question : 50000',
-  ];
-  int done = 0;
-  getquestionByCategory() async {
-    teacherQuestionList = [];
-    teacherQuestionModelList = [];
-    teacherChoicesList = [];
-    teacherQuestionModelList = await getTeacherQuestionsList(
-      dashController.ondrawercategory,
-      dashController.ondrawersubCategory,
-    );
-    for (int i = 0; i < teacherQuestionModelList.length; i++) {
-      var lst = [
-        teacherQuestionModelList[i].question,
-        teacherQuestionModelList[i].qid,
-        teacherQuestionModelList[i].answer,
-      ];
-      teacherChoicesList.add(teacherQuestionModelList[i].choiceList);
-      teacherQuestionList.add(lst);
-    }
-    done = 1;
-    update();
 
-    // print('teacherQuestion List $teacherQuestionList');
-    // print('choices $teacherChoicesList');
+ Future<bool> getQuestions(String cat,String subcat) async
+ {
+  teacherQuestionModelList= await getQuestionsList(cat, subcat);
+  update();
+  print(teacherQuestionModelList.length);
+   return true;
+ }
+  addNewQuestions(String cat,subcate) async {
+    await addQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer,cat,subcate);
   }
 
-  addNewQuestions() async {
-    await addQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, dashController.category, dashController.subCategory);
-  }
-
-  teacherUpdateQuestion() async {
-    await editTeacherQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, dashController.category, dashController.subCategory, qid);
+  teacherUpdateQuestion(String cat,subCat) async {
+    await editTeacherQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, cat,subCat, qid);
   }
 
   removeQuestion() async {

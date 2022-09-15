@@ -10,10 +10,13 @@ import 'package:triviaadminpanal/TeacherPanel/Views/Login.dart';
 
 import 'TeacherPanel/Views/AddQuestions.dart';
 import 'TeacherPanel/Views/Categories.dart';
+import 'TeacherPanel/Views/CustomWidgets/Reusable.dart';
 import 'TeacherPanel/Views/LoginPage.dart';
 import 'TeacherPanel/Views/QuestionList.dart';
 
 SharedPreferences? pref;
+Reusable reusableWidget=Reusable();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   pref = await SharedPreferences.getInstance();
@@ -29,17 +32,31 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool? isAlreadyLogin;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkPref();
+  }
+  checkPref() async
+  {
+    isAlreadyLogin= pref?.getBool('logedin');
+    isAlreadyLogin ??=false;
+  }
   @override
   Widget build(BuildContext context) {
-    bool? checkLogin;
-    checkLogin = pref?.getBool('teacherlogedin');
-    checkLogin ??= false;
     return ScreenUtilInit(
       rebuildFactor: (old, data) => true,
       builder: (context, child) => GetMaterialApp(
-        // home: checkLogin == false ? TeacherLogin() : TeacherDrawerMenu(),
-        home: LoginPage(),
+        home:isAlreadyLogin!=true ?LoginPage() : Categories(),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: 'Nexa'),
       ),

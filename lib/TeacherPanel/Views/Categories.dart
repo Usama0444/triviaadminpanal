@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -5,18 +7,42 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart';
+import 'package:triviaadminpanal/TeacherPanel/Services/LoginServices.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/AddQuestions.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/MyText.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/Reusable.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/Draft.dart';
+import 'package:triviaadminpanal/TeacherPanel/Views/LoginPage.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/SubCategory.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/components/style.dart';
+import 'package:triviaadminpanal/main.dart';
 
 Reusable reusableInstance = Reusable();
 
-class Categories extends StatelessWidget {
+class Categories extends StatefulWidget {
   Categories({Key? key}) : super(key: key);
+
+  @override
+  State<Categories> createState() => _CategoriesState();
+}
+
+class _CategoriesState extends State<Categories> {
   CategoryController cateController = Get.find<CategoryController>();
+bool isLoading=true;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+       cateController.getCategories().whenComplete(() async {
+         await cateController.getSubCategories();
+         setState(() {
+           isLoading=false;
+         });
+       });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -167,13 +193,24 @@ class Categories extends StatelessWidget {
                     SizedBox(
                       width: 28.w,
                     ),
-                    Container(
-                      width: 38.w,
-                      height: 38.w,
-                      child: FittedBox(
-                        child: Icon(
-                          Icons.power_settings_new,
-                          color: basicColor,
+                    InkWell(
+                      onTap: ()async {
+
+                        var logout= await userLogOut();
+                        if(logout)
+                          {
+                            Get.offAll(LoginPage());
+                          }
+                      }
+                      ,
+                      child: Container(
+                        width: 38.w,
+                        height: 38.w,
+                        child: FittedBox(
+                          child: Icon(
+                            Icons.power_settings_new,
+                            color: basicColor,
+                          ),
                         ),
                       ),
                     ),
@@ -188,7 +225,7 @@ class Categories extends StatelessWidget {
           SizedBox(
             height: 41.h,
           ),
-          Column(
+          isLoading==true? reusableInstance.loader() : Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -222,7 +259,7 @@ class Categories extends StatelessWidget {
                     width: 1345.w,
                     height: 882.h,
                     child: ListView.builder(
-                        itemCount: cateController.cateNameList.length,
+                        itemCount: cateController.catList.length,
                         padding: EdgeInsets.zero,
                         itemBuilder: (context, index) {
                           return Container(
@@ -246,7 +283,8 @@ class Categories extends StatelessWidget {
                                         width: 40.w,
                                         height: 40.h,
                                         margin: EdgeInsets.all(5.h),
-                                        child: Image.asset('assets/triviaLogo.png'),
+                                        child: Image.memory(base64.decode(cateController.catList[index].image),
+                                          ),
                                       )),
                                   Expanded(
                                     flex: 2,
@@ -255,7 +293,7 @@ class Categories extends StatelessWidget {
                                         Expanded(
                                           flex: 1,
                                           child: MyText(
-                                            txt: cateController.cateNameList[index],
+                                            txt: cateController.catList[index].name,
                                             color: Colors.black,
                                             fontweight: FontWeight.w500,
                                             size: 20.sp,
@@ -274,7 +312,9 @@ class Categories extends StatelessWidget {
                                           flex: 1,
                                           child: InkWell(
                                             onTap: () {
-                                              Get.to(SubCategory());
+                                              cateController.categoryName=cateController.catList[index].name;
+                                              cateController.update();
+                                              Get.to(SubCategory(cid: cateController.catList[index].cid,));
                                             },
                                             child: MyText(
                                               txt: 'View',

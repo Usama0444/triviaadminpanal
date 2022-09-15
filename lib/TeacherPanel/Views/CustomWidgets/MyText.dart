@@ -13,16 +13,14 @@ class MyText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: Get.locale == Locale('ur') ? TextDirection.ltr : TextDirection.ltr,
-      child: Text(
-        txt,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: size,
-          fontWeight: fontweight,
-          color: color,
-        ),
+    return Text(
+      txt,
+      textAlign: TextAlign.center,
+      overflow: TextOverflow.visible,
+      style: TextStyle(
+        fontSize: size,
+        fontWeight: fontweight,
+        color: color,
       ),
     );
   }
