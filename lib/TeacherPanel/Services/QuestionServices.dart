@@ -10,13 +10,13 @@ var teacherQuestionCollectionRef = FirebaseFirestore.instance.collection('questi
 var copyteacherQuestionCollectionRef = FirebaseFirestore.instance.collection('copyquestions');
 var questionsList;
 var controller = Get.put(QuestionController());
-var email=FirebaseAuth.instance.currentUser?.email;
+var email = FirebaseAuth.instance.currentUser?.email;
+
 Future<List<QuestionModel>> getQuestionsList(cat, subcat) async {
-  try{
-    var getQuestions =
-    await teacherQuestionCollectionRef.where('email', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subcat).get();
-     questionsList = await getQuestions.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
-  }catch(e){
+  try {
+    var getQuestions = await teacherQuestionCollectionRef.where('email', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subcat).get();
+    questionsList = await getQuestions.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
+  } catch (e) {
     Get.snackbar('Error', '$e');
   }
   return questionsList;

@@ -15,7 +15,7 @@ import 'TeacherPanel/Views/LoginPage.dart';
 import 'TeacherPanel/Views/QuestionList.dart';
 
 SharedPreferences? pref;
-Reusable reusableWidget=Reusable();
+Reusable reusableWidget = Reusable();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,17 +46,18 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     checkPref();
   }
-  checkPref() async
-  {
-    isAlreadyLogin= pref?.getBool('logedin');
-    isAlreadyLogin ??=false;
+
+  checkPref() async {
+    isAlreadyLogin = pref?.getBool('logedin');
+    isAlreadyLogin ??= false;
   }
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       rebuildFactor: (old, data) => true,
       builder: (context, child) => GetMaterialApp(
-        home:isAlreadyLogin!=true ?LoginPage() : Categories(),
+        home: isAlreadyLogin != true ? LoginPage() : Categories(),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: 'Nexa'),
       ),

@@ -14,6 +14,7 @@ import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/Reusable.dart'
 import 'package:triviaadminpanal/TeacherPanel/Views/Draft.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/LoginPage.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/SubCategory.dart';
+import 'package:triviaadminpanal/TeacherPanel/Views/components/GlobalVar.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/components/style.dart';
 import 'package:triviaadminpanal/main.dart';
 
@@ -28,19 +29,17 @@ class Categories extends StatefulWidget {
 
 class _CategoriesState extends State<Categories> {
   CategoryController cateController = Get.find<CategoryController>();
-bool isLoading=true;
+  bool isLoading = true;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-       cateController.getCategories().whenComplete(() async {
-         await cateController.getSubCategories();
-         setState(() {
-           isLoading=false;
-         });
-       });
-
+    cateController.getCategories().whenComplete(() async {
+      await cateController.getSubCategories();
+      setState(() {
+        isLoading = false;
+      });
+    });
   }
 
   @override
@@ -49,183 +48,11 @@ bool isLoading=true;
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Container(
-            width: 1920.w,
-            height: 80.h,
-            decoration: BoxDecoration(
-              color: headerColor,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 28.w,
-                    ),
-                    SizedBox(
-                      width: 57.w,
-                      height: 47.h,
-                      child: Image.asset('assets/triviaLogo.png'),
-                    ),
-                    Row(
-                      children: [
-                        MyText(
-                          txt: 'Trivia ',
-                          color: basicColor,
-                          fontweight: FontWeight.bold,
-                          size: 40.sp,
-                        ),
-                        MyText(
-                          txt: 'star',
-                          color: basicColor,
-                          fontweight: FontWeight.w300,
-                          size: 40.sp,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 51.h),
-                          child: MyText(
-                            txt: 'TEACHERS',
-                            color: greyColor,
-                            fontweight: FontWeight.w300,
-                            size: 15.sp,
-                          ),
-                        ),
-                        const VerticalDivider(
-                          color: Color(0xff3B3B3B),
-                        ),
-                        Container(
-                          width: 334.w,
-                          height: 42.h,
-                          margin: EdgeInsets.only(
-                            top: 25.h,
-                            left: 65.w,
-                          ),
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                            color: greyColor,
-                            width: 1.h,
-                          ))),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 293.w,
-                                child: TextField(
-                                  style: TextStyle(
-                                    fontSize: 20.sp,
-                                    color: greyColor,
-                                  ),
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Search',
-                                      hintStyle: TextStyle(
-                                        fontSize: 20.sp,
-                                        color: greyColor,
-                                      )),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 41.w,
-                                height: 41.w,
-                                child: FittedBox(
-                                  child: Icon(
-                                    Icons.search,
-                                    color: basicColor,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 29.h),
-                      child: reusableInstance.buttons(
-                        180.w,
-                        42.h,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 20.w,
-                              height: 20.h,
-                              child: FittedBox(
-                                child: Icon(
-                                  Icons.add,
-                                  color: whiteColor,
-                                ),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Get.to(AddQuestion());
-                              },
-                              child: Container(
-                                height: 20.h,
-                                child: MyText(
-                                  txt: 'Add Question',
-                                  color: whiteColor,
-                                  fontweight: FontWeight.w300,
-                                  size: 21.sp,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 62.w,
-                    ),
-                    const VerticalDivider(
-                      color: Color(0xff3B3B3B),
-                    ),
-                    SizedBox(
-                      width: 28.w,
-                    ),
-                    InkWell(
-                      onTap: ()async {
-
-                        var logout= await userLogOut();
-                        if(logout)
-                          {
-                            Get.offAll(LoginPage());
-                          }
-                      }
-                      ,
-                      child: Container(
-                        width: 38.w,
-                        height: 38.w,
-                        child: FittedBox(
-                          child: Icon(
-                            Icons.power_settings_new,
-                            color: basicColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 25.w,
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
+          reusableInstance.appBar('category'),
           SizedBox(
             height: 41.h,
           ),
-          isLoading==true? reusableInstance.loader() : Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -258,173 +85,92 @@ bool isLoading=true;
                   SizedBox(
                     width: 1345.w,
                     height: 882.h,
-                    child: ListView.builder(
-                        itemCount: cateController.catList.length,
-                        padding: EdgeInsets.zero,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            height: 63.h,
-                            margin: EdgeInsets.only(bottom: 50.h),
-                            decoration: BoxDecoration(
-                              color: cateContainerColor,
-                            ),
-                            child: Center(
-                              child: Row(
-                                children: [
-                                  Container(
-                                      width: 60.w,
-                                      height: 60.w,
-                                      margin: EdgeInsets.only(left: 40.w),
-                                      decoration: const BoxDecoration(
-                                        color: Color(0xffF5F5F5),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Container(
-                                        width: 40.w,
-                                        height: 40.h,
-                                        margin: EdgeInsets.all(5.h),
-                                        child: Image.memory(base64.decode(cateController.catList[index].image),
-                                          ),
-                                      )),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: MyText(
-                                            txt: cateController.catList[index].name,
-                                            color: Colors.black,
-                                            fontweight: FontWeight.w500,
-                                            size: 20.sp,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: MyText(
-                                            txt: '${cateController.totalSubCate[index]}',
-                                            color: Colors.black,
-                                            fontweight: FontWeight.w500,
-                                            size: 20.sp,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: InkWell(
-                                            onTap: () {
-                                              cateController.categoryName=cateController.catList[index].name;
-                                              cateController.update();
-                                              Get.to(SubCategory(cid: cateController.catList[index].cid,));
-                                            },
-                                            child: MyText(
-                                              txt: 'View',
-                                              color: basicColor,
-                                              fontweight: FontWeight.w500,
-                                              size: 20.sp,
-                                            ),
-                                          ),
-                                        ),
-                                        const Expanded(
-                                          flex: 1,
-                                          child: Text(''),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }),
-                  ),
-                  Container(
-                    width: 575.w,
-                    height: 882.h,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 50.h,
-                        ),
-                        MyText(
-                          txt: 'PROFILE',
-                          color: Colors.black,
-                          fontweight: FontWeight.w800,
-                          size: 20.sp,
-                        ),
-                        SizedBox(
-                          height: 30.h,
-                        ),
-                        Container(
-                          width: 119.w,
-                          height: 119.w,
-                          decoration: BoxDecoration(
-                            color: greyColor,
-                            shape: BoxShape.circle,
-                          ),
-                          child: ClipOval(
-                            child: Image.asset(
-                              'assets/defaultPic.png',
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30.h,
-                        ),
-                        MyText(
-                          txt: 'USAMA GHAFOOR',
-                          color: Colors.black,
-                          fontweight: FontWeight.w300,
-                          size: 22.sp,
-                        ),
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        MyText(
-                          txt: 'TEACHER',
-                          color: basicColor,
-                          fontweight: FontWeight.w300,
-                          size: 18.sp,
-                        ),
-                        Container(
-                          width: 570.w,
-                          height: 97.h,
-                          margin: EdgeInsets.only(top: 85.h),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 50.w),
-                            child: InkWell(
-                              onTap: () {
-                                Get.to(Draft());
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
+                    child: isLoading == true
+                        ? reusableInstance.loader()
+                        : ListView.builder(
+                            itemCount: cateController.catList.length,
+                            padding: EdgeInsets.zero,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                height: 63.h,
+                                margin: EdgeInsets.only(bottom: 50.h),
+                                decoration: BoxDecoration(
+                                  color: cateContainerColor,
+                                ),
+                                child: Center(
+                                  child: Row(
                                     children: [
-                                      Icon(Icons.mail_outline_outlined, size: 40.h),
-                                      SizedBox(
-                                        width: 10.w,
-                                      ),
-                                      MyText(
-                                        txt: 'Drafts',
-                                        color: Colors.black,
-                                        fontweight: FontWeight.w300,
-                                        size: 20.sp,
+                                      Container(
+                                          width: 60.w,
+                                          height: 60.w,
+                                          margin: EdgeInsets.only(left: 40.w),
+                                          decoration: const BoxDecoration(
+                                            color: Color(0xffF5F5F5),
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Container(
+                                            width: 40.w,
+                                            height: 40.h,
+                                            margin: EdgeInsets.all(5.h),
+                                            child: Image.memory(
+                                              base64.decode(cateController.catList[index].image),
+                                            ),
+                                          )),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 1,
+                                              child: MyText(
+                                                txt: cateController.catList[index].name,
+                                                color: Colors.black,
+                                                fontweight: FontWeight.w500,
+                                                size: 20.sp,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: MyText(
+                                                txt: '${cateController.totalSubCate[index]}',
+                                                color: Colors.black,
+                                                fontweight: FontWeight.w500,
+                                                size: 20.sp,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  cateController.categoryName = cateController.catList[index].name;
+                                                  cateController.cid = cateController.catList[index].cid;
+                                                  cateController.callingScreenName = 'subCategory';
+                                                  cateController.update();
+                                                  isCategoryViewBtnClick = true;
+                                                  Get.to(SubCategory());
+                                                },
+                                                child: MyText(
+                                                  txt: 'View',
+                                                  color: basicColor,
+                                                  fontweight: FontWeight.w500,
+                                                  size: 20.sp,
+                                                ),
+                                              ),
+                                            ),
+                                            const Expanded(
+                                              flex: 1,
+                                              child: Text(''),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 25.h,
-                                    color: basicColor,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  )
+                                ),
+                              );
+                            }),
+                  ),
+                  Container(width: 575.w, height: 882.h, child: reusableInstance.profile())
                 ],
               ),
             ],

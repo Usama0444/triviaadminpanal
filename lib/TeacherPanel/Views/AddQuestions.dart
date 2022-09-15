@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/Categories.dart';
 
 import 'CustomWidgets/MyText.dart';
@@ -38,375 +39,224 @@ class _AddQuestionState extends State<AddQuestion> {
     true,
   ];
   bool? isCorrect1 = null, isCorrect2 = null, isCorrect3 = null, isCorrect4 = null;
+  CategoryController catController = Get.find<CategoryController>();
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    catController.fillSubCategoryForDrawer().whenComplete(() {
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Container(
-            width: 1920.w,
-            height: 80.h,
-            decoration: BoxDecoration(
-              color: headerColor,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 28.w,
-                    ),
-                    SizedBox(
-                      width: 57.w,
-                      height: 47.h,
-                      child: Image.asset('assets/triviaLogo.png'),
-                    ),
-                    Row(
-                      children: [
-                        MyText(
-                          txt: 'Trivia ',
-                          color: basicColor,
-                          fontweight: FontWeight.bold,
-                          size: 40.sp,
-                        ),
-                        MyText(
-                          txt: 'star',
-                          color: basicColor,
-                          fontweight: FontWeight.w300,
-                          size: 40.sp,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 51.h),
-                          child: MyText(
-                            txt: 'TEACHERS',
-                            color: greyColor,
-                            fontweight: FontWeight.w300,
-                            size: 15.sp,
-                          ),
-                        ),
-                        const VerticalDivider(
-                          color: Color(0xff3B3B3B),
-                        ),
-                        Container(
-                          width: 180.w,
-                          height: 42.h,
-                          margin: EdgeInsets.only(
-                            top: 10.h,
-                            left: 10.w,
-                          ),
-                          child: MyText(txt: 'Add Questions', color: whiteColor, fontweight: FontWeight.w800, size: 22.sp),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 29.h),
-                      child: reusableInstance.buttons(
-                        91.w,
-                        42.h,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 25.h,
-                              child: FittedBox(
-                                child: Icon(
-                                  Icons.arrow_back,
-                                  color: whiteColor,
-                                ),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Get.back();
-                              },
-                              child: Container(
-                                height: 20.h,
-                                child: MyText(
-                                  txt: 'Back',
-                                  color: whiteColor,
-                                  fontweight: FontWeight.w300,
-                                  size: 21.sp,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 60.w,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 29.h),
-                      child: reusableInstance.buttons(
-                        100.w,
-                        42.h,
-                        Container(
-                          height: 20.h,
-                          child: Center(
-                            child: MyText(
-                              txt: 'Upload',
-                              color: whiteColor,
-                              fontweight: FontWeight.w300,
-                              size: 23.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 60.w,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 29.h),
-                      child: reusableInstance.buttons(
-                        86.w,
-                        42.h,
-                        Container(
-                          height: 20.h,
-                          child: Center(
-                            child: MyText(
-                              txt: 'Draft',
-                              color: whiteColor,
-                              fontweight: FontWeight.w300,
-                              size: 23.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 62.w,
-                    ),
-                    const VerticalDivider(
-                      color: Color(0xff3B3B3B),
-                    ),
-                    SizedBox(
-                      width: 28.w,
-                    ),
-                    Container(
-                      width: 38.w,
-                      height: 38.w,
-                      child: FittedBox(
-                        child: Icon(
-                          Icons.power_settings_new,
-                          color: basicColor,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 25.w,
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
+          reusableInstance.appBar('add_questions'),
           SizedBox(
             height: 41.h,
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 375.w,
-                height: 924.h,
-                color: Color(0xffFAFAFA),
-                child: ListView.builder(
-                    itemCount: 7,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          for (int i = 0; i < 7; i++) {
-                            hide[i] = true;
-                            show[i] = false;
-                          }
-                          setState(() {
-                            if (hide[index]) {
-                              hide[index] = false;
-                              show[index] = true;
-                            } else {
-                              hide[index] = true;
-                              show[index] = false;
-                            }
-                          });
-                        },
-                        child: Column(
-                          children: [
-                            Visibility(
-                              visible: hide[index],
-                              child: Container(
-                                  width: 355.w,
-                                  height: 60.h,
-                                  margin: EdgeInsets.only(top: 14.h, left: 14.w, right: 14.w),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10.h),
+              isLoading
+                  ? reusableInstance.loader()
+                  : Container(
+                      width: 375.w,
+                      height: 924.h,
+                      color: Color(0xffFAFAFA),
+                      child: ListView.builder(
+                          itemCount: 7,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                for (int i = 0; i < 7; i++) {
+                                  hide[i] = true;
+                                  show[i] = false;
+                                }
+                                setState(() {
+                                  if (hide[index]) {
+                                    hide[index] = false;
+                                    show[index] = true;
+                                  } else {
+                                    hide[index] = true;
+                                    show[index] = false;
+                                  }
+                                });
+                              },
+                              child: Column(
+                                children: [
+                                  Visibility(
+                                    visible: hide[index],
+                                    child: Container(
+                                        width: 355.w,
+                                        height: 60.h,
+                                        margin: EdgeInsets.only(top: 14.h, left: 14.w, right: 14.w),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(10.h),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 20.w, right: 10.w),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    width: 50.w,
+                                                    height: 50.h,
+                                                    decoration: const BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Color(0xffF5F5F5),
+                                                    ),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.all(5.h),
+                                                      child: Image.asset('assets/triviaLogo.png'),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10.w,
+                                                  ),
+                                                  MyText(
+                                                    txt: 'Education',
+                                                    color: Colors.black,
+                                                    fontweight: FontWeight.w600,
+                                                    size: 14.sp,
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  MyText(
+                                                    txt: '500',
+                                                    color: Colors.black,
+                                                    fontweight: FontWeight.w600,
+                                                    size: 14.sp,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 20.w,
+                                                  ),
+                                                  Icon(
+                                                    Icons.expand_more,
+                                                    size: 25.sp,
+                                                    color: basicColor,
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )),
                                   ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 20.w, right: 10.w),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              width: 50.w,
-                                              height: 50.h,
-                                              decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Color(0xffF5F5F5),
-                                              ),
-                                              child: Padding(
-                                                padding: EdgeInsets.all(5.h),
-                                                child: Image.asset('assets/triviaLogo.png'),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 10.w,
-                                            ),
-                                            MyText(
-                                              txt: 'Education',
-                                              color: Colors.black,
-                                              fontweight: FontWeight.w600,
-                                              size: 14.sp,
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            MyText(
-                                              txt: '500',
-                                              color: Colors.black,
-                                              fontweight: FontWeight.w600,
-                                              size: 14.sp,
-                                            ),
-                                            SizedBox(
-                                              width: 20.w,
-                                            ),
-                                            Icon(
-                                              Icons.expand_more,
-                                              size: 25.sp,
-                                              color: basicColor,
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                            ),
-                            Visibility(
-                                visible: show[index],
-                                child: Container(
-                                  width: 375.w,
-                                  height: 400.h,
-                                  color: Color(0xffC4C4C4),
-                                  child: ListView.builder(
-                                      itemCount: 5,
-                                      itemBuilder: (context, j) {
-                                        return InkWell(
-                                          onTap: () {
-                                            if (j != 0) {
-                                              setState(() {
-                                                if (hide[index]) {
-                                                  hide[index] = true;
-                                                  show[index] = false;
-                                                } else {
-                                                  hide[index] = false;
-                                                  show[index] = true;
-                                                }
-                                              });
-                                            } else {
-                                              setState(() {
-                                                if (hide[index]) {
-                                                  hide[index] = false;
-                                                  show[index] = true;
-                                                } else {
-                                                  hide[index] = true;
-                                                  show[index] = false;
-                                                }
-                                              });
-                                            }
-                                            print(hide);
-                                            print(show);
-                                          },
-                                          child: Container(
-                                              width: 355.w,
-                                              height: 60.h,
-                                              margin: EdgeInsets.only(top: 14.h, left: 14.w, right: 14.w),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.circular(10.h),
-                                              ),
-                                              child: Padding(
-                                                padding: EdgeInsets.only(left: 20.w, right: 10.w),
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Container(
-                                                          width: 50.w,
-                                                          height: 50.h,
-                                                          decoration: const BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            color: Color(0xffF5F5F5),
-                                                          ),
-                                                          child: Padding(
-                                                            padding: EdgeInsets.all(5.h),
-                                                            child: Image.asset('assets/triviaLogo.png'),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 10.w,
-                                                        ),
-                                                        MyText(
-                                                          txt: j != 0 ? 'Sports' : 'Education',
-                                                          color: Colors.black,
-                                                          fontweight: FontWeight.w600,
-                                                          size: 14.sp,
-                                                        ),
-                                                      ],
+                                  Visibility(
+                                      visible: show[index],
+                                      child: Container(
+                                        width: 375.w,
+                                        height: 400.h,
+                                        color: Color(0xffC4C4C4),
+                                        child: ListView.builder(
+                                            itemCount: 5,
+                                            itemBuilder: (context, j) {
+                                              return InkWell(
+                                                onTap: () {
+                                                  if (j != 0) {
+                                                    setState(() {
+                                                      if (hide[index]) {
+                                                        hide[index] = true;
+                                                        show[index] = false;
+                                                      } else {
+                                                        hide[index] = false;
+                                                        show[index] = true;
+                                                      }
+                                                    });
+                                                  } else {
+                                                    setState(() {
+                                                      if (hide[index]) {
+                                                        hide[index] = false;
+                                                        show[index] = true;
+                                                      } else {
+                                                        hide[index] = true;
+                                                        show[index] = false;
+                                                      }
+                                                    });
+                                                  }
+                                                  print(hide);
+                                                  print(show);
+                                                },
+                                                child: Container(
+                                                    width: 355.w,
+                                                    height: 60.h,
+                                                    margin: EdgeInsets.only(top: 14.h, left: 14.w, right: 14.w),
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(10.h),
                                                     ),
-                                                    Row(
-                                                      children: [
-                                                        MyText(
-                                                          txt: '500',
-                                                          color: Colors.black,
-                                                          fontweight: FontWeight.w600,
-                                                          size: 14.sp,
-                                                        ),
-                                                        SizedBox(
-                                                          width: 10.w,
-                                                        ),
-                                                        Icon(
-                                                          index != 0 ? Icons.arrow_forward_ios_outlined : Icons.expand_less,
-                                                          size: index != 0 ? 17.sp : 25.sp,
-                                                          color: basicColor,
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              )),
-                                        );
-                                      }),
-                                ))
-                          ],
-                        ),
-                      );
-                    }),
-              ),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(left: 20.w, right: 10.w),
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Container(
+                                                                width: 50.w,
+                                                                height: 50.h,
+                                                                decoration: const BoxDecoration(
+                                                                  shape: BoxShape.circle,
+                                                                  color: Color(0xffF5F5F5),
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: EdgeInsets.all(5.h),
+                                                                  child: Image.asset('assets/triviaLogo.png'),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 10.w,
+                                                              ),
+                                                              MyText(
+                                                                txt: j != 0 ? 'Sports' : 'Education',
+                                                                color: Colors.black,
+                                                                fontweight: FontWeight.w600,
+                                                                size: 14.sp,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              MyText(
+                                                                txt: '500',
+                                                                color: Colors.black,
+                                                                fontweight: FontWeight.w600,
+                                                                size: 14.sp,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 10.w,
+                                                              ),
+                                                              Icon(
+                                                                index != 0 ? Icons.arrow_forward_ios_outlined : Icons.expand_less,
+                                                                size: index != 0 ? 17.sp : 25.sp,
+                                                                color: basicColor,
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )),
+                                              );
+                                            }),
+                                      ))
+                                ],
+                              ),
+                            );
+                          }),
+                    ),
               SizedBox(
                 width: 40.w,
               ),
