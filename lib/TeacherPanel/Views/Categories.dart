@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart';
+import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Services/LoginServices.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/AddQuestions.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/MyText.dart';
@@ -29,6 +30,7 @@ class Categories extends StatefulWidget {
 
 class _CategoriesState extends State<Categories> {
   CategoryController cateController = Get.find<CategoryController>();
+  QuestionController questionController = Get.find<QuestionController>();
   bool isLoading = true;
   @override
   void initState() {
@@ -171,7 +173,8 @@ class _CategoriesState extends State<Categories> {
                                 ),
                               ),
                               InkWell(
-                                onTap: () {
+                                onTap: () async {
+                                  await questionController.ErasedData();
                                   Get.to(AddQuestion(callingFor: 'Add'));
                                 },
                                 child: Container(
