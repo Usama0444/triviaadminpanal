@@ -15,11 +15,12 @@ class CategoryController extends GetxController {
   List<SubCategoryModel> subCatList = [];
   List<int> totalSubCate = [];
   List<SubCategoryModel> subcategoryModelList = [];
-  List<List<String>> subCategoriesForDrawer = [];
+  List<List<SubCategoryModel>> subCategoriesForDrawer = [];
   String? categoryName, subCategoryName;
   String callingScreenName = 'category';
   String? cid;
   List<SubCategoryModel> allSubCatLis = [];
+
   List<String> cateHeader = [
     'Logo',
     'Categories Name',
@@ -32,33 +33,18 @@ class CategoryController extends GetxController {
     'Total Question',
     '500 Question',
   ];
-  List<String> cateNameList = [
-    'General',
-    'Technical',
-    'Social',
-    'Education',
-    'Sports',
-    'General',
-    'Technical',
-    'Social',
-    'Education',
-    'Sports',
-    'General',
-    'Technical',
-    'Social',
-    'Education',
-    'Sports',
-  ];
 
   Future<bool> getCategories() async {
     try {
-      categoryModelList = [];
-      categoryModelList = await getAllCategoryList();
-      for (int i = 0; i < categoryModelList.length; i++) {
-        catList.add(categoryModelList[i]);
+      if (catList.isEmpty) {
+        categoryModelList = [];
+        catList = [];
+        categoryModelList = await getAllCategoryList();
+        for (int i = 0; i < categoryModelList.length; i++) {
+          catList.add(categoryModelList[i]);
+        }
+        update();
       }
-      update();
-
       return true;
     } catch (e) {
       print(e);
@@ -67,38 +53,47 @@ class CategoryController extends GetxController {
   }
 
   getSubCategories() async {
-    for (int j = 0; j < catList.length; j++) {
-      subcategoryModelList = await getAllSubCategoryList(catList[j].cid);
-      totalSubCate.add(subcategoryModelList.length);
-      // allSubCatLis.add(subcategoryModelList[j]);
+    if (totalSubCate.isEmpty) {
+      for (int j = 0; j < catList.length; j++) {
+        subcategoryModelList = await getAllSubCategoryList(catList[j].cid);
+        totalSubCate.add(subcategoryModelList.length);
+        // allSubCatLis.add(subcategoryModelList[j]);
+      }
+      update();
     }
-    update();
   }
 
   categoryViewBtnClick(cid) async {
-    subCatList = [];
     try {
-      subcategoryModelList = await getAllSubCategoryList(cid);
-      for (int i = 0; i < subcategoryModelList.length; i++) {
-        subCatList.add(subcategoryModelList[i]);
+      if (subCatList.length == 0) {
+        subCatList = [];
+        subcategoryModelList = await getAllSubCategoryList(cid);
+        for (int i = 0; i < subcategoryModelList.length; i++) {
+          subCatList.add(subcategoryModelList[i]);
+        }
+        update();
       }
-      update();
     } catch (e) {
       Get.snackbar('Error', '$e');
     }
   }
 
   fillSubCategoryForDrawer() async {
-    subCategoriesForDrawer = [];
-    print('${catList.length} ${subCatList.length}');
-    for (int i = 0; i < catList.length; i++) {
-      for (int j = 0; j < allSubCatLis.length; j++) {
-        if (catList[i].cid == allSubCatLis[j].cid) {
-          subCategoriesForDrawer.add([allSubCatLis[j].image, allSubCatLis[j].name]);
+    if (subCategoriesForDrawer.isEmpty) {
+      subCategoriesForDrawer = [];
+      List<SubCategoryModel> tempList = [];
+      for (int i = 0; i < catList.length; i++) {
+        tempList = [];
+        var subCat = await getAllSubCategoryList(catList[i].cid);
+        if (subCat.isNotEmpty) {
+          for (int j = 0; j < subCat.length; j++) {
+            tempList.add(subCat[j]);
+          }
+          subCategoriesForDrawer.add(tempList);
+        } else {
+          subCategoriesForDrawer.add([]);
         }
       }
     }
-    print('drawer subCate');
-    print(subCategoriesForDrawer.length);
   }
 }

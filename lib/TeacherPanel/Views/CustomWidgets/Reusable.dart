@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart';
+import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/components/style.dart';
 
 import '../../Services/LoginServices.dart';
@@ -11,6 +13,8 @@ import '../LoginPage.dart';
 import 'MyText.dart';
 
 class Reusable {
+  QuestionController? questionController;
+  CategoryController? catController;
   Widget buttons(double width, double height, Widget child) {
     return Container(
       width: width,
@@ -144,6 +148,8 @@ class Reusable {
   }
 
   Widget appBar(String callingPageName) {
+    questionController = Get.find<QuestionController>();
+    catController = Get.find<CategoryController>();
     return Container(
       width: 1920.w,
       height: 80.h,
@@ -310,17 +316,22 @@ class Reusable {
                       children: [
                         Padding(
                           padding: EdgeInsets.only(top: 29.h),
-                          child: buttons(
-                            100.w,
-                            42.h,
-                            Container(
-                              height: 20.h,
-                              child: Center(
-                                child: MyText(
-                                  txt: 'Upload',
-                                  color: whiteColor,
-                                  fontweight: FontWeight.w300,
-                                  size: 23.sp,
+                          child: InkWell(
+                            onTap: () async {
+                              await questionController?.uploadBtnClick();
+                            },
+                            child: buttons(
+                              100.w,
+                              42.h,
+                              Container(
+                                height: 20.h,
+                                child: Center(
+                                  child: MyText(
+                                    txt: 'Upload',
+                                    color: whiteColor,
+                                    fontweight: FontWeight.w300,
+                                    size: 23.sp,
+                                  ),
                                 ),
                               ),
                             ),

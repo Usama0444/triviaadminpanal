@@ -67,37 +67,40 @@ editTeacherQuestions(String question, option1, option2, option3, option4, answer
   }
 }
 
-addQuestions(String question, option1, option2, option3, option4, answer, category, subCategory) async {
+addQuestions(String question, option1, option2, option3, option4, answer, article, category, subCategory) async {
   try {
     List<String> choice = [option1, option2, option3, option4];
     var id = teacherQuestionCollectionRef.doc().id;
-    if (question == '' || option1 == '' || option2 == '' || option3 == '' || option4 == '') {
-      Get.snackbar('Confirmation Alert', 'Invalid Data');
-      controller.isValid = false;
-      controller.update();
-    } else {
-      teacherQuestionCollectionRef.doc(id).set({
-        'category': category,
-        'question': question,
-        'choices': choice,
-        'answer': answer,
-        'qid': id,
-        'subcategory': subCategory,
-        'email': email,
-        'isapproved': 'false',
-      });
-      copyteacherQuestionCollectionRef.doc(id).set({
-        'category': category,
-        'question': question,
-        'choices': choice,
-        'answer': answer,
-        'qid': id,
-        'subcategory': subCategory,
-        'email': email,
-        'isapproved': 'false',
-      });
-      Get.snackbar('Confirmation Alert', 'Question Added successfully');
-    }
+
+    teacherQuestionCollectionRef.doc(id).set({
+      'category': category,
+      'question': question,
+      'choices': choice,
+      'answer': answer,
+      'qid': id,
+      'subcategory': subCategory,
+      'email': email,
+      'article': article,
+      'createdAt': DateTime.now(),
+      'updatedAt': DateTime.now(),
+      'type': 'Add new Question',
+      'isapproved': 'false',
+    });
+    copyteacherQuestionCollectionRef.doc(id).set({
+      'category': category,
+      'question': question,
+      'choices': choice,
+      'answer': answer,
+      'qid': id,
+      'subcategory': subCategory,
+      'email': email,
+      'article': article,
+      'createdAt': DateTime.now(),
+      'updatedAt': DateTime.now(),
+      'type': 'Add new Question',
+      'isapproved': 'false',
+    });
+    Get.snackbar('Confirmation Alert', 'Question Added successfully');
   } catch (e) {
     Get.snackbar('Error', 'something went wrong!!');
   }

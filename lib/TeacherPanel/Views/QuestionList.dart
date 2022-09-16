@@ -160,12 +160,15 @@ class _QuestionListState extends State<QuestionList> {
                                               itemCount: 4,
                                               scrollDirection: Axis.horizontal,
                                               itemBuilder: (context, j) {
+                                                print('answer');
+                                                print(questionController.teacherQuestionModelList[index].answer - 1);
+                                                print(j);
                                                 return Container(
                                                   margin: EdgeInsets.only(right: 20.w),
                                                   child: reusableInstance.inputBox(
                                                       321.w,
                                                       45.h,
-                                                      index != 1 ? containerWrongBorder : containerCorrectBorder,
+                                                      j != questionController.teacherQuestionModelList[index].answer - 1 ? containerWrongBorder : containerCorrectBorder,
                                                       Row(
                                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                         children: [

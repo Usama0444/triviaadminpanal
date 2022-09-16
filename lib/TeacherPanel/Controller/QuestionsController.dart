@@ -15,13 +15,31 @@ class QuestionController extends GetxController {
   var option3 = TextEditingController();
   var option4 = TextEditingController();
   var answer;
+  var article = TextEditingController();
   var teacherQuestionList = [];
   var teacherChoicesList = [];
   var isEdit = false;
   var isValid = true;
   var qid;
   var totalQuestions = 0;
+  String? questionCategory, questionSubCategory;
   List<int> totalQuestionOfspecificSubCategory = [];
+  ErasedData() async {
+    question.text = '';
+    option1.text = '';
+    option2.text = '';
+    option3.text = '';
+    option4.text = '';
+    answer = 0;
+    article.text = '';
+    update();
+  }
+
+  uploadBtnClick() async {
+    await addNewQuestions();
+    await ErasedData();
+  }
+
   Future<bool> getQuestions(String cat, String subcat) async {
     teacherQuestionModelList = await getQuestionsList(cat, subcat);
     update();
@@ -42,8 +60,8 @@ class QuestionController extends GetxController {
     update();
   }
 
-  addNewQuestions(String cat, subcate) async {
-    await addQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, cat, subcate);
+  addNewQuestions() async {
+    await addQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, article.text, questionCategory, questionSubCategory);
   }
 
   teacherUpdateQuestion(String cat, subCat) async {
