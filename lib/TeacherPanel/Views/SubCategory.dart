@@ -169,7 +169,7 @@ class _SubCategoryState extends State<SubCategory> {
                               );
                             }),
                   ),
-                  Container(width: 575.w, height: 882.h, child: reusableInstance.profile())
+                  Container(width: 575.w, height: 882.h, child: reusableInstance.profile(isLoading))
                 ],
               ),
             ],

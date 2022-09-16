@@ -16,7 +16,7 @@ class MyText extends StatelessWidget {
     return Text(
       txt,
       textAlign: TextAlign.center,
-      overflow: TextOverflow.visible,
+      overflow: TextOverflow.clip,
       style: TextStyle(
         fontSize: size,
         fontWeight: fontweight,

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +10,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/Categories.dart';
 
+import '../Controller/CategoryController.dart';
+import '../Controller/QuestionsController.dart';
 import 'CustomWidgets/MyText.dart';
 import 'components/style.dart';
 
@@ -18,6 +23,9 @@ class ArticleList extends StatefulWidget {
 }
 
 class _ArticleListState extends State<ArticleList> {
+  CategoryController catController = Get.find<CategoryController>();
+  QuestionController questionController = Get.find<QuestionController>();
+
   var show = [
     false,
     false,
@@ -26,7 +34,15 @@ class _ArticleListState extends State<ArticleList> {
     false,
     false,
     false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
   ];
+
   var hide = [
     true,
     true,
@@ -35,7 +51,15 @@ class _ArticleListState extends State<ArticleList> {
     true,
     true,
     true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
   ];
+
   var optionNumber = [
     'a)',
     'b)',
@@ -57,6 +81,10 @@ class _ArticleListState extends State<ArticleList> {
     false,
     false,
   ];
+  bool isLoading = true;
+
+  List<Color> highlight = [];
+  bool isShowArticleList = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -218,21 +246,28 @@ class _ArticleListState extends State<ArticleList> {
             children: [
               Container(
                 color: Color(0xffFAFAFA),
-                child: Column(
+                child: Stack(
                   children: [
                     Container(
                       width: 375.w,
-                      height: 400.h,
+                      height: 924.h,
+                      color: Color(0xffFAFAFA),
                       child: ListView.builder(
-                          itemCount: 5,
+                          itemCount: catController.catList.length,
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
-                                for (int i = 0; i < 7; i++) {
-                                  hide[i] = true;
-                                  show[i] = false;
-                                }
+                                print(index);
+                                questionController.questionCategory = catController.catList[index].name;
+                                questionController.update();
                                 setState(() {
+                                  for (int i = 0; i < 10; i++) {
+                                    hide[i] = true;
+                                    show[i] = false;
+                                  }
+                                  for (int i = 0; i < 10; i++) {
+                                    highlight.add(Colors.white);
+                                  }
                                   if (hide[index]) {
                                     hide[index] = false;
                                     show[index] = true;
@@ -241,8 +276,6 @@ class _ArticleListState extends State<ArticleList> {
                                     show[index] = false;
                                   }
                                 });
-                                print(hide);
-                                print(show);
                               },
                               child: Column(
                                 children: [
@@ -272,16 +305,16 @@ class _ArticleListState extends State<ArticleList> {
                                                     ),
                                                     child: Padding(
                                                       padding: EdgeInsets.all(5.h),
-                                                      child: Image.asset('assets/triviaLogo.png'),
+                                                      child: Image.memory(base64Decode(catController.catList[index].image)),
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    width: 30.w,
+                                                    width: 10.w,
                                                   ),
                                                   MyText(
-                                                    txt: 'Education',
-                                                    color: drawerColor,
-                                                    fontweight: FontWeight.w300,
+                                                    txt: catController.catList[index].name,
+                                                    color: Colors.black,
+                                                    fontweight: FontWeight.w600,
                                                     size: 14.sp,
                                                   ),
                                                 ],
@@ -291,7 +324,7 @@ class _ArticleListState extends State<ArticleList> {
                                                   MyText(
                                                     txt: '500',
                                                     color: Colors.black,
-                                                    fontweight: FontWeight.w300,
+                                                    fontweight: FontWeight.w600,
                                                     size: 14.sp,
                                                   ),
                                                   SizedBox(
@@ -312,14 +345,29 @@ class _ArticleListState extends State<ArticleList> {
                                       visible: show[index],
                                       child: Container(
                                         width: 375.w,
-                                        height: 400.h,
+                                        height: (catController.subCategoriesForDrawer[index].length + 2) * 60.h,
                                         color: Color(0xffC4C4C4),
                                         child: ListView.builder(
-                                            itemCount: 5,
+                                            itemCount: catController.subCategoriesForDrawer[index].length + 1,
                                             itemBuilder: (context, j) {
                                               return InkWell(
-                                                onTap: () {
+                                                onTap: () async {
+                                                  for (int i = 0; i < 10; i++) {
+                                                    highlight[i] = whiteColor;
+                                                  }
+                                                  highlight[j] = Colors.green.withOpacity(0.5);
+
                                                   if (j != 0) {
+                                                    questionController.questionSubCategory = catController.subCategoriesForDrawer[index][j - 1].name;
+                                                    questionController.update();
+                                                    print(questionController.questionCategory);
+                                                    print(questionController.questionSubCategory);
+                                                    var isQuestionGet =
+                                                        await questionController.getQuestions(questionController.questionCategory.toString(), questionController.questionSubCategory.toString());
+                                                    if (isQuestionGet) {
+                                                      isShowArticleList = true;
+                                                    }
+                                                    print(questionController.teacherQuestionModelList.length);
                                                     setState(() {
                                                       if (hide[index]) {
                                                         hide[index] = true;
@@ -339,16 +387,15 @@ class _ArticleListState extends State<ArticleList> {
                                                         show[index] = false;
                                                       }
                                                     });
+                                                    print(index);
                                                   }
-                                                  print(hide);
-                                                  print(show);
                                                 },
                                                 child: Container(
                                                     width: 355.w,
                                                     height: 60.h,
                                                     margin: EdgeInsets.only(top: 14.h, left: 14.w, right: 14.w),
                                                     decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      color: j != 0 ? highlight[j] : whiteColor,
                                                       borderRadius: BorderRadius.circular(10.h),
                                                     ),
                                                     child: Padding(
@@ -367,16 +414,18 @@ class _ArticleListState extends State<ArticleList> {
                                                                 ),
                                                                 child: Padding(
                                                                   padding: EdgeInsets.all(5.h),
-                                                                  child: Image.asset('assets/triviaLogo.png'),
+                                                                  child: Image.memory(j == 0
+                                                                      ? base64Decode(catController.catList[index].image)
+                                                                      : base64Decode(catController.subCategoriesForDrawer[index][j - 1].image)),
                                                                 ),
                                                               ),
                                                               SizedBox(
-                                                                width: 30.w,
+                                                                width: 10.w,
                                                               ),
                                                               MyText(
-                                                                txt: j != 0 ? 'Sports' : 'Education',
-                                                                color: drawerColor,
-                                                                fontweight: FontWeight.w300,
+                                                                txt: j == 0 ? catController.catList[index].name : catController.subCategoriesForDrawer[index][j - 1].name,
+                                                                color: Colors.black,
+                                                                fontweight: FontWeight.w600,
                                                                 size: 14.sp,
                                                               ),
                                                             ],
@@ -386,15 +435,15 @@ class _ArticleListState extends State<ArticleList> {
                                                               MyText(
                                                                 txt: '500',
                                                                 color: Colors.black,
-                                                                fontweight: FontWeight.w300,
+                                                                fontweight: FontWeight.w600,
                                                                 size: 14.sp,
                                                               ),
                                                               SizedBox(
                                                                 width: 10.w,
                                                               ),
                                                               Icon(
-                                                                index != 0 ? Icons.arrow_forward_ios_outlined : Icons.expand_less,
-                                                                size: index != 0 ? 17.sp : 25.sp,
+                                                                j != 0 ? Icons.arrow_forward_ios_outlined : Icons.expand_less,
+                                                                size: j != 0 ? 17.sp : 25.sp,
                                                                 color: basicColor,
                                                               )
                                                             ],
@@ -410,158 +459,188 @@ class _ArticleListState extends State<ArticleList> {
                             );
                           }),
                     ),
-                    Container(
-                      width: 355.w,
-                      height: 60.h,
-                      color: Colors.white,
-                      margin: EdgeInsets.only(top: 40.h),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 30.w, right: 20.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
+                    Positioned(
+                      top: 400.h,
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(ArticleList());
+                        },
+                        child: Container(
+                          width: 355.w,
+                          height: 60.h,
+                          color: Colors.white,
+                          margin: EdgeInsets.only(top: 40.h),
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 30.w, right: 20.w),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(Icons.mail_outline_outlined, size: 40.h),
-                                SizedBox(
-                                  width: 10.w,
+                                Row(
+                                  children: [
+                                    Icon(Icons.mail_outline_outlined, size: 40.h),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    SizedBox(width: 30.w),
+                                    MyText(
+                                      txt: 'Drafts',
+                                      color: drawerColor,
+                                      fontweight: FontWeight.w300,
+                                      size: 14.sp,
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(width: 30.w),
-                                MyText(
-                                  txt: 'Draft',
-                                  color: drawerColor,
-                                  fontweight: FontWeight.w300,
-                                  size: 14.sp,
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 20.h,
+                                  color: basicColor,
                                 ),
                               ],
                             ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 20.h,
-                              color: basicColor,
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                     )
                   ],
                 ),
               ),
-              Container(
-                width: 1500.w,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                        height: 30.h,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 40.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  MyText(
-                                    txt: 'Articles /',
-                                    color: Colors.black,
-                                    fontweight: FontWeight.w800,
-                                    size: 25.sp,
-                                  ),
-                                  MyText(
-                                    txt: ' Blogs',
-                                    color: Colors.black,
-                                    fontweight: FontWeight.w300,
-                                    size: 25.sp,
-                                  ),
-                                ],
-                              ),
-                              MyText(
-                                txt: '15 Articles',
-                                color: basicColor,
-                                fontweight: FontWeight.w500,
-                                size: 20.sp,
-                              ),
-                            ],
-                          ),
-                        )),
-                    SizedBox(height: 45.h),
-                    SizedBox(
-                      height: 882.h,
-                      child: ListView.builder(
-                        itemCount: 7,
-                        padding: EdgeInsets.zero,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            height: 121.h,
-                            margin: EdgeInsets.only(bottom: 29.h),
-                            decoration: BoxDecoration(
-                              color: cateContainerColor,
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 20.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Visibility(
+                visible: isShowArticleList,
+                child: Container(
+                  width: 1500.w,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                          height: 30.h,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 40.w),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
                                   children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        MyText(
-                                          txt: 'Article no : 01',
-                                          color: Colors.black,
-                                          fontweight: FontWeight.w800,
-                                          size: 16.sp,
-                                        ),
-                                        MyText(
-                                          txt: '25/3/2021',
-                                          color: basicColor,
-                                          fontweight: FontWeight.w800,
-                                          size: 10.sp,
-                                        ),
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        Text(
-                                          overflow: TextOverflow.visible,
-                                          '''here a question of maths which increase your knowledge here a question of maths which increaseyour knowledge here a question of maths which increase your knowledge here a question of mathswhich increase your knowladge here a question of maths which increase your knowladge',
-''',
-                                          style: TextStyle(
-                                            fontSize: 12.sp,
-                                            fontWeight: FontWeight.w300,
-                                          ),
-                                        ),
-                                      ],
+                                    MyText(
+                                      txt: 'Articles /',
+                                      color: Colors.black,
+                                      fontweight: FontWeight.w800,
+                                      size: 25.sp,
                                     ),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [
-                                        MyText(
-                                          txt: 'Copy',
-                                          color: Color(0xff00D579),
-                                          fontweight: FontWeight.w800,
-                                          size: 20.sp,
-                                        ),
-                                        MyText(
-                                          txt: 'Edit',
-                                          color: Color(0xff2CB4B3),
-                                          fontweight: FontWeight.w800,
-                                          size: 20.sp,
-                                        ),
-                                        MyText(
-                                          txt: 'Delete',
-                                          color: Color(0xffFF0000),
-                                          fontweight: FontWeight.w800,
-                                          size: 20.sp,
-                                        ),
-                                      ],
-                                    )
+                                    MyText(
+                                      txt: ' Blogs',
+                                      color: Colors.black,
+                                      fontweight: FontWeight.w300,
+                                      size: 25.sp,
+                                    ),
                                   ],
-                                )),
-                          );
-                        },
+                                ),
+                                MyText(
+                                  txt: '15 Articles',
+                                  color: basicColor,
+                                  fontweight: FontWeight.w500,
+                                  size: 20.sp,
+                                ),
+                              ],
+                            ),
+                          )),
+                      SizedBox(height: 45.h),
+                      SizedBox(
+                        height: 882.h,
+                        child: ListView.builder(
+                          itemCount: questionController.teacherQuestionModelList.length,
+                          padding: EdgeInsets.zero,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              height: 121.h,
+                              margin: EdgeInsets.only(bottom: 29.h),
+                              decoration: BoxDecoration(
+                                color: cateContainerColor,
+                              ),
+                              child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 20.w),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          MyText(
+                                            txt: 'Article no : 0${index + 1}',
+                                            color: Colors.black,
+                                            fontweight: FontWeight.w800,
+                                            size: 16.sp,
+                                          ),
+                                          MyText(
+                                            txt: '21/2/2022',
+                                            color: basicColor,
+                                            fontweight: FontWeight.w800,
+                                            size: 10.sp,
+                                          ),
+                                          SizedBox(
+                                            height: 10.h,
+                                          ),
+                                          SizedBox(
+                                            width: 1300.w,
+                                            child: Text(
+                                              overflow: TextOverflow.visible,
+                                              '''${questionController.teacherQuestionModelList[index].article}''',
+                                              maxLines: 3,
+                                              style: TextStyle(
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              questionController.copyBtnClick(index);
+                                              reusableInstance.toast('Copied', 'copy to Clipboard');
+                                            },
+                                            child: MyText(
+                                              txt: 'Copy',
+                                              color: Color(0xff00D579),
+                                              fontweight: FontWeight.w800,
+                                              size: 20.sp,
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              questionController.editBtnClick(index);
+                                            },
+                                            child: MyText(
+                                              txt: 'Edit',
+                                              color: Color(0xff2CB4B3),
+                                              fontweight: FontWeight.w800,
+                                              size: 20.sp,
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              questionController.deleteBtnClick(index);
+                                            },
+                                            child: MyText(
+                                              txt: 'Delete',
+                                              color: Color(0xffFF0000),
+                                              fontweight: FontWeight.w800,
+                                              size: 20.sp,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  )),
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             ],

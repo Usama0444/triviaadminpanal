@@ -82,6 +82,7 @@ class _DraftState extends State<Draft> {
     false,
   ];
   bool isLoading = true;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -138,14 +139,14 @@ class _DraftState extends State<Draft> {
                                     print(index);
                                     questionController.questionCategory = catController.catList[index].name;
                                     questionController.update();
-                                    for (int i = 0; i < 10; i++) {
-                                      hide[i] = true;
-                                      show[i] = false;
-                                    }
-                                    for (int i = 0; i < 10; i++) {
-                                      highlight.add(Colors.white);
-                                    }
                                     setState(() {
+                                      for (int i = 0; i < 10; i++) {
+                                        hide[i] = true;
+                                        show[i] = false;
+                                      }
+                                      for (int i = 0; i < 10; i++) {
+                                        highlight.add(Colors.white);
+                                      }
                                       if (hide[index]) {
                                         hide[index] = false;
                                         show[index] = true;
@@ -154,7 +155,6 @@ class _DraftState extends State<Draft> {
                                         show[index] = false;
                                       }
                                     });
-                                    print(hide[index]);
                                   },
                                   child: Column(
                                     children: [
@@ -230,15 +230,21 @@ class _DraftState extends State<Draft> {
                                                 itemCount: catController.subCategoriesForDrawer[index].length + 1,
                                                 itemBuilder: (context, j) {
                                                   return InkWell(
-                                                    onTap: () {
+                                                    onTap: () async {
                                                       for (int i = 0; i < 10; i++) {
                                                         highlight[i] = whiteColor;
                                                       }
                                                       highlight[j] = Colors.green.withOpacity(0.5);
-                                                      questionController.questionSubCategory = catController.subCategoriesForDrawer[index][j - 1].name;
-                                                      questionController.update();
-                                                      isShowQuestionsList = true;
+
                                                       if (j != 0) {
+                                                        questionController.questionSubCategory = catController.subCategoriesForDrawer[index][j - 1].name;
+                                                        questionController.update();
+                                                        var isQuestionGet =
+                                                            await questionController.getQuestions(questionController.questionCategory.toString(), questionController.questionSubCategory.toString());
+                                                        if (isQuestionGet) {
+                                                          isShowQuestionsList = true;
+                                                        }
+                                                        print(questionController.teacherQuestionModelList.length);
                                                         setState(() {
                                                           if (hide[index]) {
                                                             hide[index] = true;
@@ -258,8 +264,8 @@ class _DraftState extends State<Draft> {
                                                             show[index] = false;
                                                           }
                                                         });
+                                                        print(index);
                                                       }
-                                                      print(catController.subCategoriesForDrawer[index].length);
                                                     },
                                                     child: Container(
                                                         width: 355.w,
@@ -393,13 +399,13 @@ class _DraftState extends State<Draft> {
                                 Row(
                                   children: [
                                     MyText(
-                                      txt: 'Education/',
+                                      txt: '${questionController.questionCategory}/',
                                       color: Colors.black,
                                       fontweight: FontWeight.w800,
                                       size: 25.sp,
                                     ),
                                     MyText(
-                                      txt: 'Math',
+                                      txt: '${questionController.questionSubCategory}',
                                       color: Colors.black,
                                       fontweight: FontWeight.w300,
                                       size: 25.sp,
@@ -419,7 +425,7 @@ class _DraftState extends State<Draft> {
                       SizedBox(
                         height: 882.h,
                         child: ListView.builder(
-                          itemCount: 7,
+                          itemCount: questionController.teacherQuestionModelList.length,
                           padding: EdgeInsets.zero,
                           itemBuilder: (context, index) {
                             return Container(
@@ -446,7 +452,7 @@ class _DraftState extends State<Draft> {
                                                 size: 25.sp,
                                               ),
                                               MyText(
-                                                txt: ' 2+2-4 = ?',
+                                                txt: ' ${questionController.teacherQuestionModelList[index].question}',
                                                 color: Colors.black,
                                                 fontweight: FontWeight.w800,
                                                 size: 25.sp,
@@ -495,32 +501,39 @@ class _DraftState extends State<Draft> {
                                             child: ListView.builder(
                                                 itemCount: 4,
                                                 scrollDirection: Axis.horizontal,
-                                                itemBuilder: (context, index) {
+                                                itemBuilder: (context, j) {
                                                   return Container(
                                                     margin: EdgeInsets.only(right: 20.w),
                                                     child: reusableInstance.inputBox(
                                                         200.w,
                                                         45.h,
-                                                        index != 1 ? containerWrongBorder : containerCorrectBorder,
+                                                        j + 1 != questionController.teacherQuestionModelList[index].answer ? containerWrongBorder : containerCorrectBorder,
                                                         Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                           children: [
-                                                            SizedBox(
-                                                              width: 15.w,
+                                                            Padding(
+                                                              padding: EdgeInsets.only(left: 10.w),
+                                                              child: MyText(
+                                                                txt: '${optionNumber[index]}',
+                                                                color: basicColor,
+                                                                fontweight: FontWeight.w800,
+                                                                size: 25.sp,
+                                                              ),
                                                             ),
-                                                            MyText(
-                                                              txt: '${optionNumber[index]}',
-                                                              color: basicColor,
-                                                              fontweight: FontWeight.w800,
-                                                              size: 25.sp,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 60.w,
-                                                            ),
-                                                            MyText(
-                                                              txt: '${option[index]}',
-                                                              color: Colors.black,
-                                                              fontweight: FontWeight.w800,
-                                                              size: 25.sp,
+                                                            Container(
+                                                              width: 100.w,
+                                                              margin: EdgeInsets.only(right: 20.w),
+                                                              child: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                children: [
+                                                                  MyText(
+                                                                    txt: '${questionController.teacherQuestionModelList[index].choiceList[j]}',
+                                                                    color: Colors.black,
+                                                                    fontweight: FontWeight.w800,
+                                                                    size: 25.sp,
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
                                                           ],
                                                         )),

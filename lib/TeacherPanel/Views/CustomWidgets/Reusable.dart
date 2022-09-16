@@ -8,6 +8,7 @@ import 'package:triviaadminpanal/TeacherPanel/Views/components/style.dart';
 
 import '../../Services/LoginServices.dart';
 import '../AddQuestions.dart';
+import '../Categories.dart';
 import '../Draft.dart';
 import '../LoginPage.dart';
 import 'MyText.dart';
@@ -15,6 +16,18 @@ import 'MyText.dart';
 class Reusable {
   QuestionController? questionController;
   CategoryController? catController;
+  void toast(String heading, content) {
+    Get.snackbar(
+      heading,
+      content,
+      margin: EdgeInsets.only(left: 900, right: 100.w, bottom: 50.h),
+      snackPosition: SnackPosition.BOTTOM,
+      duration: Duration(seconds: 1),
+      backgroundColor: Colors.black,
+      colorText: Colors.white,
+    );
+  }
+
   Widget buttons(double width, double height, Widget child) {
     return Container(
       width: width,
@@ -57,7 +70,7 @@ class Reusable {
     );
   }
 
-  Widget profile() {
+  Widget profile(bool isLoading) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -113,7 +126,8 @@ class Reusable {
               padding: EdgeInsets.symmetric(horizontal: 50.w),
               child: InkWell(
                 onTap: () {
-                  Get.to(Draft());
+                  isLoading != true ? Get.to(Draft()) : reusableInstance.toast('Wait', 'wait tell Loading Complete');
+                  ;
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -365,7 +379,7 @@ class Reusable {
                           padding: EdgeInsets.only(top: 29.h),
                           child: InkWell(
                             onTap: () {
-                              Get.to(AddQuestion());
+                              Get.to(AddQuestion(callingFor: 'Add'));
                             },
                             child: buttons(
                               180.w,
@@ -385,7 +399,7 @@ class Reusable {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      Get.to(AddQuestion());
+                                      Get.to(AddQuestion(callingFor: 'Add'));
                                     },
                                     child: Container(
                                       height: 20.h,

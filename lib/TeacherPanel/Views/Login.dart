@@ -91,6 +91,7 @@ class _TeacherLoginState extends State<TeacherLogin> {
             ),
             InkWell(
               onTap: () async {
+                await pref?.setString('email', loginController.email.text);
                 if (isLoading) {
                   reusableInstance.loader();
                 }

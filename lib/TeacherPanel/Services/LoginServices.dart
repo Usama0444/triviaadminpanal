@@ -5,31 +5,25 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:triviaadminpanal/main.dart';
 
+import '../Views/Categories.dart';
+
 Future<bool> loginService(String email, String password) async {
   try {
     await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
     return true;
   } catch (e) {
-    Get.snackbar(
-      'Error',
-      '$e',
-      margin: EdgeInsets.only(left: 900, right: 100.w, bottom: 50.h),
-      snackPosition: SnackPosition.BOTTOM,
-      duration: Duration(seconds: 1),
-      backgroundColor: Colors.black,
-      colorText: Colors.white,
-    );
+    reusableInstance.toast('Error', '$e');
     return false;
   }
 }
-Future<bool> userLogOut() async
-{
-  try{
-   await pref?.clear();
+
+Future<bool> userLogOut() async {
+  try {
+    await pref?.clear();
     await FirebaseAuth.instance.signOut();
     return true;
-  }catch(e){
-    Get.snackbar('Error', '$e');
-return false;
+  } catch (e) {
+    reusableInstance.toast('Error', '$e');
+    return false;
   }
 }

@@ -5,6 +5,7 @@ import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dar
 
 import '../../Controller/DashBoradController.dart';
 import '../../Controller/EducationController.dart';
+import '../Categories.dart';
 import '../CustomWidgets/MyText.dart';
 import '../CustomWidgets/colorContainer.dart';
 import '../components/style.dart';
@@ -191,7 +192,7 @@ class _ScienceState extends State<CustomAppBar> {
                     dashboradCont.addQuestion = true;
                     dashboradCont.update();
                   } else {
-                    Get.snackbar('Error', 'Please Select Category and SubCategory first');
+                    reusableInstance.toast('Error', 'Please Select Category and SubCategory first');
                   }
                 },
                 child: colorContainer(

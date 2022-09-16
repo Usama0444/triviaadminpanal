@@ -5,19 +5,20 @@ import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dar
 import 'package:triviaadminpanal/main.dart';
 
 import '../Models/QuestionModel.dart';
+import '../Views/Categories.dart';
 
 var teacherQuestionCollectionRef = FirebaseFirestore.instance.collection('questions');
 var copyteacherQuestionCollectionRef = FirebaseFirestore.instance.collection('copyquestions');
 var questionsList;
 var controller = Get.put(QuestionController());
-var email = FirebaseAuth.instance.currentUser?.email;
+var email = pref?.getString('email');
 
 Future<List<QuestionModel>> getQuestionsList(cat, subcat) async {
   try {
     var getQuestions = await teacherQuestionCollectionRef.where('email', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subcat).get();
     questionsList = await getQuestions.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
   } catch (e) {
-    Get.snackbar('Error', '$e');
+    reusableInstance.toast('Error', '$e');
   }
   return questionsList;
 }
@@ -26,44 +27,52 @@ deleteQuestion(qid) async {
   try {
     teacherQuestionCollectionRef.doc(qid).delete();
     copyteacherQuestionCollectionRef.doc(qid).delete();
-    Get.snackbar('Confirmation Alert', 'Question Deleted successfully');
+    reusableInstance.toast('Confirmation Alert', 'Question Deleted successfully');
   } catch (e) {
-    Get.snackbar('Error', 'something went wrong!!');
+    reusableInstance.toast('Error', 'something went wrong!!');
   }
 }
 
-editTeacherQuestions(String question, option1, option2, option3, option4, answer, categpry, subcategory, qid) async {
+editTeacherQuestions(String question, option1, option2, option3, option4, answer, article, category, subCategory, qid) async {
   try {
     List<String> choice = [option1, option2, option3, option4];
     if (question == '' || option1 == '' || option2 == '' || option3 == '' || option4 == '') {
-      Get.snackbar('Confirmation Alert', 'Invalid Data');
+      reusableInstance.toast('Confirmation Alert', 'Invalid Data');
       controller.isValid = false;
       controller.update();
     } else {
       teacherQuestionCollectionRef.doc(qid).update({
-        'category': categpry,
-        'subcategory': subcategory,
+        'category': category,
         'question': question,
         'choices': choice,
         'answer': answer,
         'qid': qid,
+        'subcategory': subCategory,
         'email': email,
+        'article': article,
+        'createdAt': DateTime.now(),
+        'updatedAt': DateTime.now(),
+        'type': 'update Question',
         'isapproved': 'false',
       });
       copyteacherQuestionCollectionRef.doc(qid).update({
-        'category': categpry,
-        'subcategory': subcategory,
+        'category': category,
         'question': question,
         'choices': choice,
         'answer': answer,
         'qid': qid,
+        'subcategory': subCategory,
         'email': email,
+        'article': article,
+        'createdAt': DateTime.now(),
+        'updatedAt': DateTime.now(),
+        'type': 'update Question',
         'isapproved': 'false',
       });
-      Get.snackbar('Confirmation Alert', 'Question Updated successfully');
+      reusableInstance.toast('Confirmation Alert', 'Question Updated successfully');
     }
   } catch (e) {
-    Get.snackbar('Error', 'something went wrong!!');
+    reusableInstance.toast('Error', 'something went wrong!!');
   }
 }
 
@@ -100,8 +109,8 @@ addQuestions(String question, option1, option2, option3, option4, answer, articl
       'type': 'Add new Question',
       'isapproved': 'false',
     });
-    Get.snackbar('Confirmation Alert', 'Question Added successfully');
+    reusableInstance.toast('Confirmation Alert', 'Question Added successfully');
   } catch (e) {
-    Get.snackbar('Error', 'something went wrong!!');
+    reusableInstance.toast('Error', 'something went wrong!!');
   }
 }

@@ -136,13 +136,18 @@ class _QuestionListState extends State<QuestionList> {
                                             ),
                                           ],
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 25.w),
-                                          child: MyText(
-                                            txt: 'Edit',
-                                            color: basicColor,
-                                            fontweight: FontWeight.w800,
-                                            size: 20.sp,
+                                        InkWell(
+                                          onTap: () {
+                                            questionController.editBtnClick(index);
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.only(right: 25.w),
+                                            child: MyText(
+                                              txt: 'Edit',
+                                              color: basicColor,
+                                              fontweight: FontWeight.w800,
+                                              size: 20.sp,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -200,11 +205,16 @@ class _QuestionListState extends State<QuestionList> {
                                                 );
                                               }),
                                         ),
-                                        MyText(
-                                          txt: 'Delete',
-                                          color: Color(0xffFF0000),
-                                          fontweight: FontWeight.w800,
-                                          size: 20.sp,
+                                        InkWell(
+                                          onTap: () async {
+                                            await questionController.deleteBtnClick(index);
+                                          },
+                                          child: MyText(
+                                            txt: 'Delete',
+                                            color: Color(0xffFF0000),
+                                            fontweight: FontWeight.w800,
+                                            size: 20.sp,
+                                          ),
                                         ),
                                       ],
                                     ),

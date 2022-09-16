@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/DashBoradController.dart';
+import 'package:triviaadminpanal/TeacherPanel/Views/Categories.dart';
 
 import '../Models/CategoryModel.dart';
 import '../Models/SubCategoryModel.dart';
@@ -74,7 +75,7 @@ class CategoryController extends GetxController {
         update();
       }
     } catch (e) {
-      Get.snackbar('Error', '$e');
+      reusableInstance.toast('Error', '$e');
     }
   }
 

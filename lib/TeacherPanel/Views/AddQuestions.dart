@@ -12,11 +12,14 @@ import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart
 import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/Categories.dart';
 
+import '../Services/LoginServices.dart';
 import 'CustomWidgets/MyText.dart';
+import 'LoginPage.dart';
 import 'components/style.dart';
 
 class AddQuestion extends StatefulWidget {
-  const AddQuestion({Key? key}) : super(key: key);
+  var callingFor;
+  AddQuestion({Key? key, required this.callingFor}) : super(key: key);
 
   @override
   State<AddQuestion> createState() => _AddQuestionState();
@@ -70,6 +73,9 @@ class _AddQuestionState extends State<AddQuestion> {
     catController.fillSubCategoryForDrawer().whenComplete(() async {
       setState(() {
         isLoading = false;
+        if (widget.callingFor == 'Edit') {
+          isShowQuestionForm = true;
+        }
       });
     });
   }
@@ -80,7 +86,230 @@ class _AddQuestionState extends State<AddQuestion> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          reusableInstance.appBar('add_questions'),
+          Container(
+            width: 1920.w,
+            height: 80.h,
+            decoration: BoxDecoration(
+              color: headerColor,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 28.w,
+                    ),
+                    SizedBox(
+                      width: 57.w,
+                      height: 47.h,
+                      child: Image.asset('assets/triviaLogo.png'),
+                    ),
+                    Row(
+                      children: [
+                        MyText(
+                          txt: 'Trivia ',
+                          color: basicColor,
+                          fontweight: FontWeight.bold,
+                          size: 40.sp,
+                        ),
+                        MyText(
+                          txt: 'star',
+                          color: basicColor,
+                          fontweight: FontWeight.w300,
+                          size: 40.sp,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 51.h),
+                          child: MyText(
+                            txt: 'TEACHERS',
+                            color: greyColor,
+                            fontweight: FontWeight.w300,
+                            size: 15.sp,
+                          ),
+                        ),
+                        const VerticalDivider(
+                          color: Color(0xff3B3B3B),
+                        ),
+                        Container(
+                          width: 334.w,
+                          height: 42.h,
+                          margin: EdgeInsets.only(
+                            top: 25.h,
+                            left: 65.w,
+                          ),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                            color: greyColor,
+                            width: 1.h,
+                          ))),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 293.w,
+                                child: TextField(
+                                  style: TextStyle(
+                                    fontSize: 20.sp,
+                                    color: greyColor,
+                                  ),
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Search',
+                                      hintStyle: TextStyle(
+                                        fontSize: 20.sp,
+                                        color: greyColor,
+                                      )),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 41.w,
+                                height: 41.w,
+                                child: FittedBox(
+                                  child: Icon(
+                                    Icons.search,
+                                    color: basicColor,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 29.h),
+                      child: InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: reusableInstance.buttons(
+                          91.w,
+                          42.h,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 25.h,
+                                child: FittedBox(
+                                  child: Icon(
+                                    Icons.arrow_back,
+                                    color: whiteColor,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                height: 20.h,
+                                child: MyText(
+                                  txt: 'Back',
+                                  color: whiteColor,
+                                  fontweight: FontWeight.w300,
+                                  size: 21.sp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 60.w,
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 29.h),
+                          child: InkWell(
+                            onTap: () async {
+                              if (widget.callingFor == 'Edit') {
+                                await questionController.teacherUpdateQuestion();
+                              } else {
+                                await questionController.uploadBtnClick();
+                              }
+                            },
+                            child: reusableInstance.buttons(
+                              100.w,
+                              42.h,
+                              Container(
+                                height: 20.h,
+                                child: Center(
+                                  child: MyText(
+                                    txt: 'Upload',
+                                    color: whiteColor,
+                                    fontweight: FontWeight.w300,
+                                    size: 23.sp,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 60.w,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 29.h),
+                          child: reusableInstance.buttons(
+                            86.w,
+                            42.h,
+                            Container(
+                              height: 20.h,
+                              child: Center(
+                                child: MyText(
+                                  txt: 'Draft',
+                                  color: whiteColor,
+                                  fontweight: FontWeight.w300,
+                                  size: 23.sp,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 62.w,
+                    ),
+                    const VerticalDivider(
+                      color: Color(0xff3B3B3B),
+                    ),
+                    SizedBox(
+                      width: 28.w,
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        var logout = await userLogOut();
+                        if (logout) {
+                          Get.offAll(LoginPage());
+                        }
+                      },
+                      child: Container(
+                        width: 38.w,
+                        height: 38.w,
+                        child: FittedBox(
+                          child: Icon(
+                            Icons.power_settings_new,
+                            color: basicColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 25.w,
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
           SizedBox(
             height: 41.h,
           ),
@@ -718,7 +947,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                           onTap: () async {
                                             ClipboardData? cdata = await Clipboard.getData(Clipboard.kTextPlain);
                                             String? copiedtext = cdata?.text;
-                                            print(copiedtext);
+                                            questionController.article.text = copiedtext!;
                                           },
                                           child: Container(
                                             height: 20.h,
