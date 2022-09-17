@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:triviaadminpanal/TeacherPanel/Controller/DashBoradController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/Categories.dart';
 
 import '../Models/CategoryModel.dart';
@@ -21,6 +20,9 @@ class CategoryController extends GetxController {
   String callingScreenName = 'category';
   String? cid;
   List<SubCategoryModel> allSubCatLis = [];
+  List<CategoryModel> searchList = [];
+  var categoryNameSearch = TextEditingController();
+  var subCategoryNameSearch = TextEditingController();
 
   List<String> cateHeader = [
     'Logo',
@@ -34,6 +36,27 @@ class CategoryController extends GetxController {
     'Total Question',
     '500 Question',
   ];
+
+  categorySearchTap() async {
+    searchList = [];
+    for (int i = 0; i < catList.length; i++) {
+      if (catList[i].name.contains(categoryNameSearch.text)) {
+        searchList.add(catList[i]);
+      }
+    }
+    print('searched ${searchList[0].name}');
+    update();
+  }
+
+  subCategorySearchTap() async {
+    searchList = [];
+    for (int i = 0; i < catList.length; i++) {
+      if (subCatList[i].name.contains(categoryNameSearch.text)) {
+        searchList.add(catList[i]);
+      }
+    }
+    update();
+  }
 
   Future<bool> getCategories() async {
     try {

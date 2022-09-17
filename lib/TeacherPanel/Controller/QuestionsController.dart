@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart';
-import 'package:triviaadminpanal/TeacherPanel/Controller/DashBoradController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/AddQuestions.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/components/style.dart';
 import '../Models/QuestionModel.dart';
@@ -11,6 +10,8 @@ import '../Services/QuestionServices.dart';
 
 class QuestionController extends GetxController {
   List<QuestionModel> teacherQuestionModelList = [];
+  List<QuestionModel> draftQuestionModelList = [];
+
   var question = TextEditingController();
   var option1 = TextEditingController();
   var option2 = TextEditingController();
@@ -26,6 +27,7 @@ class QuestionController extends GetxController {
   var totalQuestions = 0;
   String? questionCategory, questionSubCategory;
   List<int> totalQuestionOfspecificSubCategory = [];
+  List<int> draftCheckedIndex = [];
   ErasedData() async {
     question.text = '';
     option1.text = '';
@@ -38,8 +40,20 @@ class QuestionController extends GetxController {
   }
 
   uploadBtnClick() async {
-    await addNewQuestions();
-    await ErasedData();
+    if (draftCheckedIndex.isNotEmpty) {
+      for (int i = 0; i < draftCheckedIndex.length; i++) {
+        await editDraftBtnClick(draftCheckedIndex[i]);
+        await addNewQuestions();
+        await ErasedData();
+        await deleteDraftBtnClick(draftCheckedIndex[i]);
+      }
+      await getDraftQuestions(questionCategory!, questionSubCategory!);
+      draftCheckedIndex = [];
+      update();
+    } else {
+      await addNewQuestions();
+      await ErasedData();
+    }
   }
 
   editBtnClick(int index) async {
@@ -62,6 +76,39 @@ class QuestionController extends GetxController {
   copyBtnClick(index) {
     Clipboard.setData(ClipboardData(text: teacherQuestionModelList[index].article));
   }
+
+//methods for draft
+  draftBtnClick() async {
+    await addToDraft(question.text, option1.text, option2.text, option3.text, option4.text, answer, article.text, questionCategory, questionSubCategory);
+  }
+
+  editDraftBtnClick(int index) async {
+    question.text = draftQuestionModelList[index].question;
+    option1.text = draftQuestionModelList[index].choiceList[0];
+    option2.text = draftQuestionModelList[index].choiceList[1];
+    option3.text = draftQuestionModelList[index].choiceList[2];
+    option4.text = draftQuestionModelList[index].choiceList[3];
+    article.text = draftQuestionModelList[index].article;
+    answer = draftQuestionModelList[index].answer;
+    qid = draftQuestionModelList[index].qid;
+    if (draftCheckedIndex.isEmpty) {
+      Get.to(AddQuestion(callingFor: 'Edit'));
+    }
+  }
+
+  deleteDraftBtnClick(int index) async {
+    qid = draftQuestionModelList[index].qid;
+    update();
+    await deleteDraftQuestion(qid);
+  }
+
+  Future<bool> getDraftQuestions(String cat, String subcat) async {
+    draftQuestionModelList = await getDraftQuestionsList(cat, subcat);
+    update();
+    return true;
+  }
+
+////
 
   Future<bool> getQuestions(String cat, String subcat) async {
     teacherQuestionModelList = await getQuestionsList(cat, subcat);

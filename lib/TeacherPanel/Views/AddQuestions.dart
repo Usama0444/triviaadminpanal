@@ -73,6 +73,20 @@ class _AddQuestionState extends State<AddQuestion> {
     catController.fillSubCategoryForDrawer().whenComplete(() async {
       setState(() {
         isLoading = false;
+        // int ans = questionController.answer;
+        // if (ans != 0) {
+        //   if (ans == 1) {
+        //     isCorrect1 = true;
+        //   } else if (ans == 2) {
+        //     isCorrect2 = true;
+        //   } else if (ans == 3) {
+        //     isCorrect3 = true;
+        //   } else {
+        //     isCorrect4 = true;
+        //   }
+        //   print('true state');
+        //   print(isCorrect3);
+        // }
         if (widget.callingFor == 'Edit') {
           isShowQuestionForm = true;
         }
@@ -136,48 +150,13 @@ class _AddQuestionState extends State<AddQuestion> {
                           color: Color(0xff3B3B3B),
                         ),
                         Container(
-                          width: 334.w,
+                          width: 150.w,
                           height: 42.h,
                           margin: EdgeInsets.only(
-                            top: 25.h,
-                            left: 65.w,
+                            top: 10.h,
+                            left: 20.w,
                           ),
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                            color: greyColor,
-                            width: 1.h,
-                          ))),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 293.w,
-                                child: TextField(
-                                  style: TextStyle(
-                                    fontSize: 20.sp,
-                                    color: greyColor,
-                                  ),
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Search',
-                                      hintStyle: TextStyle(
-                                        fontSize: 20.sp,
-                                        color: greyColor,
-                                      )),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 41.w,
-                                height: 41.w,
-                                child: FittedBox(
-                                  child: Icon(
-                                    Icons.search,
-                                    color: basicColor,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                          child: MyText(txt: 'Add Question', color: whiteColor, fontweight: FontWeight.w800, size: 22.sp),
                         )
                       ],
                     )
@@ -257,17 +236,22 @@ class _AddQuestionState extends State<AddQuestion> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 29.h),
-                          child: reusableInstance.buttons(
-                            86.w,
-                            42.h,
-                            Container(
-                              height: 20.h,
-                              child: Center(
-                                child: MyText(
-                                  txt: 'Draft',
-                                  color: whiteColor,
-                                  fontweight: FontWeight.w300,
-                                  size: 23.sp,
+                          child: InkWell(
+                            onTap: () async {
+                              await questionController.draftBtnClick();
+                            },
+                            child: reusableInstance.buttons(
+                              86.w,
+                              42.h,
+                              Container(
+                                height: 20.h,
+                                child: Center(
+                                  child: MyText(
+                                    txt: 'Draft',
+                                    color: whiteColor,
+                                    fontweight: FontWeight.w300,
+                                    size: 23.sp,
+                                  ),
                                 ),
                               ),
                             ),
@@ -880,17 +864,22 @@ class _AddQuestionState extends State<AddQuestion> {
                                   SizedBox(
                                     width: 27.w,
                                   ),
-                                  reusableInstance.buttons(
-                                    86.w,
-                                    37.w,
-                                    Container(
-                                      height: 20.h,
-                                      child: Center(
-                                        child: MyText(
-                                          txt: 'Draft',
-                                          color: whiteColor,
-                                          fontweight: FontWeight.w300,
-                                          size: 19.sp,
+                                  InkWell(
+                                    onTap: () async {
+                                      await questionController.draftBtnClick();
+                                    },
+                                    child: reusableInstance.buttons(
+                                      86.w,
+                                      37.w,
+                                      Container(
+                                        height: 20.h,
+                                        child: Center(
+                                          child: MyText(
+                                            txt: 'Draft',
+                                            color: whiteColor,
+                                            fontweight: FontWeight.w300,
+                                            size: 19.sp,
+                                          ),
                                         ),
                                       ),
                                     ),

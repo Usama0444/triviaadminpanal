@@ -363,11 +363,11 @@ class _ArticleListState extends State<ArticleList> {
                                                     print(questionController.questionCategory);
                                                     print(questionController.questionSubCategory);
                                                     var isQuestionGet =
-                                                        await questionController.getQuestions(questionController.questionCategory.toString(), questionController.questionSubCategory.toString());
+                                                        await questionController.getDraftQuestions(questionController.questionCategory.toString(), questionController.questionSubCategory.toString());
                                                     if (isQuestionGet) {
                                                       isShowArticleList = true;
                                                     }
-                                                    print(questionController.teacherQuestionModelList.length);
+                                                    print(questionController.draftQuestionModelList.length);
                                                     setState(() {
                                                       if (hide[index]) {
                                                         hide[index] = true;
@@ -548,7 +548,7 @@ class _ArticleListState extends State<ArticleList> {
                       SizedBox(
                         height: 882.h,
                         child: ListView.builder(
-                          itemCount: questionController.teacherQuestionModelList.length,
+                          itemCount: questionController.draftQuestionModelList.length,
                           padding: EdgeInsets.zero,
                           itemBuilder: (context, index) {
                             return Container(
@@ -584,7 +584,7 @@ class _ArticleListState extends State<ArticleList> {
                                             width: 1300.w,
                                             child: Text(
                                               overflow: TextOverflow.visible,
-                                              '''${questionController.teacherQuestionModelList[index].article}''',
+                                              '''${questionController.draftQuestionModelList[index].article}''',
                                               maxLines: 3,
                                               style: TextStyle(
                                                 fontSize: 12.sp,
@@ -611,7 +611,7 @@ class _ArticleListState extends State<ArticleList> {
                                           ),
                                           InkWell(
                                             onTap: () {
-                                              questionController.editBtnClick(index);
+                                              questionController.editDraftBtnClick(index);
                                             },
                                             child: MyText(
                                               txt: 'Edit',
@@ -622,7 +622,7 @@ class _ArticleListState extends State<ArticleList> {
                                           ),
                                           InkWell(
                                             onTap: () {
-                                              questionController.deleteBtnClick(index);
+                                              questionController.deleteDraftBtnClick(index);
                                             },
                                             child: MyText(
                                               txt: 'Delete',
