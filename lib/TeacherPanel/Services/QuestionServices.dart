@@ -7,9 +7,9 @@ import 'package:triviaadminpanal/main.dart';
 import '../Models/QuestionModel.dart';
 import '../Views/Categories.dart';
 
-var teacherQuestionCollectionRef = FirebaseFirestore.instance.collection('questions');
+var questionCollectionRef = FirebaseFirestore.instance.collection('questions');
 var draftCollection = FirebaseFirestore.instance.collection('draft');
-var copyteacherQuestionCollectionRef = FirebaseFirestore.instance.collection('copyquestions');
+var copyQuestionCollectionRef = FirebaseFirestore.instance.collection('copyquestions');
 var questionsList;
 var controller = Get.put(QuestionController());
 var email = FirebaseAuth.instance.currentUser?.email;
@@ -17,7 +17,7 @@ var email = FirebaseAuth.instance.currentUser?.email;
 Future<List<QuestionModel>> getQuestionsList(cat, subcat) async {
   try {
     print(email);
-    var getQuestions = await teacherQuestionCollectionRef.where('email', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subcat).get();
+    var getQuestions = await questionCollectionRef.where('email', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subcat).get();
     questionsList = getQuestions.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
   } catch (e) {
     reusableInstance.toast('Error', '$e');
@@ -27,8 +27,8 @@ Future<List<QuestionModel>> getQuestionsList(cat, subcat) async {
 
 deleteQuestion(qid) async {
   try {
-    teacherQuestionCollectionRef.doc(qid).delete();
-    copyteacherQuestionCollectionRef.doc(qid).delete();
+    questionCollectionRef.doc(qid).delete();
+    copyQuestionCollectionRef.doc(qid).delete();
     reusableInstance.toast('Confirmation Alert', 'Question Deleted successfully');
   } catch (e) {
     reusableInstance.toast('Error', 'something went wrong!!');
@@ -43,7 +43,7 @@ editTeacherQuestions(String question, option1, option2, option3, option4, answer
       controller.isValid = false;
       controller.update();
     } else {
-      teacherQuestionCollectionRef.doc(qid).update({
+      questionCollectionRef.doc(qid).update({
         'category': category,
         'question': question,
         'choices': choice,
@@ -57,7 +57,7 @@ editTeacherQuestions(String question, option1, option2, option3, option4, answer
         'type': 'update Question',
         'isapproved': 'false',
       });
-      copyteacherQuestionCollectionRef.doc(qid).update({
+      copyQuestionCollectionRef.doc(qid).update({
         'category': category,
         'question': question,
         'choices': choice,
@@ -81,9 +81,9 @@ editTeacherQuestions(String question, option1, option2, option3, option4, answer
 addQuestions(String question, option1, option2, option3, option4, answer, article, category, subCategory) async {
   try {
     List<String> choice = [option1, option2, option3, option4];
-    var id = teacherQuestionCollectionRef.doc().id;
+    var id = questionCollectionRef.doc().id;
 
-    teacherQuestionCollectionRef.doc(id).set({
+    questionCollectionRef.doc(id).set({
       'category': category,
       'question': question,
       'choices': choice,
@@ -97,7 +97,7 @@ addQuestions(String question, option1, option2, option3, option4, answer, articl
       'type': 'Add new Question',
       'isapproved': 'false',
     });
-    copyteacherQuestionCollectionRef.doc(id).set({
+    copyQuestionCollectionRef.doc(id).set({
       'category': category,
       'question': question,
       'choices': choice,
@@ -131,7 +131,7 @@ Future<List<QuestionModel>> getDraftQuestionsList(cat, subcat) async {
 addToDraft(String question, option1, option2, option3, option4, answer, article, category, subCategory) {
   try {
     List<String> choice = [option1, option2, option3, option4];
-    var id = teacherQuestionCollectionRef.doc().id;
+    var id = questionCollectionRef.doc().id;
 
     draftCollection.doc(id).set({
       'category': category,
@@ -184,5 +184,19 @@ editDraftQuestions(String question, option1, option2, option3, option4, answer, 
     reusableInstance.toast('Confirmation Alert', 'Draft Question Updated successfully');
   } catch (e) {
     reusableInstance.toast('Error', 'something went wrong!!');
+  }
+}
+
+Future<int> totalNoOfQuestions() async {
+  try {
+    int total = 0;
+    var questions = await questionCollectionRef.get();
+
+    total = questions.docs.length;
+    return total;
+  } catch (e) {
+    print('error $e');
+    reusableInstance.toast('Error', '$e');
+    return 0;
   }
 }

@@ -28,14 +28,10 @@ class _LoginPageState extends State<LoginPage> {
   bool isLoading = true;
   double dotIndex = 0.0;
   bool obxTxt = true;
-  List<Widget> imageSliders = [
-    'assets/slider1.png',
-    'assets/slider2.png',
-    'assets/slider3.png',
-    'assets/slider4.png',
-  ]
+
+  List<Widget> imageSliders = ['assets/slider1.png', 'assets/slider2.png', 'assets/slider3.png', 'assets/slider4.png']
       .map(
-        (item) => Container(
+        (item) => SizedBox(
           width: 700.w,
           height: 600.h,
           child: Image.asset(
@@ -130,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
             )
           ],
         ),
-        Container(
+        SizedBox(
           width: 960.w,
           height: 1080.h,
           child: Column(
@@ -233,7 +229,9 @@ class _LoginPageState extends State<LoginPage> {
                 onTap: () async {
                   isLoading = true;
                   if (isLoading) {
-                   Get.dialog(Container(child: Center(child: CircularProgressIndicator()),));
+                    Get.dialog(Container(
+                      child: Center(child: CircularProgressIndicator()),
+                    ));
                   }
 
                   isLoading = await loginController.loginBtnClick();

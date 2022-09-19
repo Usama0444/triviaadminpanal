@@ -4,10 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:triviaadminpanal/TeacherPanel/Bindings/BindController.dart';
-// import 'package:triviaadminpanal/TeacherPanel/Views/AddQuestions.dart';
-// import 'package:triviaadminpanal/TeacherPanel/Views/DrawerMenu.dart';
-import 'package:triviaadminpanal/TeacherPanel/Views/Login.dart';
-
 import 'TeacherPanel/Views/AddQuestions.dart';
 import 'TeacherPanel/Views/Categories.dart';
 import 'TeacherPanel/Views/CustomWidgets/Reusable.dart';

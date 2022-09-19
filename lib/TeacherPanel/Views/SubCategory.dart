@@ -36,8 +36,9 @@ class _SubCategoryState extends State<SubCategory> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    cateController.categoryViewBtnClick(cateController.cid).whenComplete(() async {
-      await questionController.getTotalNumberOfQuestion();
+    print(cateController.cid);
+    cateController.categoryViewBtnClick().whenComplete(() async {
+      await questionController.getTotalNumberOfQuestionForSpecificCategory();
       setState(() {
         isLoading = false;
       });
@@ -117,10 +118,21 @@ class _SubCategoryState extends State<SubCategory> {
                               SizedBox(
                                 width: 293.w,
                                 child: TextField(
+                                  controller: cateController.subCategoryNameSearch,
                                   style: TextStyle(
                                     fontSize: 20.sp,
                                     color: greyColor,
                                   ),
+                                  onChanged: (value) {
+                                    print(value);
+                                    if (value.isEmpty) {
+                                      cateController.subCategorySearchIndex = -1;
+                                      cateController.isSubCategorySearchNotMatch = false;
+                                      cateController.update();
+                                    } else {
+                                      cateController.subCategorySearchTap();
+                                    }
+                                  },
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: 'Search',
@@ -264,126 +276,133 @@ class _SubCategoryState extends State<SubCategory> {
           SizedBox(
             height: 41.h,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 25.h,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: cateController.subCateHeader.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.only(
-                          left: index != 0
-                              ? index == 3
-                                  ? 1075.w
-                                  : 120.w
-                              : 40.w,
-                        ),
-                        child: MyText(
-                          txt: index != 3 ? cateController.subCateHeader[index] : '${questionController.totalQuestions} Questions',
-                          color: index != 3 ? Colors.black : basicColor,
-                          fontweight: FontWeight.w500,
-                          size: 20.sp,
-                        ),
-                      );
-                    }),
-              ),
-              SizedBox(height: 50.h),
-              Row(
-                children: [
-                  SizedBox(
-                    width: 1345.w,
-                    height: 882.h,
-                    child: isLoading == true
-                        ? reusableInstance.loader()
-                        : ListView.builder(
-                            itemCount: cateController.subCatList.length,
-                            padding: EdgeInsets.zero,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                height: 63.h,
-                                margin: EdgeInsets.only(bottom: 50.h),
-                                decoration: BoxDecoration(
-                                  color: cateContainerColor,
-                                ),
-                                child: Center(
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                          width: 60.w,
-                                          height: 60.w,
-                                          margin: EdgeInsets.only(left: 40.w),
-                                          decoration: const BoxDecoration(
-                                            color: Color(0xffF5F5F5),
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Container(
-                                            width: 40.w,
-                                            height: 40.h,
-                                            margin: EdgeInsets.all(5.h),
-                                            child: Image.memory(base64Decode(cateController.subCatList[index].image)),
-                                          )),
-                                      Expanded(
-                                        flex: 2,
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 1,
-                                              child: MyText(
-                                                txt: cateController.subCatList[index].name,
-                                                color: Colors.black,
-                                                fontweight: FontWeight.w500,
-                                                size: 20.sp,
-                                              ),
+          GetBuilder<CategoryController>(builder: (controller) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 25.h,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: cateController.subCateHeader.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(
+                            left: index != 0
+                                ? index == 3
+                                    ? 1075.w
+                                    : 120.w
+                                : 40.w,
+                          ),
+                          child: MyText(
+                            txt: index != 3 ? cateController.subCateHeader[index] : '${questionController.totalQuestions} Questions',
+                            color: index != 3 ? Colors.black : basicColor,
+                            fontweight: FontWeight.w500,
+                            size: 20.sp,
+                          ),
+                        );
+                      }),
+                ),
+                SizedBox(height: 50.h),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 1345.w,
+                      height: 882.h,
+                      child: isLoading == true
+                          ? reusableInstance.loader()
+                          : ListView.builder(
+                              itemCount: cateController.subCategorySearchIndex == -1
+                                  ? cateController.isSubCategorySearchNotMatch
+                                      ? 0
+                                      : cateController.subCatList.length
+                                  : 1,
+                              padding: EdgeInsets.zero,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  height: 63.h,
+                                  margin: EdgeInsets.only(bottom: 50.h),
+                                  decoration: BoxDecoration(
+                                    color: cateContainerColor,
+                                  ),
+                                  child: Center(
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                            width: 60.w,
+                                            height: 60.w,
+                                            margin: EdgeInsets.only(left: 40.w),
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xffF5F5F5),
+                                              shape: BoxShape.circle,
                                             ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: MyText(
-                                                txt: '${questionController.totalQuestionOfspecificSubCategory[index]}',
-                                                color: Colors.black,
-                                                fontweight: FontWeight.w500,
-                                                size: 20.sp,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  cateController.subCategoryName = cateController.subCatList[index].name;
-                                                  cateController.update();
-                                                  Get.to(QuestionList(
-                                                    totalQuestion: questionController.totalQuestionOfspecificSubCategory[index],
-                                                  ));
-                                                },
+                                            child: Container(
+                                              width: 40.w,
+                                              height: 40.h,
+                                              margin: EdgeInsets.all(5.h),
+                                              child: Image.memory(
+                                                  base64Decode(cateController.subCatList[cateController.subCategorySearchIndex == -1 ? index : cateController.subCategorySearchIndex].image)),
+                                            )),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                flex: 1,
                                                 child: MyText(
-                                                  txt: 'View',
-                                                  color: basicColor,
+                                                  txt: cateController.subCatList[cateController.subCategorySearchIndex == -1 ? index : cateController.subCategorySearchIndex].name,
+                                                  color: Colors.black,
                                                   fontweight: FontWeight.w500,
                                                   size: 20.sp,
                                                 ),
                                               ),
-                                            ),
-                                            const Expanded(
-                                              flex: 1,
-                                              child: Text(''),
-                                            ),
-                                          ],
+                                              Expanded(
+                                                flex: 1,
+                                                child: MyText(
+                                                  txt:
+                                                      '${questionController.totalQuestionOfspecificSubCategory[cateController.subCategorySearchIndex == -1 ? index : cateController.subCategorySearchIndex]}',
+                                                  color: Colors.black,
+                                                  fontweight: FontWeight.w500,
+                                                  size: 20.sp,
+                                                ),
+                                              ),
+                                              Expanded(
+                                                flex: 1,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    cateController.subCategoryName =
+                                                        cateController.subCatList[cateController.subCategorySearchIndex == -1 ? index : cateController.subCategorySearchIndex].name;
+                                                    cateController.update();
+                                                    Get.to(QuestionList());
+                                                  },
+                                                  child: MyText(
+                                                    txt: 'View',
+                                                    color: basicColor,
+                                                    fontweight: FontWeight.w500,
+                                                    size: 20.sp,
+                                                  ),
+                                                ),
+                                              ),
+                                              const Expanded(
+                                                flex: 1,
+                                                child: Text(''),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            }),
-                  ),
-                  Container(width: 575.w, height: 882.h, child: reusableInstance.profile(isLoading))
-                ],
-              ),
-            ],
-          )
+                                );
+                              }),
+                    ),
+                    Container(width: 575.w, height: 882.h, child: reusableInstance.profile(isLoading))
+                  ],
+                ),
+              ],
+            );
+          })
         ],
       ),
     );

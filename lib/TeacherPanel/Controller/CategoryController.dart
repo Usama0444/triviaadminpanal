@@ -20,10 +20,13 @@ class CategoryController extends GetxController {
   String callingScreenName = 'category';
   String? cid;
   List<SubCategoryModel> allSubCatLis = [];
-  List<CategoryModel> searchList = [];
   var categoryNameSearch = TextEditingController();
   var subCategoryNameSearch = TextEditingController();
-
+  int categorySearchIndex = -1;
+  int subCategorySearchIndex = -1;
+  bool isCategorySearchNotMatch = false;
+  bool isSubCategorySearchNotMatch = false;
+  int length = 1;
   List<String> cateHeader = [
     'Logo',
     'Categories Name',
@@ -36,23 +39,35 @@ class CategoryController extends GetxController {
     'Total Question',
     '500 Question',
   ];
-
+  var l = [];
   categorySearchTap() async {
-    searchList = [];
+    categorySearchIndex = -1;
+    isCategorySearchNotMatch = false;
+    length = 1;
     for (int i = 0; i < catList.length; i++) {
-      if (catList[i].name.contains(categoryNameSearch.text)) {
-        searchList.add(catList[i]);
+      if (catList[i].name.toLowerCase().toString().contains(categoryNameSearch.text.trim().toLowerCase())) {
+        categorySearchIndex = i;
+        isCategorySearchNotMatch = false;
+        if (!l.contains(i)) {
+          l.add(i);
+        }
+      } else {
+        isCategorySearchNotMatch = true;
       }
     }
-    print('searched ${searchList[0].name}');
     update();
   }
 
   subCategorySearchTap() async {
-    searchList = [];
-    for (int i = 0; i < catList.length; i++) {
-      if (subCatList[i].name.contains(categoryNameSearch.text)) {
-        searchList.add(catList[i]);
+    subCategorySearchIndex = -1;
+    isSubCategorySearchNotMatch = false;
+
+    for (int i = 0; i < subCatList.length; i++) {
+      if (subCatList[i].name.toLowerCase().toString().contains(subCategoryNameSearch.text.trim().toLowerCase())) {
+        subCategorySearchIndex = i;
+        isSubCategorySearchNotMatch = false;
+      } else {
+        isSubCategorySearchNotMatch = true;
       }
     }
     update();
@@ -87,16 +102,15 @@ class CategoryController extends GetxController {
     }
   }
 
-  categoryViewBtnClick(cid) async {
+  categoryViewBtnClick() async {
     try {
-      if (subCatList.length == 0) {
-        subCatList = [];
-        subcategoryModelList = await getAllSubCategoryList(cid);
-        for (int i = 0; i < subcategoryModelList.length; i++) {
-          subCatList.add(subcategoryModelList[i]);
-        }
-        update();
+      subCatList = [];
+      subcategoryModelList = await getAllSubCategoryList(cid);
+      for (int i = 0; i < subcategoryModelList.length; i++) {
+        subCatList.add(subcategoryModelList[i]);
+        print('subcategoryModelList ${subcategoryModelList[i].name}');
       }
+      update();
     } catch (e) {
       reusableInstance.toast('Error', '$e');
     }

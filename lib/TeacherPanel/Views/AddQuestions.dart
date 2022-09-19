@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_init_to_null
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -42,7 +44,6 @@ class _AddQuestionState extends State<AddQuestion> {
     false,
     false,
   ];
-
   var hide = [
     true,
     true,
@@ -59,8 +60,7 @@ class _AddQuestionState extends State<AddQuestion> {
     true,
     true,
   ];
-
-  bool? isCorrect1 = null, isCorrect2 = null, isCorrect3 = null, isCorrect4 = null;
+  bool? isCorrect1, isCorrect2, isCorrect3, isCorrect4;
   CategoryController catController = Get.find<CategoryController>();
   QuestionController questionController = Get.find<QuestionController>();
   bool isShowQuestionForm = false;
@@ -73,20 +73,6 @@ class _AddQuestionState extends State<AddQuestion> {
     catController.fillSubCategoryForDrawer().whenComplete(() async {
       setState(() {
         isLoading = false;
-        // int ans = questionController.answer;
-        // if (ans != 0) {
-        //   if (ans == 1) {
-        //     isCorrect1 = true;
-        //   } else if (ans == 2) {
-        //     isCorrect2 = true;
-        //   } else if (ans == 3) {
-        //     isCorrect3 = true;
-        //   } else {
-        //     isCorrect4 = true;
-        //   }
-        //   print('true state');
-        //   print(isCorrect3);
-        // }
         if (widget.callingFor == 'Edit') {
           isShowQuestionForm = true;
         }

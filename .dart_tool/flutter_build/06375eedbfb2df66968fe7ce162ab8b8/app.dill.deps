@@ -1616,7 +1616,6 @@ file:///F:/FlutterWIithSoftwareHub/triviaadminpanal/.dart_tool/flutter_build/063
 file:///F:/FlutterWIithSoftwareHub/triviaadminpanal/.dart_tool/package_config.json
 file:///F:/FlutterWIithSoftwareHub/triviaadminpanal/lib/TeacherPanel/Bindings/BindController.dart
 file:///F:/FlutterWIithSoftwareHub/triviaadminpanal/lib/TeacherPanel/Controller/CategoryController.dart
-file:///F:/FlutterWIithSoftwareHub/triviaadminpanal/lib/TeacherPanel/Controller/DashBoradController.dart
 file:///F:/FlutterWIithSoftwareHub/triviaadminpanal/lib/TeacherPanel/Controller/LogInController.dart
 file:///F:/FlutterWIithSoftwareHub/triviaadminpanal/lib/TeacherPanel/Controller/QuestionsController.dart
 file:///F:/FlutterWIithSoftwareHub/triviaadminpanal/lib/TeacherPanel/Models/CategoryModel.dart
@@ -1632,7 +1631,6 @@ file:///F:/FlutterWIithSoftwareHub/triviaadminpanal/lib/TeacherPanel/Views/Custo
 file:///F:/FlutterWIithSoftwareHub/triviaadminpanal/lib/TeacherPanel/Views/CustomWidgets/MyText.dart
 file:///F:/FlutterWIithSoftwareHub/triviaadminpanal/lib/TeacherPanel/Views/CustomWidgets/Reusable.dart
 file:///F:/FlutterWIithSoftwareHub/triviaadminpanal/lib/TeacherPanel/Views/Draft.dart
-file:///F:/FlutterWIithSoftwareHub/triviaadminpanal/lib/TeacherPanel/Views/Login.dart
 file:///F:/FlutterWIithSoftwareHub/triviaadminpanal/lib/TeacherPanel/Views/LoginPage.dart
 file:///F:/FlutterWIithSoftwareHub/triviaadminpanal/lib/TeacherPanel/Views/QuestionList.dart
 file:///F:/FlutterWIithSoftwareHub/triviaadminpanal/lib/TeacherPanel/Views/SubCategory.dart

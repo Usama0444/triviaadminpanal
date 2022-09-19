@@ -19,6 +19,7 @@ class QuestionController extends GetxController {
   var option4 = TextEditingController();
   var answer;
   var article = TextEditingController();
+  var questionSerach = TextEditingController();
   var teacherQuestionList = [];
   var teacherChoicesList = [];
   var isEdit = false;
@@ -28,6 +29,26 @@ class QuestionController extends GetxController {
   String? questionCategory, questionSubCategory;
   List<int> totalQuestionOfspecificSubCategory = [];
   List<int> draftCheckedIndex = [];
+  int questionSearchIndex = -1;
+  bool questionSearchNotMatch = false;
+  int listLength = 1;
+  questionSearchTap() async {
+    questionSearchNotMatch = false;
+    listLength = 1;
+    questionSearchIndex - 1;
+    for (int i = 0; i < teacherQuestionModelList.length; i++) {
+      if (teacherQuestionModelList[i].question.toLowerCase().contains(questionSerach.text.toLowerCase())) {
+        questionSearchIndex = i;
+        questionSearchNotMatch = false;
+        listLength++;
+      } else {
+        questionSearchNotMatch = true;
+      }
+    }
+    update();
+    print('questionSearchIndex $listLength');
+  }
+
   ErasedData() async {
     question.text = '';
     option1.text = '';
@@ -40,6 +61,8 @@ class QuestionController extends GetxController {
   }
 
   uploadBtnClick() async {
+    CategoryController cateController = Get.find<CategoryController>();
+
     if (draftCheckedIndex.isNotEmpty) {
       for (int i = 0; i < draftCheckedIndex.length; i++) {
         await editDraftBtnClick(draftCheckedIndex[i]);
@@ -116,17 +139,20 @@ class QuestionController extends GetxController {
     return true;
   }
 
-  getTotalNumberOfQuestion() async {
+  getTotalNumberOfQuestionForSpecificCategory() async {
     totalQuestionOfspecificSubCategory = [];
     totalQuestions = 0;
     var categoryController = Get.find<CategoryController>();
     for (int i = 0; i < categoryController.subCatList.length; i++) {
-      print('${categoryController.categoryName}, ${categoryController.subCatList[i].name}');
       var getList = await getQuestionsList(categoryController.categoryName, categoryController.subCatList[i].name);
       totalQuestionOfspecificSubCategory.add(getList.length);
       totalQuestions += getList.length;
     }
     update();
+  }
+
+  Future<int> getTotalQuestions() async {
+    return await totalNoOfQuestions();
   }
 
   addNewQuestions() async {

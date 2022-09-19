@@ -566,7 +566,7 @@ class _DraftState extends State<Draft> {
                                         ],
                                       ),
                                       MyText(
-                                        txt: '500 Questions',
+                                        txt: '${questionController.draftQuestionModelList.length} Questions',
                                         color: basicColor,
                                         fontweight: FontWeight.w500,
                                         size: 20.sp,

@@ -536,7 +536,7 @@ class _ArticleListState extends State<ArticleList> {
                                   ],
                                 ),
                                 MyText(
-                                  txt: '15 Articles',
+                                  txt: '${questionController.draftQuestionModelList.length} Articles',
                                   color: basicColor,
                                   fontweight: FontWeight.w500,
                                   size: 20.sp,

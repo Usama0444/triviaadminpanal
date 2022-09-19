@@ -8,12 +8,12 @@ var subCategoryCollectionRef = FirebaseFirestore.instance.collection('subcategor
 
 Future<List<CategoryModel>> getAllCategoryList() async {
   var cateList = await categoryCollectionRef.get();
-  var categoryList = await cateList.docs.map((e) => CategoryModel.fromJson(e.data())).toList();
+  var categoryList = cateList.docs.map((e) => CategoryModel.fromJson(e.data())).toList();
   return categoryList;
 }
 
 Future<List<SubCategoryModel>> getAllSubCategoryList(cid) async {
   var subcategory = await subCategoryCollectionRef.where('cid', isEqualTo: cid).get();
-  var subcategoryList = await subcategory.docs.map((e) => SubCategoryModel.fromJson(e.data())).toList();
+  var subcategoryList = subcategory.docs.map((e) => SubCategoryModel.fromJson(e.data())).toList();
   return subcategoryList;
 }
