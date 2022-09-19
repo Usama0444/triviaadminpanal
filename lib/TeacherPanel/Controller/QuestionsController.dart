@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/AddQuestions.dart';
+import 'package:triviaadminpanal/TeacherPanel/Views/Categories.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/components/style.dart';
 import '../Models/QuestionModel.dart';
 import '../Services/QuestionServices.dart';
@@ -11,7 +12,6 @@ import '../Services/QuestionServices.dart';
 class QuestionController extends GetxController {
   List<QuestionModel> teacherQuestionModelList = [];
   List<QuestionModel> draftQuestionModelList = [];
-
   var question = TextEditingController();
   var option1 = TextEditingController();
   var option2 = TextEditingController();
@@ -32,6 +32,9 @@ class QuestionController extends GetxController {
   int questionSearchIndex = -1;
   bool questionSearchNotMatch = false;
   int listLength = 1;
+  int textCounter = 0;
+  CategoryController catController = Get.find<CategoryController>();
+
   questionSearchTap() async {
     questionSearchNotMatch = false;
     listLength = 1;
@@ -46,36 +49,42 @@ class QuestionController extends GetxController {
       }
     }
     update();
-    print('questionSearchIndex $listLength');
   }
 
-  ErasedData() async {
+  erasedData() async {
     question.text = '';
     option1.text = '';
     option2.text = '';
     option3.text = '';
     option4.text = '';
-    answer = 0;
+    answer = null;
     article.text = '';
     update();
   }
 
   uploadBtnClick() async {
-    CategoryController cateController = Get.find<CategoryController>();
-
-    if (draftCheckedIndex.isNotEmpty) {
-      for (int i = 0; i < draftCheckedIndex.length; i++) {
-        await editDraftBtnClick(draftCheckedIndex[i]);
+    bool isInputValid = await checkValidation();
+    if (isInputValid) {
+      if (draftCheckedIndex.isNotEmpty) {
+        for (int i = 0; i < draftCheckedIndex.length; i++) {
+          await editDraftBtnClick(draftCheckedIndex[i]);
+          await addNewQuestions();
+          await erasedData();
+          await deleteDraftBtnClick(draftCheckedIndex[i]);
+        }
+        await getDraftQuestions(questionCategory!, questionSubCategory!);
+        draftCheckedIndex = [];
+        update();
+      } else {
         await addNewQuestions();
-        await ErasedData();
-        await deleteDraftBtnClick(draftCheckedIndex[i]);
+        await erasedData();
       }
-      await getDraftQuestions(questionCategory!, questionSubCategory!);
-      draftCheckedIndex = [];
-      update();
-    } else {
-      await addNewQuestions();
-      await ErasedData();
+      if (catController.subCategoryName != null) {
+        await getQuestions(catController.categoryName!, catController.subCategoryName!);
+      } else {
+        await getQuestions(questionCategory!, questionSubCategory!);
+      }
+      await getTotalNumberOfQuestionForSpecificCategory();
     }
   }
 
@@ -87,6 +96,8 @@ class QuestionController extends GetxController {
     option4.text = teacherQuestionModelList[index].choiceList[3];
     article.text = teacherQuestionModelList[index].article;
     qid = teacherQuestionModelList[index].qid;
+    questionCategory = null;
+    update();
     Get.to(AddQuestion(callingFor: 'Edit'));
   }
 
@@ -94,6 +105,13 @@ class QuestionController extends GetxController {
     qid = teacherQuestionModelList[index].qid;
     update();
     await removeQuestion();
+    await getQuestions(catController.categoryName!, catController.subCategoryName!);
+    await getTotalNumberOfQuestionForSpecificCategory();
+  }
+
+  increaseTextCounter(value) {
+    textCounter = value;
+    update();
   }
 
   copyBtnClick(index) {
@@ -133,6 +151,30 @@ class QuestionController extends GetxController {
 
 ////
 
+  Future<bool> checkValidation() async {
+    if (questionSubCategory == null) {
+      reusableInstance.toast('Invalid choice', 'please select category and subcategory!');
+      return false;
+    } else if (question.text.trim().isEmpty && option1.text.trim().isEmpty && option2.text.trim().isEmpty && option3.text.trim().isEmpty && option4.text.trim().isEmpty) {
+      reusableInstance.toast('Invalid choice', 'please enter required data');
+      return false;
+    } else if (question.text.trim().isEmpty) {
+      reusableInstance.toast('Invalid choice', 'please enter question!');
+      return false;
+    } else if (option1.text.trim().isEmpty || option2.text.trim().isEmpty || option3.text.trim().isEmpty || option4.text.trim().isEmpty) {
+      reusableInstance.toast('Invalid choice', 'please enter all options!');
+      return false;
+    } else if (answer == null) {
+      reusableInstance.toast('Invalid choice', 'please select answer!');
+      return false;
+    } else if (article.text.trim().isEmpty) {
+      reusableInstance.toast('Invalid choice', 'please enter article');
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   Future<bool> getQuestions(String cat, String subcat) async {
     teacherQuestionModelList = await getQuestionsList(cat, subcat);
     update();
@@ -160,7 +202,13 @@ class QuestionController extends GetxController {
   }
 
   teacherUpdateQuestion() async {
-    await editTeacherQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, article.text, questionCategory, questionSubCategory, qid);
+    bool isInputValid = await checkValidation();
+    if (isInputValid) {
+      await editTeacherQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, article.text, questionCategory, questionSubCategory, qid);
+      await getQuestions(catController.categoryName!, catController.subCategoryName!);
+      await getTotalNumberOfQuestionForSpecificCategory();
+      await erasedData();
+    }
   }
 
   removeQuestion() async {

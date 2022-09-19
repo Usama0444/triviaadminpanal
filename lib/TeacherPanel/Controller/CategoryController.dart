@@ -48,9 +48,6 @@ class CategoryController extends GetxController {
       if (catList[i].name.toLowerCase().toString().contains(categoryNameSearch.text.trim().toLowerCase())) {
         categorySearchIndex = i;
         isCategorySearchNotMatch = false;
-        if (!l.contains(i)) {
-          l.add(i);
-        }
       } else {
         isCategorySearchNotMatch = true;
       }
@@ -96,7 +93,6 @@ class CategoryController extends GetxController {
       for (int j = 0; j < catList.length; j++) {
         subcategoryModelList = await getAllSubCategoryList(catList[j].cid);
         totalSubCate.add(subcategoryModelList.length);
-        // allSubCatLis.add(subcategoryModelList[j]);
       }
       update();
     }
@@ -108,7 +104,6 @@ class CategoryController extends GetxController {
       subcategoryModelList = await getAllSubCategoryList(cid);
       for (int i = 0; i < subcategoryModelList.length; i++) {
         subCatList.add(subcategoryModelList[i]);
-        print('subcategoryModelList ${subcategoryModelList[i].name}');
       }
       update();
     } catch (e) {

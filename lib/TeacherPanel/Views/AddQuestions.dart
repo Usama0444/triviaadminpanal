@@ -793,7 +793,9 @@ class _AddQuestionState extends State<AddQuestion> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     MyText(txt: 'Article/Description', color: Colors.black, fontweight: FontWeight.bold, size: 15.sp),
-                                    MyText(txt: '0/500', color: Colors.black, fontweight: FontWeight.w300, size: 15.sp),
+                                    GetBuilder<QuestionController>(builder: (con) {
+                                      return MyText(txt: '${questionController.textCounter}/500', color: Colors.black, fontweight: FontWeight.w300, size: 15.sp);
+                                    })
                                   ],
                                 ),
                               ),
@@ -807,12 +809,17 @@ class _AddQuestionState extends State<AddQuestion> {
                               height: 400.h,
                               child: TextField(
                                 controller: questionController.article,
+                                maxLength: 500,
+                                onChanged: (value) {
+                                  questionController.increaseTextCounter(value.length);
+                                },
                                 style: TextStyle(
                                   fontSize: 20.sp,
                                   fontWeight: FontWeight.w600,
                                 ),
                                 maxLines: 200,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
+                                  counterText: '',
                                   border: InputBorder.none,
                                 ),
                               ),

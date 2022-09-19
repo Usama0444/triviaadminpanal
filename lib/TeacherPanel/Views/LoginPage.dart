@@ -238,7 +238,6 @@ class _LoginPageState extends State<LoginPage> {
                   setState(() {});
                   if (!isLoading) {
                     Navigator.pop(context);
-                    print('false');
                   } else {
                     await pref?.setBool('logedin', true);
                     Get.offAll(Categories());

@@ -195,7 +195,6 @@ Future<int> totalNoOfQuestions() async {
     total = questions.docs.length;
     return total;
   } catch (e) {
-    print('error $e');
     reusableInstance.toast('Error', '$e');
     return 0;
   }

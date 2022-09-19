@@ -170,7 +170,6 @@ class _CategoriesState extends State<Categories> {
                             padding: EdgeInsets.only(top: 29.h),
                             child: InkWell(
                               onTap: () {
-                                print('predd');
                                 isLoading != true ? Get.to(AddQuestion(callingFor: 'Add')) : reusableInstance.toast('Wait', 'wait tell Loading Complete');
                               },
                               child: reusableInstance.buttons(
@@ -191,7 +190,7 @@ class _CategoriesState extends State<Categories> {
                                     ),
                                     InkWell(
                                       onTap: () async {
-                                        await questionController.ErasedData();
+                                        await questionController.erasedData();
                                         Get.to(AddQuestion(callingFor: 'Add'));
                                       },
                                       child: Container(

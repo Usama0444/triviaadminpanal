@@ -399,7 +399,7 @@ class Reusable {
                                   ),
                                   InkWell(
                                     onTap: () async {
-                                      await questionController?.ErasedData();
+                                      await questionController?.erasedData();
                                       Get.to(AddQuestion(callingFor: 'Add'));
                                     },
                                     child: Container(

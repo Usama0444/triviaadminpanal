@@ -224,7 +224,7 @@ class _QuestionListState extends State<QuestionList> {
                               ),
                               InkWell(
                                 onTap: () async {
-                                  await questionController.ErasedData();
+                                  await questionController.erasedData();
                                   Get.to(AddQuestion(callingFor: 'Add'));
                                 },
                                 child: Container(
@@ -391,11 +391,6 @@ class _QuestionListState extends State<QuestionList> {
                                                 itemCount: 4,
                                                 scrollDirection: Axis.horizontal,
                                                 itemBuilder: (context, j) {
-                                                  print('answer');
-                                                  print(questionController
-                                                          .teacherQuestionModelList[questionController.questionSearchIndex == -1 ? index : questionController.questionSearchIndex].answer -
-                                                      1);
-                                                  print(j);
                                                   return Container(
                                                     margin: EdgeInsets.only(right: 20.w),
                                                     child: reusableInstance.inputBox(
@@ -414,20 +409,20 @@ class _QuestionListState extends State<QuestionList> {
                                                             Padding(
                                                               padding: EdgeInsets.only(left: 10.w),
                                                               child: MyText(
-                                                                txt: optionNumber[questionController.questionSearchIndex == -1 ? index : questionController.questionSearchIndex],
+                                                                txt: optionNumber[questionController.questionSearchIndex == -1 ? j : questionController.questionSearchIndex],
                                                                 color: basicColor,
                                                                 fontweight: FontWeight.w800,
                                                                 size: 25.sp,
                                                               ),
                                                             ),
-                                                            Container(
+                                                            SizedBox(
                                                               width: 250.w,
                                                               child: Row(
                                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                                 children: [
                                                                   MyText(
                                                                     txt:
-                                                                        '${questionController.teacherQuestionModelList[questionController.questionSearchIndex == -1 ? index : questionController.questionSearchIndex].choiceList[j]}',
+                                                                        '${questionController.teacherQuestionModelList[questionController.questionSearchIndex == -1 ? j : questionController.questionSearchIndex].choiceList[j]}',
                                                                     color: Colors.black,
                                                                     fontweight: FontWeight.w800,
                                                                     size: 25.sp,
