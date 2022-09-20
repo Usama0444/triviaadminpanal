@@ -57,15 +57,17 @@ class Reusable {
 
   Widget loader() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(
-          height: 400.h,
+        Column(
+          children: [
+            const Text('Loading...'),
+            SizedBox(
+              height: 5.h,
+            ),
+            CircularProgressIndicator(),
+          ],
         ),
-        Text('Loading...'),
-        SizedBox(
-          height: 5.h,
-        ),
-        CircularProgressIndicator(),
       ],
     );
   }

@@ -310,8 +310,11 @@ class _CategoriesState extends State<Categories> {
                                                   width: 40.w,
                                                   height: 40.h,
                                                   margin: EdgeInsets.all(5.h),
-                                                  child: Image.memory(
-                                                    base64.decode(cateController.catList[cateController.categorySearchIndex == -1 ? index : cateController.categorySearchIndex].image),
+                                                  child: ClipOval(
+                                                    child: Image.memory(
+                                                      base64.decode(cateController.catList[cateController.categorySearchIndex == -1 ? index : cateController.categorySearchIndex].image),
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 )),
                                             Expanded(

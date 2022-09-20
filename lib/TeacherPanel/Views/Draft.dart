@@ -200,29 +200,32 @@ class _DraftState extends State<Draft> {
                           SizedBox(
                             width: 60.w,
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 29.h),
-                            child: InkWell(
-                              onTap: () async {
-                                for (int i = 0; i < isChecked.length; i++) {
-                                  if (isChecked[i] == true) {
-                                    questionController.draftCheckedIndex.add(i);
+                          Visibility(
+                            visible: isShowQuestionsList,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 29.h),
+                              child: InkWell(
+                                onTap: () async {
+                                  for (int i = 0; i < isChecked.length; i++) {
+                                    if (isChecked[i] == true) {
+                                      questionController.draftCheckedIndex.add(i);
+                                    }
                                   }
-                                }
-                                questionController.update();
-                                await questionController.uploadBtnClick();
-                              },
-                              child: reusableInstance.buttons(
-                                110.w,
-                                43.h,
-                                Container(
-                                  height: 20.h,
-                                  child: Center(
-                                    child: MyText(
-                                      txt: 'Upload',
-                                      color: whiteColor,
-                                      fontweight: FontWeight.w300,
-                                      size: 23.sp,
+                                  questionController.update();
+                                  await questionController.uploadBtnClick();
+                                },
+                                child: reusableInstance.buttons(
+                                  110.w,
+                                  43.h,
+                                  Container(
+                                    height: 20.h,
+                                    child: Center(
+                                      child: MyText(
+                                        txt: 'Upload',
+                                        color: whiteColor,
+                                        fontweight: FontWeight.w300,
+                                        size: 23.sp,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -238,13 +241,21 @@ class _DraftState extends State<Draft> {
                           SizedBox(
                             width: 28.w,
                           ),
-                          Container(
-                            width: 38.w,
-                            height: 38.w,
-                            child: FittedBox(
-                              child: Icon(
-                                Icons.power_settings_new,
-                                color: basicColor,
+                          InkWell(
+                            onTap: () async {
+                              var logout = await userLogOut();
+                              if (logout) {
+                                Get.offAll(LoginPage());
+                              }
+                            },
+                            child: Container(
+                              width: 38.w,
+                              height: 38.w,
+                              child: FittedBox(
+                                child: Icon(
+                                  Icons.power_settings_new,
+                                  color: basicColor,
+                                ),
                               ),
                             ),
                           ),
@@ -337,7 +348,11 @@ class _DraftState extends State<Draft> {
                                                               ),
                                                               child: Padding(
                                                                 padding: EdgeInsets.all(5.h),
-                                                                child: Image.memory(base64Decode(catController.catList[index].image)),
+                                                                child: ClipOval(
+                                                                    child: Image.memory(
+                                                                  base64Decode(catController.catList[index].image),
+                                                                  fit: BoxFit.cover,
+                                                                )),
                                                               ),
                                                             ),
                                                             SizedBox(
@@ -444,9 +459,14 @@ class _DraftState extends State<Draft> {
                                                                           ),
                                                                           child: Padding(
                                                                             padding: EdgeInsets.all(5.h),
-                                                                            child: Image.memory(j == 0
-                                                                                ? base64Decode(catController.catList[index].image)
-                                                                                : base64Decode(catController.subCategoriesForDrawer[index][j - 1].image)),
+                                                                            child: ClipOval(
+                                                                              child: Image.memory(
+                                                                                j == 0
+                                                                                    ? base64Decode(catController.catList[index].image)
+                                                                                    : base64Decode(catController.subCategoriesForDrawer[index][j - 1].image),
+                                                                                fit: BoxFit.cover,
+                                                                              ),
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                         SizedBox(
@@ -677,7 +697,7 @@ class _DraftState extends State<Draft> {
                                                                   Padding(
                                                                     padding: EdgeInsets.only(left: 10.w),
                                                                     child: MyText(
-                                                                      txt: '${optionNumber[index]}',
+                                                                      txt: '${optionNumber[j]}',
                                                                       color: basicColor,
                                                                       fontweight: FontWeight.w800,
                                                                       size: 25.sp,

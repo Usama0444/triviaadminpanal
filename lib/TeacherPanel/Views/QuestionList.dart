@@ -281,7 +281,12 @@ class _QuestionListState extends State<QuestionList> {
             height: 41.h,
           ),
           isLoading
-              ? reusableInstance.loader()
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    reusableInstance.loader(),
+                  ],
+                )
               : GetBuilder<QuestionController>(builder: (controller) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -396,20 +401,14 @@ class _QuestionListState extends State<QuestionList> {
                                                     child: reusableInstance.inputBox(
                                                         321.w,
                                                         45.h,
-                                                        j !=
-                                                                questionController
-                                                                        .teacherQuestionModelList[questionController.questionSearchIndex == -1 ? index : questionController.questionSearchIndex]
-                                                                        .answer -
-                                                                    1
-                                                            ? containerWrongBorder
-                                                            : containerCorrectBorder,
+                                                        containerCorrectBorder,
                                                         Row(
                                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                           children: [
                                                             Padding(
                                                               padding: EdgeInsets.only(left: 10.w),
                                                               child: MyText(
-                                                                txt: optionNumber[questionController.questionSearchIndex == -1 ? j : questionController.questionSearchIndex],
+                                                                txt: optionNumber[j],
                                                                 color: basicColor,
                                                                 fontweight: FontWeight.w800,
                                                                 size: 25.sp,
@@ -422,7 +421,7 @@ class _QuestionListState extends State<QuestionList> {
                                                                 children: [
                                                                   MyText(
                                                                     txt:
-                                                                        '${questionController.teacherQuestionModelList[questionController.questionSearchIndex == -1 ? j : questionController.questionSearchIndex].choiceList[j]}',
+                                                                        '${questionController.teacherQuestionModelList[questionController.questionSearchIndex == -1 ? index : questionController.questionSearchIndex].choiceList[j]}',
                                                                     color: Colors.black,
                                                                     fontweight: FontWeight.w800,
                                                                     size: 25.sp,

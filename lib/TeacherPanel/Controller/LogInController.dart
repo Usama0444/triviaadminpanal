@@ -17,6 +17,8 @@ class LogInController extends GetxController {
       cateController = Get.find<CategoryController>();
       bool isCatGet = await cateController!.getCategories();
       if (isCatGet) {
+        email.text = '';
+        password.text = '';
         return true;
       }
     }
@@ -26,5 +28,4 @@ class LogInController extends GetxController {
   Future<bool> userLogin() async {
     return await loginService(email.text, password.text);
   }
-
 }

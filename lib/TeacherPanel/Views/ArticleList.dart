@@ -12,7 +12,9 @@ import 'package:triviaadminpanal/TeacherPanel/Views/Categories.dart';
 
 import '../Controller/CategoryController.dart';
 import '../Controller/QuestionsController.dart';
+import '../Services/LoginServices.dart';
 import 'CustomWidgets/MyText.dart';
+import 'LoginPage.dart';
 import 'components/style.dart';
 
 class ArticleList extends StatefulWidget {
@@ -198,7 +200,7 @@ class _ArticleListState extends State<ArticleList> {
                       child: reusableInstance.buttons(
                         110.w,
                         43.h,
-                        Container(
+                        SizedBox(
                           height: 20.h,
                           child: Center(
                             child: MyText(
@@ -220,13 +222,21 @@ class _ArticleListState extends State<ArticleList> {
                     SizedBox(
                       width: 28.w,
                     ),
-                    Container(
-                      width: 38.w,
-                      height: 38.w,
-                      child: FittedBox(
-                        child: Icon(
-                          Icons.power_settings_new,
-                          color: basicColor,
+                    InkWell(
+                      onTap: () async {
+                        var logout = await userLogOut();
+                        if (logout) {
+                          Get.offAll(LoginPage());
+                        }
+                      },
+                      child: Container(
+                        width: 38.w,
+                        height: 38.w,
+                        child: FittedBox(
+                          child: Icon(
+                            Icons.power_settings_new,
+                            color: basicColor,
+                          ),
                         ),
                       ),
                     ),
@@ -305,7 +315,11 @@ class _ArticleListState extends State<ArticleList> {
                                                     ),
                                                     child: Padding(
                                                       padding: EdgeInsets.all(5.h),
-                                                      child: Image.memory(base64Decode(catController.catList[index].image)),
+                                                      child: ClipOval(
+                                                          child: Image.memory(
+                                                        base64Decode(catController.catList[index].image),
+                                                        fit: BoxFit.cover,
+                                                      )),
                                                     ),
                                                   ),
                                                   SizedBox(
@@ -414,9 +428,14 @@ class _ArticleListState extends State<ArticleList> {
                                                                 ),
                                                                 child: Padding(
                                                                   padding: EdgeInsets.all(5.h),
-                                                                  child: Image.memory(j == 0
-                                                                      ? base64Decode(catController.catList[index].image)
-                                                                      : base64Decode(catController.subCategoriesForDrawer[index][j - 1].image)),
+                                                                  child: ClipOval(
+                                                                    child: Image.memory(
+                                                                      j == 0
+                                                                          ? base64Decode(catController.catList[index].image)
+                                                                          : base64Decode(catController.subCategoriesForDrawer[index][j - 1].image),
+                                                                      fit: BoxFit.cover,
+                                                                    ),
+                                                                  ),
                                                                 ),
                                                               ),
                                                               SizedBox(

@@ -173,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                   border: Border(bottom: BorderSide(color: greyColor, width: 1.h)),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.only(left: 5.w),
+                  padding: EdgeInsets.only(left: 5.w, bottom: 5.h),
                   child: TextField(
                     controller: loginController.email,
                     decoration: InputDecoration(
@@ -195,7 +195,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Container(
                       width: 530.w,
-                      margin: EdgeInsets.only(left: 5.w),
+                      margin: EdgeInsets.only(left: 5.w, bottom: 5.h),
                       child: TextField(
                         controller: loginController.password,
                         obscureText: obxTxt,

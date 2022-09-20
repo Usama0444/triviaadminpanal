@@ -287,20 +287,23 @@ class _SubCategoryState extends State<SubCategory> {
                       itemCount: cateController.subCateHeader.length,
                       itemBuilder: (context, index) {
                         return Container(
-                          margin: EdgeInsets.only(
-                            left: index != 0
-                                ? index == 3
-                                    ? 1075.w
-                                    : 120.w
-                                : 40.w,
-                          ),
-                          child: MyText(
-                            txt: index != 3 ? cateController.subCateHeader[index] : '${questionController.totalQuestions} Questions',
-                            color: index != 3 ? Colors.black : basicColor,
-                            fontweight: FontWeight.w500,
-                            size: 20.sp,
-                          ),
-                        );
+                            margin: EdgeInsets.only(
+                              left: index != 0
+                                  ? index == 3
+                                      ? 1075.w
+                                      : 120.w
+                                  : 40.w,
+                            ),
+                            child: GetBuilder<QuestionController>(
+                              builder: (controller) {
+                                return MyText(
+                                  txt: index != 3 ? cateController.subCateHeader[index] : '${questionController.totalQuestions} Questions',
+                                  color: index != 3 ? Colors.black : basicColor,
+                                  fontweight: FontWeight.w500,
+                                  size: 20.sp,
+                                );
+                              },
+                            ));
                       }),
                 ),
                 SizedBox(height: 50.h),
@@ -341,8 +344,12 @@ class _SubCategoryState extends State<SubCategory> {
                                                 width: 40.w,
                                                 height: 40.h,
                                                 margin: EdgeInsets.all(5.h),
-                                                child: Image.memory(
-                                                    base64Decode(cateController.subCatList[cateController.subCategorySearchIndex == -1 ? index : cateController.subCategorySearchIndex].image)),
+                                                child: ClipOval(
+                                                  child: Image.memory(
+                                                    base64Decode(cateController.subCatList[cateController.subCategorySearchIndex == -1 ? index : cateController.subCategorySearchIndex].image),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
                                               )),
                                           Expanded(
                                             flex: 2,

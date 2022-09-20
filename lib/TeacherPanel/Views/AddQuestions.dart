@@ -344,7 +344,11 @@ class _AddQuestionState extends State<AddQuestion> {
                                                   ),
                                                   child: Padding(
                                                     padding: EdgeInsets.all(5.h),
-                                                    child: Image.memory(base64Decode(catController.catList[index].image)),
+                                                    child: ClipOval(
+                                                        child: Image.memory(
+                                                      base64Decode(catController.catList[index].image),
+                                                      fit: BoxFit.cover,
+                                                    )),
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -445,8 +449,12 @@ class _AddQuestionState extends State<AddQuestion> {
                                                               ),
                                                               child: Padding(
                                                                 padding: EdgeInsets.all(5.h),
-                                                                child: Image.memory(
-                                                                    j == 0 ? base64Decode(catController.catList[index].image) : base64Decode(catController.subCategoriesForDrawer[index][j - 1].image)),
+                                                                child: ClipOval(
+                                                                  child: Image.memory(
+                                                                    j == 0 ? base64Decode(catController.catList[index].image) : base64Decode(catController.subCategoriesForDrawer[index][j - 1].image),
+                                                                    fit: BoxFit.cover,
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ),
                                                             SizedBox(
@@ -516,12 +524,14 @@ class _AddQuestionState extends State<AddQuestion> {
                       children: [
                         InkWell(
                           onTap: () {
-                            setState(() {
-                              isCorrect1 = true;
-                              isCorrect2 = false;
-                              isCorrect3 = false;
-                              isCorrect4 = false;
-                            });
+                            if (questionController.option1.text.trim().isNotEmpty) {
+                              setState(() {
+                                isCorrect1 = true;
+                                isCorrect2 = false;
+                                isCorrect3 = false;
+                                isCorrect4 = false;
+                              });
+                            }
                             questionController.answer = 1;
                             questionController.update();
                           },
@@ -576,12 +586,14 @@ class _AddQuestionState extends State<AddQuestion> {
                         ),
                         InkWell(
                           onTap: () {
-                            setState(() {
-                              isCorrect1 = false;
-                              isCorrect2 = true;
-                              isCorrect3 = false;
-                              isCorrect4 = false;
-                            });
+                            if (questionController.option2.text.trim().isNotEmpty) {
+                              setState(() {
+                                isCorrect1 = false;
+                                isCorrect2 = true;
+                                isCorrect3 = false;
+                                isCorrect4 = false;
+                              });
+                            }
                             questionController.answer = 2;
                             questionController.update();
                           },
@@ -650,12 +662,14 @@ class _AddQuestionState extends State<AddQuestion> {
                       children: [
                         InkWell(
                           onTap: () {
-                            setState(() {
-                              isCorrect1 = false;
-                              isCorrect2 = false;
-                              isCorrect3 = true;
-                              isCorrect4 = false;
-                            });
+                            if (questionController.option3.text.trim().isNotEmpty) {
+                              setState(() {
+                                isCorrect1 = false;
+                                isCorrect2 = false;
+                                isCorrect3 = true;
+                                isCorrect4 = false;
+                              });
+                            }
                             questionController.answer = 3;
                             questionController.update();
                           },
@@ -708,12 +722,14 @@ class _AddQuestionState extends State<AddQuestion> {
                         ),
                         InkWell(
                           onTap: () {
-                            setState(() {
-                              isCorrect1 = false;
-                              isCorrect2 = false;
-                              isCorrect3 = false;
-                              isCorrect4 = true;
-                            });
+                            if (questionController.option4.text.trim().isNotEmpty) {
+                              setState(() {
+                                isCorrect1 = false;
+                                isCorrect2 = false;
+                                isCorrect3 = false;
+                                isCorrect4 = true;
+                              });
+                            }
                             questionController.answer = 4;
                             questionController.update();
                           },
@@ -733,7 +749,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                       : isCorrect4 == true
                                           ? Colors.white
                                           : greyColor.withOpacity(1.0),
-                                  offset: Offset(
+                                  offset: const Offset(
                                     3.0,
                                     3.0,
                                   ),
@@ -809,9 +825,10 @@ class _AddQuestionState extends State<AddQuestion> {
                               height: 400.h,
                               child: TextField(
                                 controller: questionController.article,
-                                maxLength: 500,
                                 onChanged: (value) {
-                                  questionController.increaseTextCounter(value.length);
+                                  if (value.split(' ').length <= 500) {
+                                    questionController.increaseTextCounter(value.split(' ').length);
+                                  }
                                 },
                                 style: TextStyle(
                                   fontSize: 20.sp,
@@ -880,33 +897,35 @@ class _AddQuestionState extends State<AddQuestion> {
                                   SizedBox(
                                     width: 27.w,
                                   ),
-                                  reusableInstance.buttons(
-                                    86.w,
-                                    37.w,
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          height: 20.h,
-                                          child: MyText(
-                                            txt: 'Edit',
-                                            color: whiteColor,
-                                            fontweight: FontWeight.w300,
-                                            size: 19.sp,
+                                  widget.callingFor != 'Edit'
+                                      ? reusableInstance.buttons(
+                                          86.w,
+                                          37.w,
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                height: 20.h,
+                                                child: MyText(
+                                                  txt: 'Edit',
+                                                  color: whiteColor,
+                                                  fontweight: FontWeight.w300,
+                                                  size: 19.sp,
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 25.h,
+                                                child: FittedBox(
+                                                  child: Icon(
+                                                    Icons.edit,
+                                                    color: whiteColor,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                        Container(
-                                          height: 25.h,
-                                          child: FittedBox(
-                                            child: Icon(
-                                              Icons.edit,
-                                              color: whiteColor,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                        )
+                                      : Text(''),
                                   SizedBox(
                                     width: 27.w,
                                   ),
@@ -985,7 +1004,7 @@ class _AddQuestionState extends State<AddQuestion> {
           Container(
             width: width,
             height: height,
-            margin: EdgeInsets.only(left: 5.w),
+            margin: EdgeInsets.only(left: 5.w, bottom: 5.w),
             child: TextField(
               controller: controller,
               style: TextStyle(

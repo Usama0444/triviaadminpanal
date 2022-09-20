@@ -33,6 +33,7 @@ class QuestionController extends GetxController {
   bool questionSearchNotMatch = false;
   int listLength = 1;
   int textCounter = 0;
+
   CategoryController catController = Get.find<CategoryController>();
 
   questionSearchTap() async {
@@ -120,7 +121,10 @@ class QuestionController extends GetxController {
 
 //methods for draft
   draftBtnClick() async {
-    await addToDraft(question.text, option1.text, option2.text, option3.text, option4.text, answer, article.text, questionCategory, questionSubCategory);
+    var isvalid = await checkValidation();
+    if (isValid) {
+      await addToDraft(question.text, option1.text, option2.text, option3.text, option4.text, answer, article.text, questionCategory, questionSubCategory);
+    }
   }
 
   editDraftBtnClick(int index) async {
@@ -141,6 +145,7 @@ class QuestionController extends GetxController {
     qid = draftQuestionModelList[index].qid;
     update();
     await deleteDraftQuestion(qid);
+    await getDraftQuestions(questionCategory!, questionSubCategory!);
   }
 
   Future<bool> getDraftQuestions(String cat, String subcat) async {
