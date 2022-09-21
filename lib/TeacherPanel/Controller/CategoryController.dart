@@ -11,8 +11,12 @@ import '../Views/components/style.dart';
 
 class CategoryController extends GetxController {
   List<CategoryModel> categoryModelList = [];
+  List<CategoryModel> searchCategory = [];
   List<CategoryModel> catList = [];
   List<SubCategoryModel> subCatList = [];
+  List<int> totalSubCatForSearch = [];
+  List<int> totalSubCatQuestionsForSearch = [];
+  List<SubCategoryModel> searchSubCategory = [];
   List<int> totalSubCate = [];
   List<SubCategoryModel> subcategoryModelList = [];
   List<List<SubCategoryModel>> subCategoriesForDrawer = [];
@@ -41,28 +45,31 @@ class CategoryController extends GetxController {
   ];
   var l = [];
   categorySearchTap() async {
-    categorySearchIndex = -1;
     isCategorySearchNotMatch = false;
-    length = 1;
+    searchCategory = [];
+    totalSubCatForSearch = [];
     for (int i = 0; i < catList.length; i++) {
       if (catList[i].name.toLowerCase().toString().contains(categoryNameSearch.text.trim().toLowerCase())) {
-        categorySearchIndex = i;
         isCategorySearchNotMatch = false;
+        searchCategory.add(catList[i]);
+        totalSubCatForSearch.add(totalSubCate[i]);
       } else {
         isCategorySearchNotMatch = true;
       }
     }
     update();
+    print('search cat ${searchCategory.length}');
   }
 
   subCategorySearchTap() async {
-    subCategorySearchIndex = -1;
     isSubCategorySearchNotMatch = false;
-
+    searchSubCategory = [];
+    totalSubCatQuestionsForSearch = [];
     for (int i = 0; i < subCatList.length; i++) {
       if (subCatList[i].name.toLowerCase().toString().contains(subCategoryNameSearch.text.trim().toLowerCase())) {
-        subCategorySearchIndex = i;
         isSubCategorySearchNotMatch = false;
+        searchSubCategory.add(subCatList[i]);
+        // totalSubCatQuestionsForSearch.add(questionController.totalQuestionOfspecificSubCategory[i]);
       } else {
         isSubCategorySearchNotMatch = true;
       }

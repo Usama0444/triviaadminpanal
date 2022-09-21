@@ -127,16 +127,17 @@ class _CategoriesState extends State<Categories> {
                                           color: greyColor,
                                         ),
                                         onChanged: (value) {
-                                          if (value.isEmpty) {
-                                            cateController.categorySearchIndex = -1;
-                                            cateController.isCategorySearchNotMatch = false;
-                                            cateController.l = [];
-                                            cateController.update();
-                                          } else {
-                                            cateController.length = 1;
-                                            cateController.update();
-                                            cateController.categorySearchTap();
-                                          }
+                                          cateController.categorySearchTap();
+
+                                          // if (value.isEmpty) {
+                                          //   cateController.isCategorySearchNotMatch = false;
+                                          //   cateController.update();
+                                          //   print(cateController.catList.length);
+                                          // } else {
+                                          //   cateController.length = 1;
+                                          //   cateController.update();
+                                          //   cateController.categorySearchTap();
+                                          // }
                                         },
                                         decoration: InputDecoration(
                                             border: InputBorder.none,
@@ -282,11 +283,11 @@ class _CategoriesState extends State<Categories> {
                           child: isLoading == true
                               ? reusableInstance.loader()
                               : ListView.builder(
-                                  itemCount: cateController.categorySearchIndex == -1
+                                  itemCount: cateController.searchCategory.isEmpty
                                       ? cateController.isCategorySearchNotMatch
                                           ? 0
                                           : cateController.catList.length
-                                      : 1,
+                                      : cateController.searchCategory.length,
                                   padding: EdgeInsets.zero,
                                   itemBuilder: (context, index) {
                                     return Container(
@@ -312,7 +313,7 @@ class _CategoriesState extends State<Categories> {
                                                   margin: EdgeInsets.all(5.h),
                                                   child: ClipOval(
                                                     child: Image.memory(
-                                                      base64.decode(cateController.catList[cateController.categorySearchIndex == -1 ? index : cateController.categorySearchIndex].image),
+                                                      base64.decode(cateController.searchCategory.isEmpty ? cateController.catList[index].image : cateController.searchCategory[index].image),
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),
@@ -324,7 +325,7 @@ class _CategoriesState extends State<Categories> {
                                                   Expanded(
                                                     flex: 1,
                                                     child: MyText(
-                                                      txt: cateController.catList[cateController.categorySearchIndex == -1 ? index : cateController.categorySearchIndex].name,
+                                                      txt: cateController.searchCategory.isEmpty ? cateController.catList[index].name : cateController.searchCategory[index].name,
                                                       color: Colors.black,
                                                       fontweight: FontWeight.w500,
                                                       size: 20.sp,
@@ -333,7 +334,7 @@ class _CategoriesState extends State<Categories> {
                                                   Expanded(
                                                     flex: 1,
                                                     child: MyText(
-                                                      txt: '${cateController.totalSubCate[cateController.categorySearchIndex == -1 ? index : cateController.categorySearchIndex]}',
+                                                      txt: cateController.searchCategory.isEmpty ? '${cateController.totalSubCate[index]}' : '${cateController.totalSubCatForSearch[index]}',
                                                       color: Colors.black,
                                                       fontweight: FontWeight.w500,
                                                       size: 20.sp,
@@ -343,9 +344,13 @@ class _CategoriesState extends State<Categories> {
                                                     flex: 1,
                                                     child: InkWell(
                                                       onTap: () {
-                                                        cateController.categoryName =
-                                                            cateController.catList[cateController.categorySearchIndex == -1 ? index : cateController.categorySearchIndex].name;
-                                                        cateController.cid = cateController.catList[cateController.categorySearchIndex == -1 ? index : cateController.categorySearchIndex].cid;
+                                                        if (cateController.searchCategory.isEmpty) {
+                                                          cateController.categoryName = cateController.catList[index].name;
+                                                          cateController.cid = cateController.catList[index].cid;
+                                                        } else {
+                                                          cateController.categoryName = cateController.searchCategory[index].name;
+                                                          cateController.cid = cateController.searchCategory[index].cid;
+                                                        }
                                                         cateController.update();
                                                         Get.to(SubCategory());
                                                       },
