@@ -123,14 +123,7 @@ class _SubCategoryState extends State<SubCategory> {
                                     color: greyColor,
                                   ),
                                   onChanged: (value) {
-                                    print(value);
-                                    if (value.isEmpty) {
-                                      cateController.subCategorySearchIndex = -1;
-                                      cateController.isSubCategorySearchNotMatch = false;
-                                      cateController.update();
-                                    } else {
-                                      cateController.subCategorySearchTap();
-                                    }
+                                    cateController.subCategorySearchTap();
                                   },
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
@@ -316,11 +309,11 @@ class _SubCategoryState extends State<SubCategory> {
                         child: isLoading == true
                             ? reusableInstance.loader()
                             : ListView.builder(
-                                itemCount: cateController.subCategorySearchIndex == -1
+                                itemCount: cateController.searchSubCategory.isEmpty
                                     ? cateController.isSubCategorySearchNotMatch
                                         ? 0
                                         : cateController.subCatList.length
-                                    : 1,
+                                    : cateController.searchSubCategory.length,
                                 padding: EdgeInsets.zero,
                                 itemBuilder: (context, index) {
                                   return Container(
@@ -346,7 +339,7 @@ class _SubCategoryState extends State<SubCategory> {
                                                 margin: EdgeInsets.all(5.h),
                                                 child: ClipOval(
                                                   child: Image.memory(
-                                                    base64Decode(cateController.subCatList[cateController.subCategorySearchIndex == -1 ? index : cateController.subCategorySearchIndex].image),
+                                                    base64Decode(cateController.searchSubCategory.isEmpty ? cateController.subCatList[index].image : cateController.searchSubCategory[index].image),
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
@@ -358,7 +351,7 @@ class _SubCategoryState extends State<SubCategory> {
                                                 Expanded(
                                                   flex: 1,
                                                   child: MyText(
-                                                    txt: cateController.subCatList[cateController.subCategorySearchIndex == -1 ? index : cateController.subCategorySearchIndex].name,
+                                                    txt: cateController.searchSubCategory.isEmpty ? cateController.subCatList[index].name : cateController.searchSubCategory[index].name,
                                                     color: Colors.black,
                                                     fontweight: FontWeight.w500,
                                                     size: 20.sp,
@@ -367,8 +360,9 @@ class _SubCategoryState extends State<SubCategory> {
                                                 Expanded(
                                                   flex: 1,
                                                   child: MyText(
-                                                    txt:
-                                                        '${questionController.totalQuestionOfspecificSubCategory[cateController.subCategorySearchIndex == -1 ? index : cateController.subCategorySearchIndex]}',
+                                                    txt: cateController.searchSubCategory.isEmpty
+                                                        ? '${questionController.totalQuestionOfspecificSubCategory[index]}'
+                                                        : '${cateController.totalSubCatQuestionsForSearch[index]}',
                                                     color: Colors.black,
                                                     fontweight: FontWeight.w500,
                                                     size: 20.sp,
@@ -378,8 +372,11 @@ class _SubCategoryState extends State<SubCategory> {
                                                   flex: 1,
                                                   child: InkWell(
                                                     onTap: () {
-                                                      cateController.subCategoryName =
-                                                          cateController.subCatList[cateController.subCategorySearchIndex == -1 ? index : cateController.subCategorySearchIndex].name;
+                                                      if (cateController.searchSubCategory.isEmpty) {
+                                                        cateController.subCategoryName = cateController.subCatList[index].name;
+                                                      } else {
+                                                        cateController.subCategoryName = cateController.searchSubCategory[index].name;
+                                                      }
                                                       cateController.update();
                                                       Get.to(QuestionList());
                                                     },

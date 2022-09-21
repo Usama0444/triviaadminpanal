@@ -299,10 +299,11 @@ class _DraftState extends State<Draft> {
                                     itemCount: catController.catList.length,
                                     itemBuilder: (context, index) {
                                       return InkWell(
-                                        onTap: () {
+                                        onTap: () async {
                                           print(index);
                                           questionController.questionCategory = catController.catList[index].name;
                                           questionController.update();
+
                                           setState(() {
                                             for (int i = 0; i < 10; i++) {
                                               hide[i] = true;
@@ -369,7 +370,7 @@ class _DraftState extends State<Draft> {
                                                         Row(
                                                           children: [
                                                             MyText(
-                                                              txt: '500',
+                                                              txt: '${catController.totalSubCate[index]}',
                                                               color: Colors.black,
                                                               fontweight: FontWeight.w600,
                                                               size: 14.sp,
@@ -483,7 +484,7 @@ class _DraftState extends State<Draft> {
                                                                     Row(
                                                                       children: [
                                                                         MyText(
-                                                                          txt: '500',
+                                                                          txt: j != 0 ? '0' : '${catController.totalSubCate[index]}',
                                                                           color: Colors.black,
                                                                           fontweight: FontWeight.w600,
                                                                           size: 14.sp,

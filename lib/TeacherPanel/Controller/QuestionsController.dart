@@ -12,6 +12,8 @@ import '../Services/QuestionServices.dart';
 class QuestionController extends GetxController {
   List<QuestionModel> teacherQuestionModelList = [];
   List<QuestionModel> draftQuestionModelList = [];
+  List<QuestionModel> searchQuestion = [];
+
   var question = TextEditingController();
   var option1 = TextEditingController();
   var option2 = TextEditingController();
@@ -38,13 +40,11 @@ class QuestionController extends GetxController {
 
   questionSearchTap() async {
     questionSearchNotMatch = false;
-    listLength = 1;
-    questionSearchIndex - 1;
+    searchQuestion = [];
     for (int i = 0; i < teacherQuestionModelList.length; i++) {
       if (teacherQuestionModelList[i].question.toLowerCase().contains(questionSerach.text.toLowerCase())) {
-        questionSearchIndex = i;
         questionSearchNotMatch = false;
-        listLength++;
+        searchQuestion.add(teacherQuestionModelList[i]);
       } else {
         questionSearchNotMatch = true;
       }
@@ -90,24 +90,39 @@ class QuestionController extends GetxController {
   }
 
   editBtnClick(int index) async {
-    question.text = teacherQuestionModelList[index].question;
-    option1.text = teacherQuestionModelList[index].choiceList[0];
-    option2.text = teacherQuestionModelList[index].choiceList[1];
-    option3.text = teacherQuestionModelList[index].choiceList[2];
-    option4.text = teacherQuestionModelList[index].choiceList[3];
-    article.text = teacherQuestionModelList[index].article;
-    qid = teacherQuestionModelList[index].qid;
-    questionCategory = null;
+    if (searchQuestion.isEmpty) {
+      question.text = teacherQuestionModelList[index].question;
+      option1.text = teacherQuestionModelList[index].choiceList[0];
+      option2.text = teacherQuestionModelList[index].choiceList[1];
+      option3.text = teacherQuestionModelList[index].choiceList[2];
+      option4.text = teacherQuestionModelList[index].choiceList[3];
+      article.text = teacherQuestionModelList[index].article;
+      qid = teacherQuestionModelList[index].qid;
+      questionCategory = null;
+    } else {
+      question.text = searchQuestion[index].question;
+      option1.text = searchQuestion[index].choiceList[0];
+      option2.text = searchQuestion[index].choiceList[1];
+      option3.text = searchQuestion[index].choiceList[2];
+      option4.text = searchQuestion[index].choiceList[3];
+      article.text = searchQuestion[index].article;
+      qid = searchQuestion[index].qid;
+      questionCategory = null;
+    }
     update();
     Get.to(AddQuestion(callingFor: 'Edit'));
   }
 
   deleteBtnClick(int index) async {
-    qid = teacherQuestionModelList[index].qid;
-    update();
+    if (searchQuestion.isEmpty) {
+      qid = teacherQuestionModelList[index].qid;
+    } else {
+      qid = searchQuestion[index].qid;
+    }
     await removeQuestion();
     await getQuestions(catController.categoryName!, catController.subCategoryName!);
     await getTotalNumberOfQuestionForSpecificCategory();
+    update();
   }
 
   increaseTextCounter(value) {

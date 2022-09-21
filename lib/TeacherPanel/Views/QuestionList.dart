@@ -125,13 +125,7 @@ class _QuestionListState extends State<QuestionList> {
                                 child: TextField(
                                   controller: questionController.questionSerach,
                                   onChanged: (value) {
-                                    if (value.isEmpty) {
-                                      questionController.questionSearchIndex = -1;
-                                      questionController.questionSearchNotMatch = false;
-                                      questionController.update();
-                                    } else {
-                                      questionController.questionSearchTap();
-                                    }
+                                    questionController.questionSearchTap();
                                   },
                                   style: TextStyle(
                                     fontSize: 20.sp,
@@ -328,11 +322,11 @@ class _QuestionListState extends State<QuestionList> {
                       SizedBox(
                         height: 882.h,
                         child: ListView.builder(
-                          itemCount: questionController.questionSearchIndex == -1
+                          itemCount: questionController.searchQuestion.isEmpty
                               ? questionController.questionSearchNotMatch
                                   ? 0
                                   : questionController.teacherQuestionModelList.length
-                              : 1,
+                              : questionController.searchQuestion.length,
                           padding: EdgeInsets.zero,
                           itemBuilder: (context, index) {
                             return Container(
@@ -359,8 +353,9 @@ class _QuestionListState extends State<QuestionList> {
                                                 size: 25.sp,
                                               ),
                                               MyText(
-                                                txt:
-                                                    ' ${questionController.teacherQuestionModelList[questionController.questionSearchIndex == -1 ? index : questionController.questionSearchIndex].question}',
+                                                txt: questionController.searchQuestion.isEmpty
+                                                    ? ' ${questionController.teacherQuestionModelList[index].question}'
+                                                    : ' ${questionController.searchQuestion[index].question}',
                                                 color: Colors.black,
                                                 fontweight: FontWeight.w800,
                                                 size: 25.sp,
@@ -369,7 +364,7 @@ class _QuestionListState extends State<QuestionList> {
                                           ),
                                           InkWell(
                                             onTap: () {
-                                              questionController.editBtnClick(questionController.questionSearchIndex == -1 ? index : questionController.questionSearchIndex);
+                                              questionController.editBtnClick(index);
                                             },
                                             child: Padding(
                                               padding: EdgeInsets.only(right: 25.w),
@@ -401,7 +396,13 @@ class _QuestionListState extends State<QuestionList> {
                                                     child: reusableInstance.inputBox(
                                                         321.w,
                                                         45.h,
-                                                        containerCorrectBorder,
+                                                        j !=
+                                                                questionController
+                                                                        .teacherQuestionModelList[questionController.questionSearchIndex == -1 ? index : questionController.questionSearchIndex]
+                                                                        .answer -
+                                                                    1
+                                                            ? containerWrongBorder
+                                                            : containerCorrectBorder,
                                                         Row(
                                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                           children: [
@@ -420,8 +421,9 @@ class _QuestionListState extends State<QuestionList> {
                                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                                 children: [
                                                                   MyText(
-                                                                    txt:
-                                                                        '${questionController.teacherQuestionModelList[questionController.questionSearchIndex == -1 ? index : questionController.questionSearchIndex].choiceList[j]}',
+                                                                    txt: questionController.searchQuestion.isEmpty
+                                                                        ? '${questionController.teacherQuestionModelList[index].choiceList[j]}'
+                                                                        : '${questionController.searchQuestion[index].choiceList[j]}',
                                                                     color: Colors.black,
                                                                     fontweight: FontWeight.w800,
                                                                     size: 25.sp,
@@ -436,7 +438,7 @@ class _QuestionListState extends State<QuestionList> {
                                           ),
                                           InkWell(
                                             onTap: () async {
-                                              await questionController.deleteBtnClick(questionController.questionSearchIndex == -1 ? index : questionController.questionSearchIndex);
+                                              await questionController.deleteBtnClick(index);
                                             },
                                             child: MyText(
                                               txt: 'Delete',

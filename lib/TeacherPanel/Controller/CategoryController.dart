@@ -8,6 +8,7 @@ import '../Models/CategoryModel.dart';
 import '../Models/SubCategoryModel.dart';
 import '../Services/CategoryServices.dart';
 import '../Views/components/style.dart';
+import 'QuestionsController.dart';
 
 class CategoryController extends GetxController {
   List<CategoryModel> categoryModelList = [];
@@ -43,7 +44,7 @@ class CategoryController extends GetxController {
     'Total Question',
     '500 Question',
   ];
-  var l = [];
+
   categorySearchTap() async {
     isCategorySearchNotMatch = false;
     searchCategory = [];
@@ -64,12 +65,14 @@ class CategoryController extends GetxController {
   subCategorySearchTap() async {
     isSubCategorySearchNotMatch = false;
     searchSubCategory = [];
+    QuestionController questionController = Get.find<QuestionController>();
+
     totalSubCatQuestionsForSearch = [];
     for (int i = 0; i < subCatList.length; i++) {
       if (subCatList[i].name.toLowerCase().toString().contains(subCategoryNameSearch.text.trim().toLowerCase())) {
         isSubCategorySearchNotMatch = false;
         searchSubCategory.add(subCatList[i]);
-        // totalSubCatQuestionsForSearch.add(questionController.totalQuestionOfspecificSubCategory[i]);
+        totalSubCatQuestionsForSearch.add(questionController.totalQuestionOfspecificSubCategory[i]);
       } else {
         isSubCategorySearchNotMatch = true;
       }

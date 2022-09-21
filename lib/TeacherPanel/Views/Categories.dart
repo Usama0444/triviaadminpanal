@@ -128,16 +128,6 @@ class _CategoriesState extends State<Categories> {
                                         ),
                                         onChanged: (value) {
                                           cateController.categorySearchTap();
-
-                                          // if (value.isEmpty) {
-                                          //   cateController.isCategorySearchNotMatch = false;
-                                          //   cateController.update();
-                                          //   print(cateController.catList.length);
-                                          // } else {
-                                          //   cateController.length = 1;
-                                          //   cateController.update();
-                                          //   cateController.categorySearchTap();
-                                          // }
                                         },
                                         decoration: InputDecoration(
                                             border: InputBorder.none,

@@ -336,7 +336,7 @@ class _ArticleListState extends State<ArticleList> {
                                               Row(
                                                 children: [
                                                   MyText(
-                                                    txt: '500',
+                                                    txt: '${catController.totalSubCate[index]}',
                                                     color: Colors.black,
                                                     fontweight: FontWeight.w600,
                                                     size: 14.sp,
@@ -452,7 +452,7 @@ class _ArticleListState extends State<ArticleList> {
                                                           Row(
                                                             children: [
                                                               MyText(
-                                                                txt: '500',
+                                                                txt: j != 0 ? '0' : '${catController.totalSubCate[index]}',
                                                                 color: Colors.black,
                                                                 fontweight: FontWeight.w600,
                                                                 size: 14.sp,
