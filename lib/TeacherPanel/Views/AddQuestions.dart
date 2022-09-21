@@ -897,72 +897,30 @@ class _AddQuestionState extends State<AddQuestion> {
                                   SizedBox(
                                     width: 27.w,
                                   ),
-                                  widget.callingFor != 'Edit'
-                                      ? reusableInstance.buttons(
-                                          86.w,
-                                          37.w,
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                height: 20.h,
-                                                child: MyText(
-                                                  txt: 'Edit',
-                                                  color: whiteColor,
-                                                  fontweight: FontWeight.w300,
-                                                  size: 19.sp,
-                                                ),
-                                              ),
-                                              Container(
-                                                height: 25.h,
-                                                child: FittedBox(
-                                                  child: Icon(
-                                                    Icons.edit,
-                                                    color: whiteColor,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      : Text(''),
-                                  SizedBox(
-                                    width: 27.w,
-                                  ),
-                                  reusableInstance.buttons(
-                                    86.w,
-                                    37.w,
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          height: 25.h,
-                                          child: FittedBox(
-                                            child: Icon(
-                                              Icons.add,
-                                              color: whiteColor,
-                                            ),
+                                  InkWell(
+                                    onTap: () async {
+                                      if (widget.callingFor == 'Edit') {
+                                        await questionController.teacherUpdateQuestion();
+                                      } else {
+                                        await questionController.uploadBtnClick();
+                                      }
+                                    },
+                                    child: reusableInstance.buttons(
+                                      100.w,
+                                      42.h,
+                                      Container(
+                                        height: 20.h,
+                                        child: Center(
+                                          child: MyText(
+                                            txt: 'Upload',
+                                            color: whiteColor,
+                                            fontweight: FontWeight.w300,
+                                            size: 23.sp,
                                           ),
                                         ),
-                                        InkWell(
-                                          onTap: () async {
-                                            ClipboardData? cdata = await Clipboard.getData(Clipboard.kTextPlain);
-                                            String? copiedtext = cdata?.text;
-                                            questionController.article.text = copiedtext!;
-                                          },
-                                          child: Container(
-                                            height: 20.h,
-                                            child: MyText(
-                                              txt: 'Past',
-                                              color: whiteColor,
-                                              fontweight: FontWeight.w300,
-                                              size: 19.sp,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ))
                         ],

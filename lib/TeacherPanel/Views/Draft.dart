@@ -274,33 +274,29 @@ class _DraftState extends State<Draft> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
+                      width: 375.w,
+                      height: 924.h,
                       color: Color(0xffFAFAFA),
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: 375.w,
-                            height: 924.h,
-                            color: Color(0xffFAFAFA),
-                            child: isLoading
-                                ? Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: 200.h,
-                                      ),
-                                      Text('Loading...'),
-                                      SizedBox(
-                                        height: 5.h,
-                                      ),
-                                      CircularProgressIndicator(),
-                                    ],
-                                  )
-                                : ListView.builder(
-                                    itemCount: catController.catList.length,
-                                    itemBuilder: (context, index) {
-                                      return InkWell(
+                      child: isLoading
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 200.h,
+                                ),
+                                Text('Loading...'),
+                                SizedBox(
+                                  height: 5.h,
+                                ),
+                                CircularProgressIndicator(),
+                              ],
+                            )
+                          : ListView.builder(
+                              itemCount: catController.catList.length + 1,
+                              itemBuilder: (context, index) {
+                                return index != catController.catList.length
+                                    ? InkWell(
                                         onTap: () async {
-                                          print(index);
                                           questionController.questionCategory = catController.catList[index].name;
                                           questionController.update();
 
@@ -309,8 +305,12 @@ class _DraftState extends State<Draft> {
                                               hide[i] = true;
                                               show[i] = false;
                                             }
+                                            highlight.clear();
                                             for (int i = 0; i < 10; i++) {
                                               highlight.add(Colors.white);
+                                            }
+                                            for (int i = 0; i < 10; i++) {
+                                              highlight[i] = whiteColor;
                                             }
                                             if (hide[index]) {
                                               hide[index] = false;
@@ -507,53 +507,47 @@ class _DraftState extends State<Draft> {
                                                 ))
                                           ],
                                         ),
+                                      )
+                                    : InkWell(
+                                        onTap: () {
+                                          Get.to(ArticleList());
+                                        },
+                                        child: Container(
+                                          width: 355.w,
+                                          height: 60.h,
+                                          color: Colors.white,
+                                          margin: EdgeInsets.only(top: 40.h),
+                                          child: Padding(
+                                            padding: EdgeInsets.only(left: 30.w, right: 20.w),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(Icons.mail_outline_outlined, size: 40.h),
+                                                    SizedBox(
+                                                      width: 10.w,
+                                                    ),
+                                                    SizedBox(width: 30.w),
+                                                    MyText(
+                                                      txt: 'Drafts',
+                                                      color: drawerColor,
+                                                      fontweight: FontWeight.w300,
+                                                      size: 14.sp,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  size: 20.h,
+                                                  color: basicColor,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
                                       );
-                                    }),
-                          ),
-                          Positioned(
-                            top: 400.h,
-                            child: InkWell(
-                              onTap: () {
-                                Get.to(ArticleList());
-                              },
-                              child: Container(
-                                width: 355.w,
-                                height: 60.h,
-                                color: Colors.white,
-                                margin: EdgeInsets.only(top: 40.h),
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 30.w, right: 20.w),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Icon(Icons.mail_outline_outlined, size: 40.h),
-                                          SizedBox(
-                                            width: 10.w,
-                                          ),
-                                          SizedBox(width: 30.w),
-                                          MyText(
-                                            txt: 'Drafts',
-                                            color: drawerColor,
-                                            fontweight: FontWeight.w300,
-                                            size: 14.sp,
-                                          ),
-                                        ],
-                                      ),
-                                      Icon(
-                                        Icons.arrow_forward_ios,
-                                        size: 20.h,
-                                        color: basicColor,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                              }),
                     ),
                     Visibility(
                       visible: isShowQuestionsList,

@@ -83,7 +83,6 @@ class _ArticleListState extends State<ArticleList> {
     false,
     false,
   ];
-  bool isLoading = true;
 
   List<Color> highlight = [];
   bool isShowArticleList = false;
@@ -255,28 +254,29 @@ class _ArticleListState extends State<ArticleList> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
+                width: 375.w,
+                height: 924.h,
                 color: Color(0xffFAFAFA),
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 375.w,
-                      height: 924.h,
-                      color: Color(0xffFAFAFA),
-                      child: ListView.builder(
-                          itemCount: catController.catList.length,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () {
-                                print(index);
+                child: ListView.builder(
+                    itemCount: catController.catList.length + 1,
+                    itemBuilder: (context, index) {
+                      return index != catController.catList.length
+                          ? InkWell(
+                              onTap: () async {
                                 questionController.questionCategory = catController.catList[index].name;
                                 questionController.update();
+
                                 setState(() {
                                   for (int i = 0; i < 10; i++) {
                                     hide[i] = true;
                                     show[i] = false;
                                   }
+                                  highlight.clear();
                                   for (int i = 0; i < 10; i++) {
                                     highlight.add(Colors.white);
+                                  }
+                                  for (int i = 0; i < 10; i++) {
+                                    highlight[i] = whiteColor;
                                   }
                                   if (hide[index]) {
                                     hide[index] = false;
@@ -374,14 +374,11 @@ class _ArticleListState extends State<ArticleList> {
                                                   if (j != 0) {
                                                     questionController.questionSubCategory = catController.subCategoriesForDrawer[index][j - 1].name;
                                                     questionController.update();
-                                                    print(questionController.questionCategory);
-                                                    print(questionController.questionSubCategory);
-                                                    var isQuestionGet =
+                                                    var isDraftQuestionGet =
                                                         await questionController.getDraftQuestions(questionController.questionCategory.toString(), questionController.questionSubCategory.toString());
-                                                    if (isQuestionGet) {
+                                                    if (isDraftQuestionGet) {
                                                       isShowArticleList = true;
                                                     }
-                                                    print(questionController.draftQuestionModelList.length);
                                                     setState(() {
                                                       if (hide[index]) {
                                                         hide[index] = true;
@@ -475,53 +472,47 @@ class _ArticleListState extends State<ArticleList> {
                                       ))
                                 ],
                               ),
+                            )
+                          : InkWell(
+                              onTap: () {
+                                Get.to(ArticleList());
+                              },
+                              child: Container(
+                                width: 355.w,
+                                height: 60.h,
+                                color: Colors.white,
+                                margin: EdgeInsets.only(top: 40.h),
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 30.w, right: 20.w),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(Icons.mail_outline_outlined, size: 40.h),
+                                          SizedBox(
+                                            width: 10.w,
+                                          ),
+                                          SizedBox(width: 30.w),
+                                          MyText(
+                                            txt: 'Drafts',
+                                            color: drawerColor,
+                                            fontweight: FontWeight.w300,
+                                            size: 14.sp,
+                                          ),
+                                        ],
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward_ios,
+                                        size: 20.h,
+                                        color: basicColor,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             );
-                          }),
-                    ),
-                    Positioned(
-                      top: 400.h,
-                      child: InkWell(
-                        onTap: () {
-                          Get.to(ArticleList());
-                        },
-                        child: Container(
-                          width: 355.w,
-                          height: 60.h,
-                          color: Colors.white,
-                          margin: EdgeInsets.only(top: 40.h),
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 30.w, right: 20.w),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(Icons.mail_outline_outlined, size: 40.h),
-                                    SizedBox(
-                                      width: 10.w,
-                                    ),
-                                    SizedBox(width: 30.w),
-                                    MyText(
-                                      txt: 'Drafts',
-                                      color: drawerColor,
-                                      fontweight: FontWeight.w300,
-                                      size: 14.sp,
-                                    ),
-                                  ],
-                                ),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 20.h,
-                                  color: basicColor,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                    }),
               ),
               Visibility(
                 visible: isShowArticleList,

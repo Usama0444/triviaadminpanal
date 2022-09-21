@@ -2,25 +2,40 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Services/LoginServices.dart';
+import 'package:triviaadminpanal/TeacherPanel/Views/Categories.dart';
 
 class LogInController extends GetxController {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   CategoryController? cateController;
   Future<bool> checkValidation() async {
+    if (email.text.trim().isEmpty && password.text.trim().isEmpty) {
+      reusableInstance.toast('Invalid', 'Please enter email and password!');
+      return false;
+    } else if (email.text.trim().isEmpty) {
+      reusableInstance.toast('Invalid', 'Email is empty!');
+      return false;
+    } else if (password.text.trim().isEmpty) {
+      reusableInstance.toast('Invalid', 'Password is empty!');
+      return false;
+    }
     return true;
   }
 
   Future<bool> loginBtnClick() async {
-    var isLogin = await userLogin();
-    if (isLogin) {
-      cateController = Get.find<CategoryController>();
-      bool isCatGet = await cateController!.getCategories();
-      if (isCatGet) {
-        email.text = '';
-        password.text = '';
-        return true;
+    bool isDataValid = await checkValidation();
+    if (isDataValid) {
+      var isLogin = await userLogin();
+      if (isLogin) {
+        cateController = Get.find<CategoryController>();
+        bool isCatGet = await cateController!.getCategories();
+        if (isCatGet) {
+          email.text = '';
+          password.text = '';
+          return true;
+        }
       }
+      return false;
     }
     return false;
   }
