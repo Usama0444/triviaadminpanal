@@ -106,26 +106,35 @@ class _ArticleListState extends State<ArticleList> {
                     SizedBox(
                       width: 28.w,
                     ),
-                    SizedBox(
-                      width: 57.w,
-                      height: 47.h,
-                      child: Image.asset('assets/triviaLogo.png'),
-                    ),
-                    Row(
-                      children: [
-                        MyText(
-                          txt: 'Trivia ',
-                          color: basicColor,
-                          fontweight: FontWeight.bold,
-                          size: 40.sp,
-                        ),
-                        MyText(
-                          txt: 'star',
-                          color: basicColor,
-                          fontweight: FontWeight.w300,
-                          size: 40.sp,
-                        ),
-                      ],
+                    InkWell(
+                      onTap: () {
+                        catController.appBarLogoClick();
+                      },
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 57.w,
+                            height: 47.h,
+                            child: Image.asset('assets/triviaLogo.png'),
+                          ),
+                          Row(
+                            children: [
+                              MyText(
+                                txt: 'Trivia ',
+                                color: basicColor,
+                                fontweight: FontWeight.bold,
+                                size: 40.sp,
+                              ),
+                              MyText(
+                                txt: 'star',
+                                color: basicColor,
+                                fontweight: FontWeight.w300,
+                                size: 40.sp,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     Row(
                       children: [
@@ -188,27 +197,6 @@ class _ArticleListState extends State<ArticleList> {
                               ),
                             ),
                           ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 60.w,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 29.h),
-                      child: reusableInstance.buttons(
-                        110.w,
-                        43.h,
-                        SizedBox(
-                          height: 20.h,
-                          child: Center(
-                            child: MyText(
-                              txt: 'Upload',
-                              color: whiteColor,
-                              fontweight: FontWeight.w300,
-                              size: 23.sp,
-                            ),
-                          ),
                         ),
                       ),
                     ),
@@ -374,11 +362,7 @@ class _ArticleListState extends State<ArticleList> {
                                                   if (j != 0) {
                                                     questionController.questionSubCategory = catController.subCategoriesForDrawer[index][j - 1].name;
                                                     questionController.update();
-                                                    var isDraftQuestionGet =
-                                                        await questionController.getDraftQuestions(questionController.questionCategory.toString(), questionController.questionSubCategory.toString());
-                                                    if (isDraftQuestionGet) {
-                                                      isShowArticleList = true;
-                                                    }
+
                                                     setState(() {
                                                       if (hide[index]) {
                                                         hide[index] = true;
@@ -514,9 +498,8 @@ class _ArticleListState extends State<ArticleList> {
                             );
                     }),
               ),
-              Visibility(
-                visible: isShowArticleList,
-                child: Container(
+              GetBuilder<QuestionController>(builder: (controller) {
+                return Container(
                   width: 1500.w,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -631,8 +614,8 @@ class _ArticleListState extends State<ArticleList> {
                                             ),
                                           ),
                                           InkWell(
-                                            onTap: () {
-                                              questionController.deleteDraftBtnClick(index);
+                                            onTap: () async {
+                                              await questionController.deleteDraftBtnClick(index);
                                             },
                                             child: MyText(
                                               txt: 'Delete',
@@ -651,8 +634,8 @@ class _ArticleListState extends State<ArticleList> {
                       ),
                     ],
                   ),
-                ),
-              )
+                );
+              })
             ],
           )
         ],

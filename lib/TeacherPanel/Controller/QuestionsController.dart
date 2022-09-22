@@ -73,12 +73,13 @@ class QuestionController extends GetxController {
           await erasedData();
           await deleteDraftBtnClick(draftCheckedIndex[i]);
         }
-        await getDraftQuestions(questionCategory!, questionSubCategory!);
+        await getDraftQuestions();
         draftCheckedIndex = [];
         update();
       } else {
         await addNewQuestions();
         await erasedData();
+        textCounter = 0;
       }
       if (catController.subCategoryName != null) {
         await getQuestions(catController.categoryName!, catController.subCategoryName!);
@@ -98,7 +99,8 @@ class QuestionController extends GetxController {
       option4.text = teacherQuestionModelList[index].choiceList[3];
       article.text = teacherQuestionModelList[index].article;
       qid = teacherQuestionModelList[index].qid;
-      questionCategory = null;
+      questionCategory = teacherQuestionModelList[index].category;
+      questionSubCategory = teacherQuestionModelList[index].subcategory;
     } else {
       question.text = searchQuestion[index].question;
       option1.text = searchQuestion[index].choiceList[0];
@@ -107,7 +109,8 @@ class QuestionController extends GetxController {
       option4.text = searchQuestion[index].choiceList[3];
       article.text = searchQuestion[index].article;
       qid = searchQuestion[index].qid;
-      questionCategory = null;
+      questionCategory = searchQuestion[index].category;
+      questionSubCategory = searchQuestion[index].subcategory;
     }
     update();
     Get.to(AddQuestion(callingFor: 'Edit'));
@@ -135,11 +138,13 @@ class QuestionController extends GetxController {
   }
 
 //methods for draft
-  draftBtnClick() async {
-    var isvalid = await checkValidation();
-    if (isValid) {
+  Future<bool> draftBtnClick() async {
+    bool isInputValid = await checkValidation();
+    if (isInputValid) {
       await addToDraft(question.text, option1.text, option2.text, option3.text, option4.text, answer, article.text, questionCategory, questionSubCategory);
+      return true;
     }
+    return false;
   }
 
   editDraftBtnClick(int index) async {
@@ -160,11 +165,11 @@ class QuestionController extends GetxController {
     qid = draftQuestionModelList[index].qid;
     update();
     await deleteDraftQuestion(qid);
-    await getDraftQuestions(questionCategory!, questionSubCategory!);
+    await getDraftQuestions();
   }
 
-  Future<bool> getDraftQuestions(String cat, String subcat) async {
-    draftQuestionModelList = await getDraftQuestionsList(cat, subcat);
+  Future<bool> getDraftQuestions() async {
+    draftQuestionModelList = await getDraftQuestionsList();
     update();
     return true;
   }

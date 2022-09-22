@@ -16,7 +16,9 @@ import 'package:triviaadminpanal/TeacherPanel/Views/Categories.dart';
 
 import '../Services/LoginServices.dart';
 import 'CustomWidgets/MyText.dart';
+import 'CustomWidgets/text_input_field_widget.dart';
 import 'LoginPage.dart';
+import 'components/max_word_textinput_formater.dart';
 import 'components/style.dart';
 
 class AddQuestion extends StatefulWidget {
@@ -66,6 +68,7 @@ class _AddQuestionState extends State<AddQuestion> {
   bool isShowQuestionForm = false;
   bool isLoading = true;
   List<Color> highlight = [];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -100,26 +103,35 @@ class _AddQuestionState extends State<AddQuestion> {
                     SizedBox(
                       width: 28.w,
                     ),
-                    SizedBox(
-                      width: 57.w,
-                      height: 47.h,
-                      child: Image.asset('assets/triviaLogo.png'),
-                    ),
-                    Row(
-                      children: [
-                        MyText(
-                          txt: 'Trivia ',
-                          color: basicColor,
-                          fontweight: FontWeight.bold,
-                          size: 40.sp,
-                        ),
-                        MyText(
-                          txt: 'star',
-                          color: basicColor,
-                          fontweight: FontWeight.w300,
-                          size: 40.sp,
-                        ),
-                      ],
+                    InkWell(
+                      onTap: () {
+                        catController.appBarLogoClick();
+                      },
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 57.w,
+                            height: 47.h,
+                            child: Image.asset('assets/triviaLogo.png'),
+                          ),
+                          Row(
+                            children: [
+                              MyText(
+                                txt: 'Trivia ',
+                                color: basicColor,
+                                fontweight: FontWeight.bold,
+                                size: 40.sp,
+                              ),
+                              MyText(
+                                txt: 'star',
+                                color: basicColor,
+                                fontweight: FontWeight.w300,
+                                size: 40.sp,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     Row(
                       children: [
@@ -224,7 +236,16 @@ class _AddQuestionState extends State<AddQuestion> {
                           padding: EdgeInsets.only(top: 29.h),
                           child: InkWell(
                             onTap: () async {
-                              await questionController.draftBtnClick();
+                              bool isQuestionDraft = await questionController.draftBtnClick();
+                              if (isQuestionDraft) {
+                                setState(() {
+                                  isCorrect1 = null;
+                                  isCorrect2 = null;
+                                  isCorrect3 = null;
+                                  isCorrect4 = null;
+                                });
+                                questionController.erasedData();
+                              }
                             },
                             child: reusableInstance.buttons(
                               86.w,
@@ -291,22 +312,39 @@ class _AddQuestionState extends State<AddQuestion> {
                 height: 924.h,
                 color: Color(0xffFAFAFA),
                 child: isLoading
-                    ? reusableInstance.loader()
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 200.h,
+                          ),
+                          Text('Loading...'),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          CircularProgressIndicator(),
+                        ],
+                      )
                     : ListView.builder(
                         itemCount: catController.catList.length,
                         itemBuilder: (context, index) {
                           return InkWell(
-                            onTap: () {
+                            onTap: () async {
                               questionController.questionCategory = catController.catList[index].name;
                               questionController.update();
-                              for (int i = 0; i < 7; i++) {
-                                hide[i] = true;
-                                show[i] = false;
-                              }
-                              for (int i = 0; i < 10; i++) {
-                                highlight.add(Colors.white);
-                              }
+
                               setState(() {
+                                for (int i = 0; i < 10; i++) {
+                                  hide[i] = true;
+                                  show[i] = false;
+                                }
+                                highlight.clear();
+                                for (int i = 0; i < 10; i++) {
+                                  highlight.add(Colors.white);
+                                }
+                                for (int i = 0; i < 10; i++) {
+                                  highlight[i] = whiteColor;
+                                }
                                 if (hide[index]) {
                                   hide[index] = false;
                                   show[index] = true;
@@ -365,7 +403,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                             Row(
                                               children: [
                                                 MyText(
-                                                  txt: '500',
+                                                  txt: '${catController.totalSubCate[index]}',
                                                   color: Colors.black,
                                                   fontweight: FontWeight.w600,
                                                   size: 14.sp,
@@ -394,15 +432,16 @@ class _AddQuestionState extends State<AddQuestion> {
                                           itemCount: catController.subCategoriesForDrawer[index].length + 1,
                                           itemBuilder: (context, j) {
                                             return InkWell(
-                                              onTap: () {
+                                              onTap: () async {
                                                 for (int i = 0; i < 10; i++) {
                                                   highlight[i] = whiteColor;
                                                 }
                                                 highlight[j] = Colors.green.withOpacity(0.5);
-                                                questionController.questionSubCategory = catController.subCategoriesForDrawer[index][j - 1].name;
-                                                questionController.update();
-                                                isShowQuestionForm = true;
+
                                                 if (j != 0) {
+                                                  questionController.questionSubCategory = catController.subCategoriesForDrawer[index][j - 1].name;
+                                                  questionController.update();
+                                                  isShowQuestionForm = true;
                                                   setState(() {
                                                     if (hide[index]) {
                                                       hide[index] = true;
@@ -422,8 +461,8 @@ class _AddQuestionState extends State<AddQuestion> {
                                                       show[index] = false;
                                                     }
                                                   });
+                                                  print(index);
                                                 }
-                                                print(catController.subCategoriesForDrawer[index].length);
                                               },
                                               child: Container(
                                                   width: 355.w,
@@ -471,7 +510,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                                         Row(
                                                           children: [
                                                             MyText(
-                                                              txt: '500',
+                                                              txt: j != 0 ? '0' : '${catController.totalSubCate[index]}',
                                                               color: Colors.black,
                                                               fontweight: FontWeight.w600,
                                                               size: 14.sp,
@@ -530,6 +569,13 @@ class _AddQuestionState extends State<AddQuestion> {
                                 isCorrect2 = false;
                                 isCorrect3 = false;
                                 isCorrect4 = false;
+                              });
+                            } else {
+                              setState(() {
+                                isCorrect1 = null;
+                                isCorrect2 = null;
+                                isCorrect3 = null;
+                                isCorrect4 = null;
                               });
                             }
                             questionController.answer = 1;
@@ -592,6 +638,13 @@ class _AddQuestionState extends State<AddQuestion> {
                                 isCorrect2 = true;
                                 isCorrect3 = false;
                                 isCorrect4 = false;
+                              });
+                            } else {
+                              setState(() {
+                                isCorrect1 = null;
+                                isCorrect2 = null;
+                                isCorrect3 = null;
+                                isCorrect4 = null;
                               });
                             }
                             questionController.answer = 2;
@@ -669,6 +722,13 @@ class _AddQuestionState extends State<AddQuestion> {
                                 isCorrect3 = true;
                                 isCorrect4 = false;
                               });
+                            } else {
+                              setState(() {
+                                isCorrect1 = null;
+                                isCorrect2 = null;
+                                isCorrect3 = null;
+                                isCorrect4 = null;
+                              });
                             }
                             questionController.answer = 3;
                             questionController.update();
@@ -728,6 +788,13 @@ class _AddQuestionState extends State<AddQuestion> {
                                 isCorrect2 = false;
                                 isCorrect3 = false;
                                 isCorrect4 = true;
+                              });
+                            } else {
+                              setState(() {
+                                isCorrect1 = null;
+                                isCorrect2 = null;
+                                isCorrect3 = null;
+                                isCorrect4 = null;
                               });
                             }
                             questionController.answer = 4;
@@ -823,22 +890,16 @@ class _AddQuestionState extends State<AddQuestion> {
                             child: Container(
                               width: 700.w,
                               height: 400.h,
-                              child: TextField(
+                              child: TextInputFieldWidget(
                                 controller: questionController.article,
-                                onChanged: (value) {
-                                  if (value.split(' ').length <= 500) {
-                                    questionController.increaseTextCounter(value.split(' ').length);
-                                  }
-                                },
-                                style: TextStyle(
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                maxLength: 2000,
                                 maxLines: 200,
-                                decoration: const InputDecoration(
-                                  counterText: '',
-                                  border: InputBorder.none,
-                                ),
+                                textInputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9\?\s_-]+")),
+                                  MaxWordTextInputFormater(maxWords: 500, currentLength: questionController.increaseTextCounter),
+                                ],
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
@@ -876,7 +937,16 @@ class _AddQuestionState extends State<AddQuestion> {
                                   ),
                                   InkWell(
                                     onTap: () async {
-                                      await questionController.draftBtnClick();
+                                      bool isQuestionDraft = await questionController.draftBtnClick();
+                                      if (isQuestionDraft) {
+                                        setState(() {
+                                          isCorrect1 = null;
+                                          isCorrect2 = null;
+                                          isCorrect3 = null;
+                                          isCorrect4 = null;
+                                        });
+                                        questionController.erasedData();
+                                      }
                                     },
                                     child: reusableInstance.buttons(
                                       86.w,
@@ -899,6 +969,12 @@ class _AddQuestionState extends State<AddQuestion> {
                                   ),
                                   InkWell(
                                     onTap: () async {
+                                      setState(() {
+                                        isCorrect1 = null;
+                                        isCorrect2 = null;
+                                        isCorrect3 = null;
+                                        isCorrect4 = null;
+                                      });
                                       if (widget.callingFor == 'Edit') {
                                         await questionController.teacherUpdateQuestion();
                                       } else {
@@ -939,7 +1015,7 @@ class _AddQuestionState extends State<AddQuestion> {
     );
   }
 
-  Widget myContainers(var label, var width, var height, var maXLine, TextEditingController controller) {
+  Widget myContainers(var label, var width, var height, var maXLine, TextEditingController cont) {
     return Container(
       width: width,
       height: height,
@@ -962,18 +1038,17 @@ class _AddQuestionState extends State<AddQuestion> {
           Container(
             width: width,
             height: height,
-            margin: EdgeInsets.only(left: 5.w, bottom: 5.w),
-            child: TextField(
-              controller: controller,
-              style: TextStyle(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w600,
-              ),
-              maxLength: label == 'Question' ? 40 : 30,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                counterText: '',
-              ),
+            margin: EdgeInsets.only(left: 5.w, bottom: 10.w),
+            child: TextInputFieldWidget(
+              controller: cont,
+              maxLength: label == 'Question' ? 200 : 20,
+              maxLines: 1,
+              textInputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9\?\s_-]+")),
+                MaxWordTextInputFormater(maxWords: label == 'Question' ? 50 : 2),
+              ],
+              fontSize: 17.sp,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],

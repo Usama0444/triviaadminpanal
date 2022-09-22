@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:triviaadminpanal/TeacherPanel/Bindings/BindController.dart';
+import 'package:triviaadminpanal/TeacherPanel/Views/Test.dart';
 import 'TeacherPanel/Views/AddQuestions.dart';
 import 'TeacherPanel/Views/Categories.dart';
 import 'TeacherPanel/Views/CustomWidgets/Reusable.dart';
@@ -54,6 +55,7 @@ class _MyAppState extends State<MyApp> {
       rebuildFactor: (old, data) => true,
       builder: (context, child) => GetMaterialApp(
         home: isAlreadyLogin != true ? LoginPage() : Categories(),
+        // home: Test(),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: 'Nexa'),
       ),

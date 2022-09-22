@@ -12,7 +12,7 @@ var draftCollection = FirebaseFirestore.instance.collection('draft');
 var copyQuestionCollectionRef = FirebaseFirestore.instance.collection('copyquestions');
 var questionsList;
 var controller = Get.put(QuestionController());
-var email = FirebaseAuth.instance.currentUser?.email;
+var email = pref?.getString('email');
 
 Future<List<QuestionModel>> getQuestionsList(cat, subcat) async {
   try {
@@ -38,41 +38,36 @@ deleteQuestion(qid) async {
 editTeacherQuestions(String question, option1, option2, option3, option4, answer, article, category, subCategory, qid) async {
   try {
     List<String> choice = [option1, option2, option3, option4];
-    if (question == '' || option1 == '' || option2 == '' || option3 == '' || option4 == '') {
-      reusableInstance.toast('Confirmation Alert', 'Invalid Data');
-      controller.isValid = false;
-      controller.update();
-    } else {
-      questionCollectionRef.doc(qid).update({
-        'category': category,
-        'question': question,
-        'choices': choice,
-        'answer': answer,
-        'qid': qid,
-        'subcategory': subCategory,
-        'email': email,
-        'article': article,
-        'createdAt': DateTime.now(),
-        'updatedAt': DateTime.now(),
-        'type': 'update Question',
-        'isapproved': 'false',
-      });
-      copyQuestionCollectionRef.doc(qid).update({
-        'category': category,
-        'question': question,
-        'choices': choice,
-        'answer': answer,
-        'qid': qid,
-        'subcategory': subCategory,
-        'email': email,
-        'article': article,
-        'createdAt': DateTime.now(),
-        'updatedAt': DateTime.now(),
-        'type': 'update Question',
-        'isapproved': 'false',
-      });
-      reusableInstance.toast('Confirmation Alert', 'Question Updated successfully');
-    }
+
+    questionCollectionRef.doc(qid).update({
+      'category': category,
+      'question': question,
+      'choices': choice,
+      'answer': answer,
+      'qid': qid,
+      'subcategory': subCategory,
+      'email': email,
+      'article': article,
+      'createdAt': DateTime.now(),
+      'updatedAt': DateTime.now(),
+      'type': 'update Question',
+      'isapproved': 'false',
+    });
+    copyQuestionCollectionRef.doc(qid).update({
+      'category': category,
+      'question': question,
+      'choices': choice,
+      'answer': answer,
+      'qid': qid,
+      'subcategory': subCategory,
+      'email': email,
+      'article': article,
+      'createdAt': DateTime.now(),
+      'updatedAt': DateTime.now(),
+      'type': 'update Question',
+      'isapproved': 'false',
+    });
+    reusableInstance.toast('Confirmation Alert', 'Question Updated successfully');
   } catch (e) {
     reusableInstance.toast('Error', 'something went wrong!!');
   }
@@ -117,10 +112,9 @@ addQuestions(String question, option1, option2, option3, option4, answer, articl
   }
 }
 
-Future<List<QuestionModel>> getDraftQuestionsList(cat, subcat) async {
+Future<List<QuestionModel>> getDraftQuestionsList() async {
   try {
-    print(email);
-    var getQuestions = await draftCollection.where('email', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subcat).get();
+    var getQuestions = await draftCollection.where('email', isEqualTo: 't@gmail.com').get();
     questionsList = getQuestions.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
   } catch (e) {
     reusableInstance.toast('Error', '$e');

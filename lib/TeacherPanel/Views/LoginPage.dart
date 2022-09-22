@@ -227,10 +227,18 @@ class _LoginPageState extends State<LoginPage> {
               ),
               InkWell(
                 onTap: () async {
+                  await pref?.setString('email', loginController.email.text);
+
                   isLoading = true;
                   if (isLoading) {
-                    Get.dialog(Container(
-                      child: Center(child: CircularProgressIndicator()),
+                    Get.dialog(Scaffold(
+                      backgroundColor: Colors.transparent,
+                      body: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          reusableInstance.loader(),
+                        ],
+                      ),
                     ));
                   }
 
@@ -240,6 +248,7 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.pop(context);
                   } else {
                     await pref?.setBool('logedin', true);
+
                     Get.offAll(Categories());
                   }
                 },

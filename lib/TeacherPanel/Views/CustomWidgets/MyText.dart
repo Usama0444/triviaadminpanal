@@ -16,7 +16,8 @@ class MyText extends StatelessWidget {
     return Text(
       txt,
       textAlign: TextAlign.center,
-      overflow: TextOverflow.clip,
+      overflow: TextOverflow.visible,
+      maxLines: 1,
       style: TextStyle(
         fontSize: size,
         fontWeight: fontweight,

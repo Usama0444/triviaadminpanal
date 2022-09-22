@@ -139,4 +139,8 @@ class CategoryController extends GetxController {
       }
     }
   }
+
+  appBarLogoClick() {
+    Get.offAll(Categories());
+  }
 }

@@ -64,26 +64,35 @@ class _SubCategoryState extends State<SubCategory> {
                     SizedBox(
                       width: 28.w,
                     ),
-                    SizedBox(
-                      width: 57.w,
-                      height: 47.h,
-                      child: Image.asset('assets/triviaLogo.png'),
-                    ),
-                    Row(
-                      children: [
-                        MyText(
-                          txt: 'Trivia ',
-                          color: basicColor,
-                          fontweight: FontWeight.bold,
-                          size: 40.sp,
-                        ),
-                        MyText(
-                          txt: 'star',
-                          color: basicColor,
-                          fontweight: FontWeight.w300,
-                          size: 40.sp,
-                        ),
-                      ],
+                    InkWell(
+                      onTap: () {
+                        cateController.appBarLogoClick();
+                      },
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 57.w,
+                            height: 47.h,
+                            child: Image.asset('assets/triviaLogo.png'),
+                          ),
+                          Row(
+                            children: [
+                              MyText(
+                                txt: 'Trivia ',
+                                color: basicColor,
+                                fontweight: FontWeight.bold,
+                                size: 40.sp,
+                              ),
+                              MyText(
+                                txt: 'star',
+                                color: basicColor,
+                                fontweight: FontWeight.w300,
+                                size: 40.sp,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     Row(
                       children: [
