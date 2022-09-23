@@ -38,6 +38,7 @@ class QuestionController extends GetxController {
   List<bool> hideCategory = [];
   List<bool> showSubCategory = [];
   bool isShowSubCategoryQuestionForm = false;
+  int? catIndex, subCatIndex;
 
   CategoryController catController = Get.find<CategoryController>();
 
@@ -48,7 +49,6 @@ class QuestionController extends GetxController {
       highlightSubCategories[i] = whiteColor;
     }
     highlightSubCategories[index] = Colors.green.withOpacity(0.5);
-    print(questionSubCategory);
     isShowSubCategoryQuestionForm = true;
     update();
   }
@@ -68,23 +68,58 @@ class QuestionController extends GetxController {
       hideCategory.add(true);
       showSubCategory.add(false);
     }
+    if (catIndex != null) {
+      if (hideCategory[catIndex!]) {
+        hideCategory[catIndex!] = false;
+        showSubCategory[catIndex!] = true;
+      }
+      questionCategory = catController.catList[catIndex!].name;
+    }
+    if (subCatIndex != null) {
+      highlightSpecificSubCategory(subCatIndex! + 1);
+      isShowSubCategoryQuestionForm = true;
+      questionSubCategory = catController.subCatList[subCatIndex!].name;
+    }
     update();
   }
 
   hideShowDropDown(index) async {
-    for (int i = 0; i < 20; i++) {
-      hideCategory[i] = true;
-      showSubCategory[i] = false;
-    }
     if (hideCategory[index]) {
+      for (int i = 0; i < 20; i++) {
+        hideCategory[i] = true;
+        showSubCategory[i] = false;
+      }
       hideCategory[index] = false;
       showSubCategory[index] = true;
     } else {
+      for (int i = 0; i < 20; i++) {
+        hideCategory[i] = true;
+        showSubCategory[i] = false;
+      }
       hideCategory[index] = true;
       showSubCategory[index] = false;
     }
     questionCategory = catController.catList[index].name;
-    print(questionCategory);
+    update();
+    print(hideCategory[index]);
+    print(showSubCategory[index]);
+  }
+
+  checkCategoryAndSubCategoryAlreadySelected() {
+    String? catName = catController.categoryName;
+    String? subCate = catController.subCategoryName;
+    for (int i = 0; i < catController.catList.length; i++) {
+      if (catName != null && catController.catList[i].name == catName) {
+        catIndex = i;
+      }
+    }
+    if (catController.subCatList.isNotEmpty) {
+      for (int i = 0; i < catController.subCatList.length; i++) {
+        if (subCate != null && catController.subCatList[i].name == subCate) {
+          subCatIndex = i;
+        }
+      }
+    }
     update();
   }
 
@@ -110,6 +145,7 @@ class QuestionController extends GetxController {
     option4.text = '';
     answer = null;
     article.text = '';
+
     update();
   }
 

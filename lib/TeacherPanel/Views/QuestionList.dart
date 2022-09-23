@@ -283,15 +283,17 @@ class _QuestionListState extends State<QuestionList> {
           SizedBox(
             height: 41.h,
           ),
-          isLoading
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    reusableInstance.loader(),
-                  ],
-                )
-              : GetBuilder<QuestionController>(builder: (controller) {
-                  return Column(
+          GetBuilder<QuestionController>(builder: (controller) {
+            return isLoading
+                ? Column(
+                    children: [
+                      SizedBox(
+                        height: 400.h,
+                      ),
+                      reusableInstance.loader(),
+                    ],
+                  )
+                : Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -468,7 +470,7 @@ class _QuestionListState extends State<QuestionList> {
                       ),
                     ],
                   );
-                })
+          })
         ],
       ),
     );
