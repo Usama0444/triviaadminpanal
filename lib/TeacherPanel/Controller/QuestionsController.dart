@@ -35,8 +35,58 @@ class QuestionController extends GetxController {
   bool questionSearchNotMatch = false;
   int listLength = 1;
   int textCounter = 0;
+  List<bool> hideCategory = [];
+  List<bool> showSubCategory = [];
+  bool isShowSubCategoryQuestionForm = false;
 
   CategoryController catController = Get.find<CategoryController>();
+
+  List<Color> highlightSubCategories = [];
+
+  highlightSpecificSubCategory(index) {
+    for (int i = 0; i < 10; i++) {
+      highlightSubCategories[i] = whiteColor;
+    }
+    highlightSubCategories[index] = Colors.green.withOpacity(0.5);
+    print(questionSubCategory);
+    isShowSubCategoryQuestionForm = true;
+    update();
+  }
+
+  highlightSpecificSubCategoryInit() {
+    highlightSubCategories = [];
+    for (int i = 0; i < 10; i++) {
+      highlightSubCategories.add(whiteColor);
+    }
+    update();
+  }
+
+  hideShowListInit() {
+    hideCategory = [];
+    showSubCategory = [];
+    for (int i = 0; i < 20; i++) {
+      hideCategory.add(true);
+      showSubCategory.add(false);
+    }
+    update();
+  }
+
+  hideShowDropDown(index) async {
+    for (int i = 0; i < 20; i++) {
+      hideCategory[i] = true;
+      showSubCategory[i] = false;
+    }
+    if (hideCategory[index]) {
+      hideCategory[index] = false;
+      showSubCategory[index] = true;
+    } else {
+      hideCategory[index] = true;
+      showSubCategory[index] = false;
+    }
+    questionCategory = catController.catList[index].name;
+    print(questionCategory);
+    update();
+  }
 
   questionSearchTap() async {
     questionSearchNotMatch = false;

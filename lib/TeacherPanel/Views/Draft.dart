@@ -554,6 +554,7 @@ class _DraftState extends State<Draft> {
                                       );
                               }),
                     ),
+                    
                     SizedBox(
                       width: 1545.w,
                       child: Column(
