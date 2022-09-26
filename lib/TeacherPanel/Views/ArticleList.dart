@@ -253,6 +253,8 @@ class _ArticleListState extends State<ArticleList> {
                               onTap: () async {
                                 questionController.questionCategory = catController.catList[index].name;
                                 questionController.update();
+                                catController.categoryName = catController.catList[index].name;
+                                catController.update();
 
                                 setState(() {
                                   for (int i = 0; i < 10; i++) {
@@ -362,7 +364,12 @@ class _ArticleListState extends State<ArticleList> {
                                                   if (j != 0) {
                                                     questionController.questionSubCategory = catController.subCategoriesForDrawer[index][j - 1].name;
                                                     questionController.update();
-
+                                                    catController.subCategoryName = catController.subCategoriesForDrawer[index][j - 1].name;
+                                                    catController.update();
+                                                    var isDraftQuestionGet = await questionController.getDraftQuestions();
+                                                    if (isDraftQuestionGet) {
+                                                      isShowArticleList = true;
+                                                    }
                                                     setState(() {
                                                       if (hide[index]) {
                                                         hide[index] = true;
@@ -498,144 +505,147 @@ class _ArticleListState extends State<ArticleList> {
                             );
                     }),
               ),
-              GetBuilder<QuestionController>(builder: (controller) {
-                return Container(
-                  width: 1500.w,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                          height: 30.h,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 40.w),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    MyText(
-                                      txt: 'Articles /',
-                                      color: Colors.black,
-                                      fontweight: FontWeight.w800,
-                                      size: 25.sp,
-                                    ),
-                                    MyText(
-                                      txt: ' Blogs',
-                                      color: Colors.black,
-                                      fontweight: FontWeight.w300,
-                                      size: 25.sp,
-                                    ),
-                                  ],
-                                ),
-                                MyText(
-                                  txt: '${questionController.draftQuestionModelList.length} Articles',
-                                  color: basicColor,
-                                  fontweight: FontWeight.w500,
-                                  size: 20.sp,
-                                ),
-                              ],
-                            ),
-                          )),
-                      SizedBox(height: 45.h),
-                      SizedBox(
-                        height: 882.h,
-                        child: ListView.builder(
-                          itemCount: questionController.draftQuestionModelList.length,
-                          padding: EdgeInsets.zero,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              height: 121.h,
-                              margin: EdgeInsets.only(bottom: 29.h),
-                              decoration: BoxDecoration(
-                                color: cateContainerColor,
-                              ),
-                              child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 20.w),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Visibility(
+                visible: isShowArticleList,
+                child: GetBuilder<QuestionController>(builder: (controller) {
+                  return SizedBox(
+                    width: 1500.w,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                            height: 30.h,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 40.w),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
                                     children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          MyText(
-                                            txt: 'Article no : 0${index + 1}',
-                                            color: Colors.black,
-                                            fontweight: FontWeight.w800,
-                                            size: 16.sp,
-                                          ),
-                                          MyText(
-                                            txt: '21/2/2022',
-                                            color: basicColor,
-                                            fontweight: FontWeight.w800,
-                                            size: 10.sp,
-                                          ),
-                                          SizedBox(
-                                            height: 10.h,
-                                          ),
-                                          SizedBox(
-                                            width: 1300.w,
-                                            child: Text(
-                                              overflow: TextOverflow.visible,
-                                              '''${questionController.draftQuestionModelList[index].article}''',
-                                              maxLines: 3,
-                                              style: TextStyle(
-                                                fontSize: 12.sp,
-                                                fontWeight: FontWeight.w300,
+                                      MyText(
+                                        txt: 'Articles /',
+                                        color: Colors.black,
+                                        fontweight: FontWeight.w800,
+                                        size: 25.sp,
+                                      ),
+                                      MyText(
+                                        txt: ' Blogs',
+                                        color: Colors.black,
+                                        fontweight: FontWeight.w300,
+                                        size: 25.sp,
+                                      ),
+                                    ],
+                                  ),
+                                  MyText(
+                                    txt: '${questionController.draftQuestionModelList.length} Articles',
+                                    color: basicColor,
+                                    fontweight: FontWeight.w500,
+                                    size: 20.sp,
+                                  ),
+                                ],
+                              ),
+                            )),
+                        SizedBox(height: 45.h),
+                        SizedBox(
+                          height: 882.h,
+                          child: ListView.builder(
+                            itemCount: questionController.draftQuestionModelList.length,
+                            padding: EdgeInsets.zero,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                height: 121.h,
+                                margin: EdgeInsets.only(bottom: 29.h),
+                                decoration: BoxDecoration(
+                                  color: cateContainerColor,
+                                ),
+                                child: Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 20.w),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            MyText(
+                                              txt: 'Article no : 0${index + 1}',
+                                              color: Colors.black,
+                                              fontweight: FontWeight.w800,
+                                              size: 16.sp,
+                                            ),
+                                            MyText(
+                                              txt: '21/2/2022',
+                                              color: basicColor,
+                                              fontweight: FontWeight.w800,
+                                              size: 10.sp,
+                                            ),
+                                            SizedBox(
+                                              height: 10.h,
+                                            ),
+                                            SizedBox(
+                                              width: 1300.w,
+                                              child: Text(
+                                                overflow: TextOverflow.visible,
+                                                questionController.draftQuestionModelList[index].article,
+                                                maxLines: 3,
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  fontWeight: FontWeight.w300,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              questionController.copyBtnClick(index);
-                                              reusableInstance.toast('Copied', 'copy to Clipboard');
-                                            },
-                                            child: MyText(
-                                              txt: 'Copy',
-                                              color: Color(0xff00D579),
-                                              fontweight: FontWeight.w800,
-                                              size: 20.sp,
+                                          ],
+                                        ),
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                questionController.copyBtnClick(index);
+                                                reusableInstance.toast('Copied', 'copy to Clipboard');
+                                              },
+                                              child: MyText(
+                                                txt: 'Copy',
+                                                color: Color(0xff00D579),
+                                                fontweight: FontWeight.w800,
+                                                size: 20.sp,
+                                              ),
                                             ),
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              questionController.editDraftBtnClick(index);
-                                            },
-                                            child: MyText(
-                                              txt: 'Edit',
-                                              color: Color(0xff2CB4B3),
-                                              fontweight: FontWeight.w800,
-                                              size: 20.sp,
+                                            InkWell(
+                                              onTap: () {
+                                                questionController.editDraftBtnClick(index);
+                                              },
+                                              child: MyText(
+                                                txt: 'Edit',
+                                                color: Color(0xff2CB4B3),
+                                                fontweight: FontWeight.w800,
+                                                size: 20.sp,
+                                              ),
                                             ),
-                                          ),
-                                          InkWell(
-                                            onTap: () async {
-                                              await questionController.deleteDraftBtnClick(index);
-                                            },
-                                            child: MyText(
-                                              txt: 'Delete',
-                                              color: Color(0xffFF0000),
-                                              fontweight: FontWeight.w800,
-                                              size: 20.sp,
+                                            InkWell(
+                                              onTap: () async {
+                                                await questionController.deleteDraftBtnClick(index);
+                                              },
+                                              child: MyText(
+                                                txt: 'Delete',
+                                                color: Color(0xffFF0000),
+                                                fontweight: FontWeight.w800,
+                                                size: 20.sp,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  )),
-                            );
-                          },
+                                          ],
+                                        )
+                                      ],
+                                    )),
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              })
+                      ],
+                    ),
+                  );
+                }),
+              )
             ],
           )
         ],

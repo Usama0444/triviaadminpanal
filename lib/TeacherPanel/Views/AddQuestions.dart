@@ -41,12 +41,36 @@ class _AddQuestionState extends State<AddQuestion> {
     super.initState();
     catController.fillSubCategoryForDrawer().whenComplete(() async {
       questionController.checkCategoryAndSubCategoryAlreadySelected();
+      await questionController.getTotalQuestionsOfSepecificSubcategoryForAddQuestion();
       if (widget.callingFor == 'Edit') {
         questionController.isShowSubCategoryQuestionForm = true;
       }
       questionController.highlightSpecificSubCategoryInit();
       questionController.hideShowListInit();
       setState(() {
+        if (questionController.answer != null) {
+          if (questionController.answer == 1) {
+            isCorrect1 = true;
+            isCorrect2 = false;
+            isCorrect3 = false;
+            isCorrect4 = false;
+          } else if (questionController.answer == 2) {
+            isCorrect2 = true;
+            isCorrect1 = false;
+            isCorrect3 = false;
+            isCorrect4 = false;
+          } else if (questionController.answer == 3) {
+            isCorrect3 = true;
+            isCorrect2 = false;
+            isCorrect1 = false;
+            isCorrect4 = false;
+          } else {
+            isCorrect4 = true;
+            isCorrect2 = false;
+            isCorrect3 = false;
+            isCorrect1 = false;
+          }
+        }
         isLoading = false;
       });
     });
@@ -308,7 +332,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                       child: Container(
                                         width: 375.w,
                                         height: (catController.subCategoriesForDrawer[index].length + 2) * 60.h,
-                                        color: Color(0xffC4C4C4),
+                                        color: const Color(0xffC4C4C4),
                                         child: ListView.builder(
                                             itemCount: catController.subCategoriesForDrawer[index].length + 1,
                                             itemBuilder: (context, j) {
@@ -369,7 +393,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                                           Row(
                                                             children: [
                                                               MyText(
-                                                                txt: j != 0 ? '0' : '${catController.totalSubCate[index]}',
+                                                                txt: j != 0 ? '${controller.questionLengthPerSubcateogryForAddQuestion[index][j - 1]}' : '${catController.totalSubCate[index]}',
                                                                 color: Colors.black,
                                                                 fontweight: FontWeight.w600,
                                                                 size: 14.sp,
@@ -871,11 +895,13 @@ class _AddQuestionState extends State<AddQuestion> {
                             SizedBox(height: 20.h),
                             InkWell(
                               onTap: () async {
-                                if (widget.callingFor == 'Edit') {
-                                  await questionController.teacherUpdateQuestion();
-                                } else {
-                                  await questionController.uploadBtnClick();
-                                }
+                                await questionController.uploadBtnClick();
+                                setState(() {
+                                  isCorrect1 = null;
+                                  isCorrect2 = null;
+                                  isCorrect3 = null;
+                                  isCorrect4 = null;
+                                });
                               },
                               child: reusableInstance.buttons(
                                 180.w,

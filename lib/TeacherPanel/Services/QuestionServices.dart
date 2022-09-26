@@ -12,11 +12,14 @@ var draftCollection = FirebaseFirestore.instance.collection('draft');
 var copyQuestionCollectionRef = FirebaseFirestore.instance.collection('copyquestions');
 var questionsList;
 var controller = Get.put(QuestionController());
-var email = pref?.getString('email');
+var email = pref?.getString('email') ?? FirebaseAuth.instance.currentUser?.email;
 
 Future<List<QuestionModel>> getQuestionsList(cat, subcat) async {
   try {
     print(email);
+    print(cat);
+    print(subcat);
+
     var getQuestions = await questionCollectionRef.where('email', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subcat).get();
     questionsList = getQuestions.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
   } catch (e) {
@@ -112,9 +115,9 @@ addQuestions(String question, option1, option2, option3, option4, answer, articl
   }
 }
 
-Future<List<QuestionModel>> getDraftQuestionsList() async {
+Future<List<QuestionModel>> getDraftQuestionsList(cat, subcat) async {
   try {
-    var getQuestions = await draftCollection.where('email', isEqualTo: 't@gmail.com').get();
+    var getQuestions = await draftCollection.where('email', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subcat).get();
     questionsList = getQuestions.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
   } catch (e) {
     reusableInstance.toast('Error', '$e');

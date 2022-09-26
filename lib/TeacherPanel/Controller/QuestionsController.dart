@@ -36,9 +36,14 @@ class QuestionController extends GetxController {
   int listLength = 1;
   int textCounter = 0;
   List<bool> hideCategory = [];
+  List<int> temp = [];
   List<bool> showSubCategory = [];
   bool isShowSubCategoryQuestionForm = false;
+  bool isDraftEditPress = false;
+  int? editDraftQuestionSelectedIndex;
   int? catIndex, subCatIndex;
+  List<List<int>> questionLengthPerSubcateogryForAddQuestion = []; //for add question screen drop down menu
+  List<List<int>> questionLengthPerSubcateogryForDraftDropDownMenu = []; //this is use for drop down menu in add question screen and draft pages
 
   CategoryController catController = Get.find<CategoryController>();
 
@@ -145,28 +150,21 @@ class QuestionController extends GetxController {
     option4.text = '';
     answer = null;
     article.text = '';
-
     update();
   }
 
   uploadBtnClick() async {
     bool isInputValid = await checkValidation();
     if (isInputValid) {
-      if (draftCheckedIndex.isNotEmpty) {
-        for (int i = 0; i < draftCheckedIndex.length; i++) {
-          await editDraftBtnClick(draftCheckedIndex[i]);
-          await addNewQuestions();
-          await erasedData();
-          await deleteDraftBtnClick(draftCheckedIndex[i]);
-        }
+      await addNewQuestions();
+      if (isDraftEditPress) {
+        await deleteDraftBtnClick(editDraftQuestionSelectedIndex!);
         await getDraftQuestions();
-        draftCheckedIndex = [];
-        update();
-      } else {
-        await addNewQuestions();
-        await erasedData();
-        textCounter = 0;
       }
+      // await getTotalQuestionsOfSepecificSubcategoryForAddQuestion();
+      // await getTotalQuestionsOfSepecificSubcategoryForDraft();
+      await erasedData();
+      textCounter = 0;
       if (catController.subCategoryName != null) {
         await getQuestions(catController.categoryName!, catController.subCategoryName!);
       } else {
@@ -228,6 +226,7 @@ class QuestionController extends GetxController {
     bool isInputValid = await checkValidation();
     if (isInputValid) {
       await addToDraft(question.text, option1.text, option2.text, option3.text, option4.text, answer, article.text, questionCategory, questionSubCategory);
+      await getTotalQuestionsOfSepecificSubcategoryForDraft();
       return true;
     }
     return false;
@@ -242,6 +241,8 @@ class QuestionController extends GetxController {
     article.text = draftQuestionModelList[index].article;
     answer = draftQuestionModelList[index].answer;
     qid = draftQuestionModelList[index].qid;
+    editDraftQuestionSelectedIndex = index;
+    update();
     if (draftCheckedIndex.isEmpty) {
       Get.to(AddQuestion(callingFor: 'Edit'));
     }
@@ -255,7 +256,8 @@ class QuestionController extends GetxController {
   }
 
   Future<bool> getDraftQuestions() async {
-    draftQuestionModelList = await getDraftQuestionsList();
+    draftQuestionModelList = [];
+    draftQuestionModelList = await getDraftQuestionsList(questionCategory!, questionSubCategory!);
     update();
     return true;
   }
@@ -263,7 +265,7 @@ class QuestionController extends GetxController {
 ////
 
   Future<bool> checkValidation() async {
-    if (questionSubCategory == null) {
+    if (questionSubCategory == null && questionCategory == null) {
       reusableInstance.toast('Invalid choice', 'please select category and subcategory!');
       return false;
     } else if (question.text.trim().isEmpty && option1.text.trim().isEmpty && option2.text.trim().isEmpty && option3.text.trim().isEmpty && option4.text.trim().isEmpty) {
@@ -324,5 +326,37 @@ class QuestionController extends GetxController {
 
   removeQuestion() async {
     await deleteQuestion(qid);
+  }
+
+  ///fil list of total question length for Add question screen drop down menu
+
+  getTotalQuestionsOfSepecificSubcategoryForAddQuestion() async {
+    questionLengthPerSubcateogryForAddQuestion = [];
+    var questions;
+    for (int i = 0; i < catController.catList.length; i++) {
+      temp = [];
+      for (int j = 0; j < catController.subCategoriesForDrawer[i].length; j++) {
+        questions = await getQuestionsList(catController.catList[i].name, catController.subCategoriesForDrawer[i][j].name);
+        temp.add(questions.length);
+      }
+      questionLengthPerSubcateogryForAddQuestion.add(temp);
+    }
+    update();
+  }
+
+  ///fil list of total question length for Draft screen drop down menu
+
+  getTotalQuestionsOfSepecificSubcategoryForDraft() async {
+    questionLengthPerSubcateogryForAddQuestion = [];
+    var questions;
+    for (int i = 0; i < catController.catList.length; i++) {
+      temp = [];
+      for (int j = 0; j < catController.subCategoriesForDrawer[i].length; j++) {
+        questions = await getDraftQuestionsList(catController.catList[i].name, catController.subCategoriesForDrawer[i][j].name);
+        temp.add(questions.length);
+      }
+      questionLengthPerSubcateogryForDraftDropDownMenu.add(temp);
+    }
+    update();
   }
 }

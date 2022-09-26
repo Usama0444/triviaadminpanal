@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
   double dotIndex = 0.0;
   bool obxTxt = true;
 
-  List<Widget> imageSliders = ['assets/slider1.png', 'assets/slider2.png', 'assets/slider3.png', 'assets/slider4.png']
+  List<Widget> imageSliders = ['assets/slider1.png', 'assets/slider1.png', 'assets/slider1.png', 'assets/slider1.png']
       .map(
         (item) => SizedBox(
           width: 700.w,

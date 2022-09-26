@@ -375,12 +375,12 @@ class _QuestionListState extends State<QuestionList> {
                                           ),
                                           InkWell(
                                             onTap: () {
-                                              questionController.editBtnClick(index);
+                                              // questionController.editBtnClick(index);
                                             },
                                             child: Padding(
-                                              padding: EdgeInsets.only(right: 25.w),
+                                              padding: EdgeInsets.only(right: 7.w),
                                               child: MyText(
-                                                txt: 'Edit',
+                                                txt: 'Article',
                                                 color: basicColor,
                                                 fontweight: FontWeight.w800,
                                                 size: 20.sp,

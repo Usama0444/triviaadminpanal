@@ -223,7 +223,6 @@ class _SubCategoryState extends State<SubCategory> {
                                 onTap: () async {
                                   await questionController.erasedData();
                                   questionController.catController.subCategoryName = '';
-
                                   Get.to(AddQuestion(callingFor: 'Add'));
                                 },
                                 child: Container(
