@@ -6,6 +6,7 @@ class QuestionModel {
   String article;
   String category;
   String subcategory;
+  // String createdAt;
 
   QuestionModel({
     required this.category,
@@ -13,6 +14,7 @@ class QuestionModel {
     required this.question,
     required this.choiceList,
     required this.qid,
+    // required this.createdAt,
     required this.answer,
     required this.article,
   });
@@ -26,6 +28,7 @@ class QuestionModel {
       article: json['article'],
       category: json['category'],
       subcategory: json['subcategory'],
+      // // createdAt: json['createdAt'],
     );
   }
 }

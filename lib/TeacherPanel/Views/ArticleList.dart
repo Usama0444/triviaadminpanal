@@ -251,8 +251,7 @@ class _ArticleListState extends State<ArticleList> {
                       return index != catController.catList.length
                           ? InkWell(
                               onTap: () async {
-                                questionController.questionCategory = catController.catList[index].name;
-                                questionController.update();
+                                catController.questionCategory = catController.catList[index].name;
                                 catController.categoryName = catController.catList[index].name;
                                 catController.update();
 
@@ -362,7 +361,7 @@ class _ArticleListState extends State<ArticleList> {
                                                   highlight[j] = Colors.green.withOpacity(0.5);
 
                                                   if (j != 0) {
-                                                    questionController.questionSubCategory = catController.subCategoriesForDrawer[index][j - 1].name;
+                                                    catController.questionSubCategory = catController.subCategoriesForDrawer[index][j - 1].name;
                                                     questionController.update();
                                                     catController.subCategoryName = catController.subCategoriesForDrawer[index][j - 1].name;
                                                     catController.update();
@@ -440,7 +439,9 @@ class _ArticleListState extends State<ArticleList> {
                                                           Row(
                                                             children: [
                                                               MyText(
-                                                                txt: j != 0 ? '0' : '${catController.totalSubCate[index]}',
+                                                                txt: j != 0
+                                                                    ? '${questionController.questionLengthPerSubcateogryForDraftDropDownMenu[index][j - 1]}'
+                                                                    : '${catController.totalSubCate[index]}',
                                                                 color: Colors.black,
                                                                 fontweight: FontWeight.w600,
                                                                 size: 14.sp,

@@ -196,3 +196,27 @@ Future<int> totalNoOfQuestions() async {
     return 0;
   }
 }
+
+updateDraftQuestion(String question, option1, option2, option3, option4, answer, article, category, subCategory, qid, createdAt) {
+  try {
+    List<String> choice = [option1, option2, option3, option4];
+
+    draftCollection.doc(qid).update({
+      'category': category,
+      'question': question,
+      'choices': choice,
+      'answer': answer,
+      'qid': qid,
+      'subcategory': subCategory,
+      'email': email,
+      'article': article,
+      'createdAt': createdAt,
+      'updatedAt': DateTime.now(),
+      'type': 'Update',
+      'isapproved': 'false',
+    });
+    reusableInstance.toast('Updated', 'Updated Draft Question');
+  } catch (e) {
+    reusableInstance.toast('Error', '$e');
+  }
+}

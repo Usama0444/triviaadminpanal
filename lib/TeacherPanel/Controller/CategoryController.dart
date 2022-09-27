@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/Categories.dart';
+import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/SideDropDownMenu.dart';
 
 import '../Models/CategoryModel.dart';
 import '../Models/SubCategoryModel.dart';
@@ -32,6 +33,12 @@ class CategoryController extends GetxController {
   bool isCategorySearchNotMatch = false;
   bool isSubCategorySearchNotMatch = false;
   int length = 1;
+  List<Color> highlightSubCategories = [];
+  List<bool> showSubCategory = [];
+  List<bool> hideCategory = [];
+  int? catIndex, subCatIndex;
+  String? questionCategory, questionSubCategory;
+
   List<String> cateHeader = [
     'Logo',
     'Categories Name',
@@ -142,5 +149,70 @@ class CategoryController extends GetxController {
 
   appBarLogoClick() {
     Get.offAll(Categories());
+  }
+
+////leftside drop down menu in add question screen
+
+  highlightSpecificSubCategory(index) {
+    for (int i = 0; i < 10; i++) {
+      highlightSubCategories[i] = whiteColor;
+    }
+    highlightSubCategories[index] = Colors.green.withOpacity(0.5);
+    questionController.isShowSubCategoryQuestionForm = true;
+    questionController.update();
+    update();
+  }
+
+  highlightSpecificSubCategoryInit() {
+    highlightSubCategories = [];
+    for (int i = 0; i < 10; i++) {
+      highlightSubCategories.add(whiteColor);
+    }
+    update();
+  }
+
+  hideShowListInit() {
+    hideCategory = [];
+    showSubCategory = [];
+    for (int i = 0; i < 20; i++) {
+      hideCategory.add(true);
+      showSubCategory.add(false);
+    }
+    if (catIndex != null) {
+      if (hideCategory[catIndex!]) {
+        hideCategory[catIndex!] = false;
+        showSubCategory[catIndex!] = true;
+      }
+      questionCategory = catList[catIndex!].name;
+    }
+    if (subCatIndex != null) {
+      highlightSpecificSubCategory(subCatIndex! + 1);
+      questionController.isShowSubCategoryQuestionForm = true;
+      questionController.update();
+      questionSubCategory = subCatList[subCatIndex!].name;
+    }
+    update();
+  }
+
+  hideShowDropDown(index) async {
+    if (hideCategory[index]) {
+      for (int i = 0; i < 20; i++) {
+        hideCategory[i] = true;
+        showSubCategory[i] = false;
+      }
+      hideCategory[index] = false;
+      showSubCategory[index] = true;
+    } else {
+      for (int i = 0; i < 20; i++) {
+        hideCategory[i] = true;
+        showSubCategory[i] = false;
+      }
+      hideCategory[index] = true;
+      showSubCategory[index] = false;
+    }
+    questionCategory = catList[index].name;
+    update();
+    print(hideCategory[index]);
+    print(showSubCategory[index]);
   }
 }

@@ -27,87 +27,82 @@ class QuestionController extends GetxController {
   var isEdit = false;
   var isValid = true;
   var qid;
+  var draftQID;
+  var draftQuestionCreatedAt = DateTime.now();
   var totalQuestions = 0;
-  String? questionCategory, questionSubCategory;
+  // String? catController.questionCategory, catController.questionSubCategory;
   List<int> totalQuestionOfspecificSubCategory = [];
   List<int> draftCheckedIndex = [];
   int questionSearchIndex = -1;
   bool questionSearchNotMatch = false;
   int listLength = 1;
   int textCounter = 0;
-  List<bool> hideCategory = [];
+  // List<bool> hideCategory = [];
   List<int> temp = [];
-  List<bool> showSubCategory = [];
+  // List<bool> showSubCategory = [];
   bool isShowSubCategoryQuestionForm = false;
   bool isDraftEditPress = false;
   int? editDraftQuestionSelectedIndex;
-  int? catIndex, subCatIndex;
+  // int? catIndex, subCatIndex;
   List<List<int>> questionLengthPerSubcateogryForAddQuestion = []; //for add question screen drop down menu
   List<List<int>> questionLengthPerSubcateogryForDraftDropDownMenu = []; //this is use for drop down menu in add question screen and draft pages
+  bool? isCorrect1, isCorrect2, isCorrect3, isCorrect4;
 
   CategoryController catController = Get.find<CategoryController>();
 
-  List<Color> highlightSubCategories = [];
+  // List<Color> highlightSubCategories = [];
+  bool isLoading = true;
 
-  highlightSpecificSubCategory(index) {
-    for (int i = 0; i < 10; i++) {
-      highlightSubCategories[i] = whiteColor;
-    }
-    highlightSubCategories[index] = Colors.green.withOpacity(0.5);
-    isShowSubCategoryQuestionForm = true;
-    update();
-  }
-
-  highlightSpecificSubCategoryInit() {
-    highlightSubCategories = [];
-    for (int i = 0; i < 10; i++) {
-      highlightSubCategories.add(whiteColor);
-    }
-    update();
-  }
-
-  hideShowListInit() {
-    hideCategory = [];
-    showSubCategory = [];
-    for (int i = 0; i < 20; i++) {
-      hideCategory.add(true);
-      showSubCategory.add(false);
-    }
-    if (catIndex != null) {
-      if (hideCategory[catIndex!]) {
-        hideCategory[catIndex!] = false;
-        showSubCategory[catIndex!] = true;
-      }
-      questionCategory = catController.catList[catIndex!].name;
-    }
-    if (subCatIndex != null) {
-      highlightSpecificSubCategory(subCatIndex! + 1);
-      isShowSubCategoryQuestionForm = true;
-      questionSubCategory = catController.subCatList[subCatIndex!].name;
+  markCorrectIncorrect() {
+    if (option1.text.trim().isNotEmpty && answer == 1) {
+      isCorrect1 = true;
+      isCorrect2 = false;
+      isCorrect3 = false;
+      isCorrect4 = false;
+    } else if (option2.text.trim().isNotEmpty && answer == 2) {
+      isCorrect2 = true;
+      isCorrect1 = false;
+      isCorrect3 = false;
+      isCorrect4 = false;
+    } else if (option3.text.trim().isNotEmpty && answer == 3) {
+      isCorrect3 = true;
+      isCorrect2 = false;
+      isCorrect1 = false;
+      isCorrect4 = false;
+    } else if (option4.text.trim().isNotEmpty && answer == 4) {
+      isCorrect4 = true;
+      isCorrect2 = false;
+      isCorrect3 = false;
+      isCorrect1 = false;
     }
     update();
   }
 
-  hideShowDropDown(index) async {
-    if (hideCategory[index]) {
-      for (int i = 0; i < 20; i++) {
-        hideCategory[i] = true;
-        showSubCategory[i] = false;
+  markCorrectIncorrectForEdit() {
+    if (answer != null) {
+      if (answer == 1) {
+        isCorrect1 = true;
+        isCorrect2 = false;
+        isCorrect3 = false;
+        isCorrect4 = false;
+      } else if (answer == 2) {
+        isCorrect2 = true;
+        isCorrect1 = false;
+        isCorrect3 = false;
+        isCorrect4 = false;
+      } else if (answer == 3) {
+        isCorrect3 = true;
+        isCorrect2 = false;
+        isCorrect1 = false;
+        isCorrect4 = false;
+      } else {
+        isCorrect4 = true;
+        isCorrect2 = false;
+        isCorrect3 = false;
+        isCorrect1 = false;
       }
-      hideCategory[index] = false;
-      showSubCategory[index] = true;
-    } else {
-      for (int i = 0; i < 20; i++) {
-        hideCategory[i] = true;
-        showSubCategory[i] = false;
-      }
-      hideCategory[index] = true;
-      showSubCategory[index] = false;
+      update();
     }
-    questionCategory = catController.catList[index].name;
-    update();
-    print(hideCategory[index]);
-    print(showSubCategory[index]);
   }
 
   checkCategoryAndSubCategoryAlreadySelected() {
@@ -115,17 +110,17 @@ class QuestionController extends GetxController {
     String? subCate = catController.subCategoryName;
     for (int i = 0; i < catController.catList.length; i++) {
       if (catName != null && catController.catList[i].name == catName) {
-        catIndex = i;
+        catController.catIndex = i;
       }
     }
     if (catController.subCatList.isNotEmpty) {
       for (int i = 0; i < catController.subCatList.length; i++) {
         if (subCate != null && catController.subCatList[i].name == subCate) {
-          subCatIndex = i;
+          catController.subCatIndex = i;
         }
       }
     }
-    update();
+    catController.update();
   }
 
   questionSearchTap() async {
@@ -150,6 +145,11 @@ class QuestionController extends GetxController {
     option4.text = '';
     answer = null;
     article.text = '';
+    isCorrect1 = null;
+    isCorrect2 = null;
+    isCorrect3 = null;
+    isCorrect4 = null;
+    draftQID = null;
     update();
   }
 
@@ -168,7 +168,7 @@ class QuestionController extends GetxController {
       if (catController.subCategoryName != null) {
         await getQuestions(catController.categoryName!, catController.subCategoryName!);
       } else {
-        await getQuestions(questionCategory!, questionSubCategory!);
+        await getQuestions(catController.questionCategory!, catController.questionSubCategory!);
       }
       await getTotalNumberOfQuestionForSpecificCategory();
     }
@@ -183,8 +183,8 @@ class QuestionController extends GetxController {
       option4.text = teacherQuestionModelList[index].choiceList[3];
       article.text = teacherQuestionModelList[index].article;
       qid = teacherQuestionModelList[index].qid;
-      questionCategory = teacherQuestionModelList[index].category;
-      questionSubCategory = teacherQuestionModelList[index].subcategory;
+      catController.questionCategory = teacherQuestionModelList[index].category;
+      catController.questionSubCategory = teacherQuestionModelList[index].subcategory;
     } else {
       question.text = searchQuestion[index].question;
       option1.text = searchQuestion[index].choiceList[0];
@@ -193,10 +193,12 @@ class QuestionController extends GetxController {
       option4.text = searchQuestion[index].choiceList[3];
       article.text = searchQuestion[index].article;
       qid = searchQuestion[index].qid;
-      questionCategory = searchQuestion[index].category;
-      questionSubCategory = searchQuestion[index].subcategory;
+      catController.questionCategory = searchQuestion[index].category;
+      catController.questionSubCategory = searchQuestion[index].subcategory;
     }
     update();
+    catController.update();
+
     Get.to(AddQuestion(callingFor: 'Edit'));
   }
 
@@ -225,8 +227,36 @@ class QuestionController extends GetxController {
   Future<bool> draftBtnClick() async {
     bool isInputValid = await checkValidation();
     if (isInputValid) {
-      await addToDraft(question.text, option1.text, option2.text, option3.text, option4.text, answer, article.text, questionCategory, questionSubCategory);
-      await getTotalQuestionsOfSepecificSubcategoryForDraft();
+      if (draftQID == null) {
+        await addToDraft(
+          question.text,
+          option1.text,
+          option2.text,
+          option3.text,
+          option4.text,
+          answer,
+          article.text,
+          catController.questionCategory,
+          catController.questionSubCategory,
+        );
+        await getTotalQuestionsOfSepecificSubcategoryForDraft();
+      } else {
+        await updateDraftQuestion(
+          question.text,
+          option1.text,
+          option2.text,
+          option3.text,
+          option4.text,
+          answer,
+          article.text,
+          catController.questionCategory,
+          catController.questionSubCategory,
+          draftQID,
+          draftQuestionCreatedAt,
+        );
+      }
+      await erasedData();
+      await getDraftQuestions();
       return true;
     }
     return false;
@@ -242,6 +272,9 @@ class QuestionController extends GetxController {
     answer = draftQuestionModelList[index].answer;
     qid = draftQuestionModelList[index].qid;
     editDraftQuestionSelectedIndex = index;
+    isDraftEditPress = true;
+    draftQID = draftQuestionModelList[index].qid;
+    // draftQuestionCreatedAt = draftQuestionModelList[index].createdAt;
     update();
     if (draftCheckedIndex.isEmpty) {
       Get.to(AddQuestion(callingFor: 'Edit'));
@@ -257,7 +290,7 @@ class QuestionController extends GetxController {
 
   Future<bool> getDraftQuestions() async {
     draftQuestionModelList = [];
-    draftQuestionModelList = await getDraftQuestionsList(questionCategory!, questionSubCategory!);
+    draftQuestionModelList = await getDraftQuestionsList(catController.questionCategory!, catController.questionSubCategory!);
     update();
     return true;
   }
@@ -265,7 +298,7 @@ class QuestionController extends GetxController {
 ////
 
   Future<bool> checkValidation() async {
-    if (questionSubCategory == null && questionCategory == null) {
+    if (catController.questionSubCategory == null && catController.questionCategory == null) {
       reusableInstance.toast('Invalid choice', 'please select category and subcategory!');
       return false;
     } else if (question.text.trim().isEmpty && option1.text.trim().isEmpty && option2.text.trim().isEmpty && option3.text.trim().isEmpty && option4.text.trim().isEmpty) {
@@ -311,13 +344,13 @@ class QuestionController extends GetxController {
   }
 
   addNewQuestions() async {
-    await addQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, article.text, questionCategory, questionSubCategory);
+    await addQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, article.text, catController.questionCategory, catController.questionSubCategory);
   }
 
   teacherUpdateQuestion() async {
     bool isInputValid = await checkValidation();
     if (isInputValid) {
-      await editTeacherQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, article.text, questionCategory, questionSubCategory, qid);
+      await editTeacherQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, article.text, catController.questionCategory, catController.questionSubCategory, qid);
       await getQuestions(catController.categoryName!, catController.subCategoryName!);
       await getTotalNumberOfQuestionForSpecificCategory();
       await erasedData();

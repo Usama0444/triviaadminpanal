@@ -300,7 +300,11 @@ class _SubCategoryState extends State<SubCategory> {
                             child: GetBuilder<QuestionController>(
                               builder: (controller) {
                                 return MyText(
-                                  txt: index != 3 ? cateController.subCateHeader[index] : '${questionController.totalQuestions} Questions',
+                                  txt: index != 3
+                                      ? cateController.subCateHeader[index]
+                                      : isLoading
+                                          ? ''
+                                          : '${questionController.totalQuestions} Questions',
                                   color: index != 3 ? Colors.black : basicColor,
                                   fontweight: FontWeight.w500,
                                   size: 20.sp,

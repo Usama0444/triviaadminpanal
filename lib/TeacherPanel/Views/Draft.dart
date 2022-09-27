@@ -210,41 +210,6 @@ class _DraftState extends State<Draft> {
                           SizedBox(
                             width: 60.w,
                           ),
-                          Visibility(
-                            visible: isShowQuestionsList,
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 29.h),
-                              child: InkWell(
-                                onTap: () async {
-                                  for (int i = 0; i < isChecked.length; i++) {
-                                    if (isChecked[i] == true) {
-                                      questionController.draftCheckedIndex.add(i);
-                                    }
-                                  }
-                                  questionController.update();
-                                  await questionController.uploadBtnClick();
-                                },
-                                child: reusableInstance.buttons(
-                                  110.w,
-                                  43.h,
-                                  Container(
-                                    height: 20.h,
-                                    child: Center(
-                                      child: MyText(
-                                        txt: 'Upload',
-                                        color: whiteColor,
-                                        fontweight: FontWeight.w300,
-                                        size: 23.sp,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 62.w,
-                          ),
                           const VerticalDivider(
                             color: Color(0xff3B3B3B),
                           ),
@@ -307,7 +272,7 @@ class _DraftState extends State<Draft> {
                                 return index != catController.catList.length
                                     ? InkWell(
                                         onTap: () async {
-                                          questionController.questionCategory = catController.catList[index].name;
+                                          catController.questionCategory = catController.catList[index].name;
                                           questionController.update();
                                           catController.categoryName = catController.catList[index].name;
                                           catController.update();
@@ -418,7 +383,7 @@ class _DraftState extends State<Draft> {
                                                             highlight[j] = Colors.green.withOpacity(0.5);
 
                                                             if (j != 0) {
-                                                              questionController.questionSubCategory = catController.subCategoriesForDrawer[index][j - 1].name;
+                                                              catController.questionSubCategory = catController.subCategoriesForDrawer[index][j - 1].name;
                                                               questionController.update();
                                                               catController.subCategoryName = catController.subCategoriesForDrawer[index][j - 1].name;
                                                               catController.update();
@@ -669,8 +634,6 @@ class _DraftState extends State<Draft> {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    questionController.isDraftEditPress = true;
-                                                    questionController.update();
                                                     questionController.editDraftBtnClick(index);
                                                   },
                                                   child: Padding(
