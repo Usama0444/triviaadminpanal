@@ -40,7 +40,7 @@ class _AddQuestionState extends State<AddQuestion> {
     // TODO: implement initState
     super.initState();
     catController.fillSubCategoryForDrawer().whenComplete(() async {
-      questionController.checkCategoryAndSubCategoryAlreadySelected();
+      await questionController.checkCategoryAndSubCategoryAlreadySelected();
       await questionController.getTotalQuestionsOfSepecificSubcategoryForAddQuestion();
       if (widget.callingFor == 'Edit') {
         questionController.isShowSubCategoryQuestionForm = true;
@@ -146,7 +146,7 @@ class _AddQuestionState extends State<AddQuestion> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
+                              SizedBox(
                                 height: 25.h,
                                 child: FittedBox(
                                   child: Icon(
@@ -155,7 +155,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                   ),
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 height: 20.h,
                                 child: MyText(
                                   txt: 'Back',
@@ -185,7 +185,7 @@ class _AddQuestionState extends State<AddQuestion> {
                           Get.offAll(LoginPage());
                         }
                       },
-                      child: Container(
+                      child: SizedBox(
                         width: 38.w,
                         height: 38.w,
                         child: FittedBox(
@@ -485,7 +485,7 @@ class _AddQuestionState extends State<AddQuestion> {
                               ),
                               child: Stack(
                                 children: [
-                                  Container(
+                                  SizedBox(
                                     width: 740,
                                     height: 500.h,
                                   ),
@@ -511,16 +511,15 @@ class _AddQuestionState extends State<AddQuestion> {
                                   Positioned(
                                     top: 20.h,
                                     left: 10.w,
-                                    child: Container(
+                                    child: SizedBox(
                                       width: 700.w,
                                       height: 400.h,
                                       child: TextInputFieldWidget(
                                         controller: questionController.article,
-                                        maxLength: 2000,
                                         maxLines: 200,
                                         textInputFormatters: [
                                           FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9\?\s_-]+")),
-                                          MaxWordTextInputFormater(maxWords: 500, currentLength: questionController.increaseTextCounter),
+                                          MaxWordTextInputFormater(maxWords: 500, currentLength: questionController.increaseTextCounterForArticle),
                                         ],
                                         fontSize: 20.sp,
                                         fontWeight: FontWeight.w600,
@@ -538,7 +537,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
-                                                Container(
+                                                SizedBox(
                                                   height: 25.h,
                                                   child: FittedBox(
                                                     child: Icon(
@@ -577,7 +576,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                 child: reusableInstance.buttons(
                                   180.w,
                                   37.w,
-                                  Container(
+                                  SizedBox(
                                     height: 20.h,
                                     child: Center(
                                       child: MyText(
@@ -598,7 +597,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                 child: reusableInstance.buttons(
                                   180.w,
                                   42.h,
-                                  Container(
+                                  SizedBox(
                                     height: 20.h,
                                     child: Center(
                                       child: MyText(
@@ -634,17 +633,30 @@ class _AddQuestionState extends State<AddQuestion> {
       child: Stack(
         children: [
           Container(
-            width: 54.w,
+            width: label == 'Question' ? double.infinity : 54.w,
             height: 16.h,
-            margin: EdgeInsets.only(left: 5.w),
-            child: FittedBox(
-              child: MyText(
-                txt: label,
-                color: hideColor,
-                fontweight: FontWeight.normal,
-                size: 12.sp,
-              ),
-            ),
+            margin: EdgeInsets.symmetric(horizontal: 5.w),
+            child: label == 'Question'
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      MyText(
+                        txt: label,
+                        color: hideColor,
+                        fontweight: FontWeight.normal,
+                        size: 12.sp,
+                      ),
+                      GetBuilder<QuestionController>(builder: (con) {
+                        return MyText(txt: '${questionController.textCounterForQuestion}/50', color: Colors.black, fontweight: FontWeight.w300, size: 15.sp);
+                      })
+                    ],
+                  )
+                : MyText(
+                    txt: label,
+                    color: hideColor,
+                    fontweight: FontWeight.normal,
+                    size: 12.sp,
+                  ),
           ),
           Container(
             width: width,
@@ -652,11 +664,10 @@ class _AddQuestionState extends State<AddQuestion> {
             margin: EdgeInsets.only(left: 5.w, bottom: 10.w),
             child: TextInputFieldWidget(
               controller: cont,
-              maxLength: label == 'Question' ? 200 : 20,
               maxLines: 1,
               textInputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9\?\s_-]+")),
-                MaxWordTextInputFormater(maxWords: label == 'Question' ? 50 : 2),
+                MaxWordTextInputFormater(maxWords: label == 'Question' ? 50 : 6, currentLength: questionController.increaseTextCounterForQuestion),
               ],
               fontSize: 17.sp,
               fontWeight: FontWeight.w600,

@@ -174,7 +174,11 @@ Widget LeftSideMenu() {
                                                 children: [
                                                   GetBuilder<QuestionController>(builder: (controller) {
                                                     return MyText(
-                                                      txt: j != 0 ? '${controller.questionLengthPerSubcateogryForAddQuestion[index][j - 1]}' : '${catController.totalSubCate[index]}',
+                                                      txt: j != 0
+                                                          ? controller.questionLengthPerSubcateogryForAddQuestion.isEmpty
+                                                              ? ''
+                                                              : '${controller.questionLengthPerSubcateogryForAddQuestion[index][j - 1]}'
+                                                          : '${catController.totalSubCate[index]}',
                                                       color: Colors.black,
                                                       fontweight: FontWeight.w600,
                                                       size: 14.sp,

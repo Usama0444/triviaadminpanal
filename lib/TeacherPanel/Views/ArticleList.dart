@@ -438,14 +438,18 @@ class _ArticleListState extends State<ArticleList> {
                                                           ),
                                                           Row(
                                                             children: [
-                                                              MyText(
-                                                                txt: j != 0
-                                                                    ? '${questionController.questionLengthPerSubcateogryForDraftDropDownMenu[index][j - 1]}'
-                                                                    : '${catController.totalSubCate[index]}',
-                                                                color: Colors.black,
-                                                                fontweight: FontWeight.w600,
-                                                                size: 14.sp,
-                                                              ),
+                                                              GetBuilder<QuestionController>(builder: (controller) {
+                                                                return MyText(
+                                                                  txt: j != 0
+                                                                      ? questionController.questionLengthPerSubcateogryForDraftDropDownMenu.isEmpty
+                                                                          ? ''
+                                                                          : '${questionController.questionLengthPerSubcateogryForDraftDropDownMenu[index][j - 1]}'
+                                                                      : '${catController.totalSubCate[index]}',
+                                                                  color: Colors.black,
+                                                                  fontweight: FontWeight.w600,
+                                                                  size: 14.sp,
+                                                                );
+                                                              }),
                                                               SizedBox(
                                                                 width: 10.w,
                                                               ),

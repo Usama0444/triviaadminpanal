@@ -37,6 +37,7 @@ class QuestionController extends GetxController {
   bool questionSearchNotMatch = false;
   int listLength = 1;
   int textCounter = 0;
+  int textCounterForQuestion = 0;
   // List<bool> hideCategory = [];
   List<int> temp = [];
   // List<bool> showSubCategory = [];
@@ -52,6 +53,12 @@ class QuestionController extends GetxController {
 
   // List<Color> highlightSubCategories = [];
   bool isLoading = true;
+  int totalDraftQuestion = 0;
+
+  getDraftQuestion() async {
+    totalDraftQuestion = await getDraftTotalQuestions();
+    update();
+  }
 
   markCorrectIncorrect() {
     if (option1.text.trim().isNotEmpty && answer == 1) {
@@ -157,13 +164,14 @@ class QuestionController extends GetxController {
     bool isInputValid = await checkValidation();
     if (isInputValid) {
       await addNewQuestions();
+      await erasedData();
+
       if (isDraftEditPress) {
         await deleteDraftBtnClick(editDraftQuestionSelectedIndex!);
         await getDraftQuestions();
       }
       // await getTotalQuestionsOfSepecificSubcategoryForAddQuestion();
       // await getTotalQuestionsOfSepecificSubcategoryForDraft();
-      await erasedData();
       textCounter = 0;
       if (catController.subCategoryName != null) {
         await getQuestions(catController.categoryName!, catController.subCategoryName!);
@@ -171,6 +179,8 @@ class QuestionController extends GetxController {
         await getQuestions(catController.questionCategory!, catController.questionSubCategory!);
       }
       await getTotalNumberOfQuestionForSpecificCategory();
+      await getTotalQuestionsOfSepecificSubcategoryForAddQuestion();
+      await getTotalQuestionsOfSepecificSubcategoryForDraft();
     }
   }
 
@@ -214,8 +224,13 @@ class QuestionController extends GetxController {
     update();
   }
 
-  increaseTextCounter(value) {
+  increaseTextCounterForArticle(value) {
     textCounter = value;
+    update();
+  }
+
+  increaseTextCounterForQuestion(value) {
+    textCounterForQuestion = value;
     update();
   }
 
@@ -239,6 +254,7 @@ class QuestionController extends GetxController {
           catController.questionCategory,
           catController.questionSubCategory,
         );
+        await erasedData();
         await getTotalQuestionsOfSepecificSubcategoryForDraft();
       } else {
         await updateDraftQuestion(
@@ -254,8 +270,8 @@ class QuestionController extends GetxController {
           draftQID,
           draftQuestionCreatedAt,
         );
+        await erasedData();
       }
-      await erasedData();
       await getDraftQuestions();
       return true;
     }
@@ -286,6 +302,7 @@ class QuestionController extends GetxController {
     update();
     await deleteDraftQuestion(qid);
     await getDraftQuestions();
+    await getTotalQuestionsOfSepecificSubcategoryForDraft();
   }
 
   Future<bool> getDraftQuestions() async {
@@ -309,6 +326,20 @@ class QuestionController extends GetxController {
       return false;
     } else if (option1.text.trim().isEmpty || option2.text.trim().isEmpty || option3.text.trim().isEmpty || option4.text.trim().isEmpty) {
       reusableInstance.toast('Invalid choice', 'please enter all options!');
+      return false;
+    } else if (option1.text.trim() == option2.text.trim() ||
+        option1.text.trim() == option3.text.trim() ||
+        option1.text.trim() == option4.text.trim() ||
+        option2.text.trim() == option1.text.trim() ||
+        option2.text.trim() == option3.text.trim() ||
+        option2.text.trim() == option4.text.trim() ||
+        option3.text.trim() == option2.text.trim() ||
+        option3.text.trim() == option1.text.trim() ||
+        option3.text.trim() == option4.text.trim() ||
+        option4.text.trim() == option2.text.trim() ||
+        option4.text.trim() == option1.text.trim() ||
+        option4.text.trim() == option3.text.trim()) {
+      reusableInstance.toast('Invalid Options', 'please enter different options!');
       return false;
     } else if (answer == null) {
       reusableInstance.toast('Invalid choice', 'please select answer!');
@@ -335,8 +366,8 @@ class QuestionController extends GetxController {
       var getList = await getQuestionsList(categoryController.categoryName, categoryController.subCatList[i].name);
       totalQuestionOfspecificSubCategory.add(getList.length);
       totalQuestions += getList.length;
+      update();
     }
-    update();
   }
 
   Future<int> getTotalQuestions() async {
@@ -364,7 +395,7 @@ class QuestionController extends GetxController {
   ///fil list of total question length for Add question screen drop down menu
 
   getTotalQuestionsOfSepecificSubcategoryForAddQuestion() async {
-    questionLengthPerSubcateogryForAddQuestion = [];
+    questionLengthPerSubcateogryForAddQuestion.clear();
     var questions;
     for (int i = 0; i < catController.catList.length; i++) {
       temp = [];
@@ -373,23 +404,24 @@ class QuestionController extends GetxController {
         temp.add(questions.length);
       }
       questionLengthPerSubcateogryForAddQuestion.add(temp);
+      update();
     }
-    update();
   }
 
   ///fil list of total question length for Draft screen drop down menu
 
   getTotalQuestionsOfSepecificSubcategoryForDraft() async {
-    questionLengthPerSubcateogryForAddQuestion = [];
     var questions;
+    questionLengthPerSubcateogryForDraftDropDownMenu.clear();
     for (int i = 0; i < catController.catList.length; i++) {
       temp = [];
       for (int j = 0; j < catController.subCategoriesForDrawer[i].length; j++) {
         questions = await getDraftQuestionsList(catController.catList[i].name, catController.subCategoriesForDrawer[i][j].name);
         temp.add(questions.length);
       }
+
       questionLengthPerSubcateogryForDraftDropDownMenu.add(temp);
+      update();
     }
-    update();
   }
 }

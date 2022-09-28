@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dart';
+import 'package:triviaadminpanal/TeacherPanel/Services/QuestionServices.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/components/style.dart';
 
 import '../../Services/LoginServices.dart';
@@ -148,10 +149,28 @@ class Reusable {
                         ),
                       ],
                     ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 25.h,
-                      color: basicColor,
+                    Row(
+                      children: [
+                        GetBuilder<QuestionController>(builder: (controller) {
+                          return MyText(
+                            txt: controller.totalDraftQuestion == 0 ? '' : '${controller.totalDraftQuestion}',
+                            color: basicColor,
+                            fontweight: FontWeight.w500,
+                            size: 25.sp,
+                          );
+                        }),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 5.h),
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            size: 25.h,
+                            color: basicColor,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

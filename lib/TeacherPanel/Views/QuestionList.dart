@@ -8,6 +8,7 @@ import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart
 import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Services/QuestionServices.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/AddQuestions.dart';
+import 'package:triviaadminpanal/TeacherPanel/Views/ArticlePage.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/MyText.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/Reusable.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/SubCategory.dart';
@@ -375,7 +376,7 @@ class _QuestionListState extends State<QuestionList> {
                                           ),
                                           InkWell(
                                             onTap: () {
-                                              // questionController.editBtnClick(index);
+                                              Get.to(ArticlePage(index: index));
                                             },
                                             child: Padding(
                                               padding: EdgeInsets.only(right: 7.w),

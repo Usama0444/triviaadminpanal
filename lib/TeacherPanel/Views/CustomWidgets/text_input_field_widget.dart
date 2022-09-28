@@ -14,12 +14,10 @@ class TextInputFieldWidget extends StatefulWidget {
   final List<TextInputFormatter>? textInputFormatters;
   final ValueChanged<String>? onChanged;
   TextEditingController controller;
-  final int maxLength;
 
   TextInputFieldWidget(
       {Key? key,
       this.hintText = "",
-      required this.maxLength,
       required this.controller,
       this.textChanged,
       this.obscureText = false,
@@ -65,7 +63,6 @@ class _TextInputFieldWidgetState extends State<TextInputFieldWidget> {
       controller: widget.controller,
       obscureText: widget.obscureText,
       onChanged: widget.onChanged,
-      maxLength: widget.maxLength,
       inputFormatters: [...?widget.textInputFormatters],
       style: TextStyle(
         fontSize: widget.fontSize,

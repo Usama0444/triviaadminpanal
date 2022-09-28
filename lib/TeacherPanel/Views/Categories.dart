@@ -38,6 +38,7 @@ class _CategoriesState extends State<Categories> {
     // TODO: implement initState
     super.initState();
     cateController.getCategories().whenComplete(() async {
+      await questionController.getDraftQuestion();
       await cateController.getSubCategories();
       totalQuestions = await questionController.getTotalQuestions();
       setState(() {

@@ -129,6 +129,7 @@ class CategoryController extends GetxController {
   }
 
   fillSubCategoryForDrawer() async {
+    questionController.isLoading = true;
     if (subCategoriesForDrawer.isEmpty) {
       subCategoriesForDrawer = [];
       List<SubCategoryModel> tempList = [];
@@ -145,12 +146,24 @@ class CategoryController extends GetxController {
         }
       }
     }
+    if (subCategoryName != null || categoryName != null) {
+      await Future.delayed(const Duration(seconds: 5));
+    }
   }
 
   appBarLogoClick() {
-    Get.offAll(Categories());
+    resetSelection().whenComplete(() {
+      Get.offAll(Categories());
+    });
   }
 
+  resetSelection() async {
+    categoryName = null;
+    subCategoryName = null;
+    catIndex = null;
+    subCatIndex = null;
+    update();
+  }
 ////leftside drop down menu in add question screen
 
   highlightSpecificSubCategory(index) {

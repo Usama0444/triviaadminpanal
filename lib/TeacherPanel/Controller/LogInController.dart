@@ -4,6 +4,8 @@ import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart
 import 'package:triviaadminpanal/TeacherPanel/Services/LoginServices.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/Categories.dart';
 
+import '../../main.dart';
+
 class LogInController extends GetxController {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -25,6 +27,7 @@ class LogInController extends GetxController {
   Future<bool> loginBtnClick() async {
     bool isDataValid = await checkValidation();
     if (isDataValid) {
+      await pref?.setString('email', email.text.trim());
       var isLogin = await userLogin();
       if (isLogin) {
         cateController = Get.find<CategoryController>();

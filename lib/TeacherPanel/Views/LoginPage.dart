@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
   double dotIndex = 0.0;
   bool obxTxt = true;
 
-  List<Widget> imageSliders = ['assets/slider1.png', 'assets/slider1.png', 'assets/slider1.png', 'assets/slider1.png']
+  List<Widget> imageSliders = ['assets/s2.png', 'assets/s2.png', 'assets/s4.png', 'assets/s3.png']
       .map(
         (item) => SizedBox(
           width: 700.w,
@@ -227,8 +227,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
               InkWell(
                 onTap: () async {
-                  await pref?.setString('email', loginController.email.text);
-
                   isLoading = true;
                   if (isLoading) {
                     Get.dialog(Scaffold(
