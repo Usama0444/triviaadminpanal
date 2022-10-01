@@ -2,15 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dart';
-import 'package:triviaadminpanal/TeacherPanel/Services/QuestionServices.dart';
-import 'package:triviaadminpanal/TeacherPanel/Views/AddQuestions.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/MyText.dart';
-import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/Reusable.dart';
-import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/SideDropDownMenu.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/SubCategory.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/components/style.dart';
 

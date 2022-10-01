@@ -38,21 +38,20 @@ class QuestionController extends GetxController {
   int listLength = 1;
   int textCounter = 0;
   int textCounterForQuestion = 0;
-  // List<bool> hideCategory = [];
   List<int> temp = [];
-  // List<bool> showSubCategory = [];
   bool isShowSubCategoryQuestionForm = false;
+  bool isShowQuestionlist = false;
+
   bool isDraftEditPress = false;
   int? editDraftQuestionSelectedIndex;
-  // int? catIndex, subCatIndex;
   List<List<int>> questionLengthPerSubcateogryForAddQuestion = []; //for add question screen drop down menu
   List<List<int>> questionLengthPerSubcateogryForDraftDropDownMenu = []; //this is use for drop down menu in add question screen and draft pages
   bool? isCorrect1, isCorrect2, isCorrect3, isCorrect4;
 
   CategoryController catController = Get.find<CategoryController>();
 
-  // List<Color> highlightSubCategories = [];
-  bool isLoading = true;
+  bool isLoadingDraft = true;
+
   int totalDraftQuestion = 0;
 
   getDraftQuestion() async {
@@ -157,6 +156,8 @@ class QuestionController extends GetxController {
     isCorrect3 = null;
     isCorrect4 = null;
     draftQID = null;
+    textCounter = 0;
+    textCounterForQuestion = 0;
     update();
   }
 
@@ -170,9 +171,7 @@ class QuestionController extends GetxController {
         await deleteDraftBtnClick(editDraftQuestionSelectedIndex!);
         await getDraftQuestions();
       }
-      // await getTotalQuestionsOfSepecificSubcategoryForAddQuestion();
-      // await getTotalQuestionsOfSepecificSubcategoryForDraft();
-      textCounter = 0;
+
       if (catController.subCategoryName != null) {
         await getQuestions(catController.categoryName!, catController.subCategoryName!);
       } else {
@@ -208,7 +207,6 @@ class QuestionController extends GetxController {
     }
     update();
     catController.update();
-
     Get.to(AddQuestion(callingFor: 'Edit'));
   }
 
@@ -218,7 +216,7 @@ class QuestionController extends GetxController {
     } else {
       qid = searchQuestion[index].qid;
     }
-    await removeQuestion();
+    await deleteQuestion(qid);
     await getQuestions(catController.categoryName!, catController.subCategoryName!);
     await getTotalNumberOfQuestionForSpecificCategory();
     update();
@@ -299,15 +297,17 @@ class QuestionController extends GetxController {
 
   deleteDraftBtnClick(int index) async {
     qid = draftQuestionModelList[index].qid;
-    update();
     await deleteDraftQuestion(qid);
     await getDraftQuestions();
     await getTotalQuestionsOfSepecificSubcategoryForDraft();
+    update();
   }
 
   Future<bool> getDraftQuestions() async {
-    draftQuestionModelList = [];
-    draftQuestionModelList = await getDraftQuestionsList(catController.questionCategory!, catController.questionSubCategory!);
+    draftQuestionModelList = await getDraftQuestionsList(
+      catController.questionCategory!,
+      catController.questionSubCategory!,
+    );
     update();
     return true;
   }
@@ -386,10 +386,6 @@ class QuestionController extends GetxController {
       await getTotalNumberOfQuestionForSpecificCategory();
       await erasedData();
     }
-  }
-
-  removeQuestion() async {
-    await deleteQuestion(qid);
   }
 
   ///fil list of total question length for Add question screen drop down menu

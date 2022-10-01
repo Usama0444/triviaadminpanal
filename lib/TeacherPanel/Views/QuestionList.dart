@@ -37,15 +37,12 @@ class _QuestionListState extends State<QuestionList> {
   ];
 
   bool isLoading = true;
-  var catName, subCateName;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     questionController.getQuestions(cateController.categoryName!, cateController.subCategoryName!).whenComplete(() async {
       setState(() {
-        catName = cateController.categoryName!;
-        subCateName = cateController.subCategoryName!;
         isLoading = false;
       });
     });
@@ -308,13 +305,13 @@ class _QuestionListState extends State<QuestionList> {
                                 Row(
                                   children: [
                                     MyText(
-                                      txt: '${catName}/',
+                                      txt: '${cateController.categoryName}/',
                                       color: Colors.black,
                                       fontweight: FontWeight.w800,
                                       size: 25.sp,
                                     ),
                                     MyText(
-                                      txt: '$subCateName',
+                                      txt: '${cateController.subCategoryName}',
                                       color: Colors.black,
                                       fontweight: FontWeight.w300,
                                       size: 25.sp,
@@ -342,7 +339,7 @@ class _QuestionListState extends State<QuestionList> {
                           padding: EdgeInsets.zero,
                           itemBuilder: (context, index) {
                             return Container(
-                              height: 121.h,
+                              height: 150.h,
                               margin: EdgeInsets.only(bottom: 29.h),
                               decoration: BoxDecoration(
                                 color: cateContainerColor,
@@ -398,7 +395,7 @@ class _QuestionListState extends State<QuestionList> {
                                         children: [
                                           SizedBox(
                                             width: 1700.w,
-                                            height: 45.h,
+                                            height: 70.h,
                                             child: ListView.builder(
                                                 itemCount: 4,
                                                 scrollDirection: Axis.horizontal,
@@ -407,7 +404,7 @@ class _QuestionListState extends State<QuestionList> {
                                                     margin: EdgeInsets.only(right: 20.w),
                                                     child: reusableInstance.inputBox(
                                                         321.w,
-                                                        45.h,
+                                                        70.h,
                                                         j !=
                                                                 questionController
                                                                         .teacherQuestionModelList[questionController.questionSearchIndex == -1 ? index : questionController.questionSearchIndex]
@@ -429,18 +426,17 @@ class _QuestionListState extends State<QuestionList> {
                                                             ),
                                                             SizedBox(
                                                               width: 250.w,
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                children: [
-                                                                  MyText(
-                                                                    txt: questionController.searchQuestion.isEmpty
-                                                                        ? '${questionController.teacherQuestionModelList[index].choiceList[j]}'
-                                                                        : '${questionController.searchQuestion[index].choiceList[j]}',
-                                                                    color: Colors.black,
-                                                                    fontweight: FontWeight.w800,
-                                                                    size: 25.sp,
-                                                                  ),
-                                                                ],
+                                                              child: SingleChildScrollView(
+                                                                scrollDirection: Axis.vertical,
+                                                                child: MyText(
+                                                                  txt: questionController.searchQuestion.isEmpty
+                                                                      ? '${questionController.teacherQuestionModelList[index].choiceList[j]}'
+                                                                      : '${questionController.searchQuestion[index].choiceList[j]}',
+                                                                  color: Colors.black,
+                                                                  maxline: 10,
+                                                                  fontweight: FontWeight.w800,
+                                                                  size: 25.sp,
+                                                                ),
                                                               ),
                                                             ),
                                                           ],

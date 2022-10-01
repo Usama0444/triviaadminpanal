@@ -30,20 +30,16 @@ class Categories extends StatefulWidget {
 
 class _CategoriesState extends State<Categories> {
   CategoryController cateController = Get.find<CategoryController>();
-  QuestionController questionController = Get.find<QuestionController>();
-  bool isLoading = true;
+  QuestionController questionController = Get.put(QuestionController(), permanent: true);
   int totalQuestions = 0;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     cateController.getCategories().whenComplete(() async {
       await questionController.getDraftQuestion();
       await cateController.getSubCategories();
       totalQuestions = await questionController.getTotalQuestions();
-      setState(() {
-        isLoading = false;
-      });
+      cateController.resetLodaing();
     });
   }
 
@@ -162,7 +158,7 @@ class _CategoriesState extends State<Categories> {
                             padding: EdgeInsets.only(top: 29.h),
                             child: InkWell(
                               onTap: () {
-                                isLoading != true ? Get.to(AddQuestion(callingFor: 'Add')) : reusableInstance.toast('Wait', 'wait tell Loading Complete');
+                                controller.isLoading != true ? Get.to(AddQuestion(callingFor: 'Add')) : reusableInstance.toast('Wait', 'wait tell Loading Complete');
                               },
                               child: reusableInstance.buttons(
                                 180.w,
@@ -273,7 +269,7 @@ class _CategoriesState extends State<Categories> {
                         SizedBox(
                           width: 1345.w,
                           height: 882.h,
-                          child: isLoading == true
+                          child: controller.isLoading == true
                               ? reusableInstance.loader()
                               : ListView.builder(
                                   itemCount: cateController.searchCategory.isEmpty
@@ -368,7 +364,7 @@ class _CategoriesState extends State<Categories> {
                                     );
                                   }),
                         ),
-                        Container(width: 575.w, height: 882.h, child: reusableInstance.profile(isLoading))
+                        Container(width: 575.w, height: 882.h, child: reusableInstance.profile(cateController.isLoading))
                       ],
                     ),
                   ],

@@ -38,6 +38,9 @@ class CategoryController extends GetxController {
   List<bool> hideCategory = [];
   int? catIndex, subCatIndex;
   String? questionCategory, questionSubCategory;
+  bool isLoading = true;
+  bool isLoadingAddQuestion = true;
+  bool isLoadingDraft = true;
 
   List<String> cateHeader = [
     'Logo',
@@ -105,6 +108,15 @@ class CategoryController extends GetxController {
     }
   }
 
+  resetLodaing() {
+    if (isLoading) {
+      isLoading = false;
+    } else {
+      isLoading = false;
+    }
+    update();
+  }
+
   getSubCategories() async {
     if (totalSubCate.isEmpty) {
       for (int j = 0; j < catList.length; j++) {
@@ -129,7 +141,8 @@ class CategoryController extends GetxController {
   }
 
   fillSubCategoryForDrawer() async {
-    questionController.isLoading = true;
+    isLoadingAddQuestion = true;
+
     if (subCategoriesForDrawer.isEmpty) {
       subCategoriesForDrawer = [];
       List<SubCategoryModel> tempList = [];
@@ -145,9 +158,6 @@ class CategoryController extends GetxController {
           subCategoriesForDrawer.add([]);
         }
       }
-    }
-    if (subCategoryName != null || categoryName != null) {
-      await Future.delayed(const Duration(seconds: 5));
     }
   }
 

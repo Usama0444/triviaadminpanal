@@ -12,6 +12,7 @@ Future<bool> loginService(String email, String password) async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
     return true;
   } catch (e) {
+    Get.back();
     reusableInstance.toast('Error', '$e');
     return false;
   }

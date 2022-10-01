@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Services/LoginServices.dart';
@@ -10,6 +11,24 @@ class LogInController extends GetxController {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   CategoryController? cateController;
+  bool isLoading = true;
+  double dotIndex = 0.0;
+  bool obxTxt = true;
+
+  obxTxtState() {
+    if (obxTxt) {
+      obxTxt = false;
+    } else {
+      obxTxt = true;
+    }
+    update();
+  }
+
+  dotBtnState(index) {
+    dotIndex = index;
+    update();
+  }
+
   Future<bool> checkValidation() async {
     if (email.text.trim().isEmpty && password.text.trim().isEmpty) {
       reusableInstance.toast('Invalid', 'Please enter email and password!');
@@ -24,23 +43,32 @@ class LogInController extends GetxController {
     return true;
   }
 
-  Future<bool> loginBtnClick() async {
+  Future<void> loginBtnClick() async {
     bool isDataValid = await checkValidation();
     if (isDataValid) {
-      await pref?.setString('email', email.text.trim());
+      Get.dialog(Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            reusableInstance.loader(),
+          ],
+        ),
+      ));
+
       var isLogin = await userLogin();
       if (isLogin) {
+        await pref?.setBool('logedin', true);
+        await pref?.setString('email', email.text.trim());
         cateController = Get.find<CategoryController>();
         bool isCatGet = await cateController!.getCategories();
         if (isCatGet) {
           email.text = '';
           password.text = '';
-          return true;
+          Get.offAll(Categories());
         }
       }
-      return false;
     }
-    return false;
   }
 
   Future<bool> userLogin() async {

@@ -48,8 +48,7 @@ class _AddQuestionState extends State<AddQuestion> {
       catController.highlightSpecificSubCategoryInit();
       catController.hideShowListInit();
       questionController.markCorrectIncorrectForEdit();
-      questionController.isLoading = false;
-      questionController.update();
+      catController.isLoadingAddQuestion = false;
       catController.update();
     });
   }
@@ -210,7 +209,7 @@ class _AddQuestionState extends State<AddQuestion> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              LeftSideMenu(),
+              leftSideMenuForAddQuestion(),
               SizedBox(
                 width: 40.w,
               ),
