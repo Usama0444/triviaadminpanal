@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Services/LoginServices.dart';
+import 'package:triviaadminpanal/TeacherPanel/Services/QuestionServices.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/AddQuestions.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/MyText.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/Reusable.dart';

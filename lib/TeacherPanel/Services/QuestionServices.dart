@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dart';
+import 'package:triviaadminpanal/TeacherPanel/Models/QuestionModel.dart';
 import 'package:triviaadminpanal/main.dart';
 
 import '../Models/QuestionModel.dart';

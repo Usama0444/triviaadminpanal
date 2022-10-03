@@ -35,7 +35,7 @@ class _ArticleListState extends State<ArticleList> {
     'c)',
     'd)',
   ];
-
+  DateTime? articleDate;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -237,6 +237,7 @@ class _ArticleListState extends State<ArticleList> {
                             itemCount: questionController.draftQuestionModelList.length,
                             padding: EdgeInsets.zero,
                             itemBuilder: (context, index) {
+                              articleDate = questionController.draftQuestionModelList[index].createdDate.toDate();
                               return Container(
                                 height: 121.h,
                                 margin: EdgeInsets.only(bottom: 29.h),
@@ -258,7 +259,7 @@ class _ArticleListState extends State<ArticleList> {
                                               size: 16.sp,
                                             ),
                                             MyText(
-                                              txt: '21/2/2022',
+                                              txt: '${articleDate?.day}' '/' '${articleDate?.month}' '/' '${articleDate?.year}',
                                               color: basicColor,
                                               fontweight: FontWeight.w800,
                                               size: 10.sp,
