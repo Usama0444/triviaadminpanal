@@ -140,10 +140,7 @@ class _ArticlePageState extends State<ArticlePage> {
                     ),
                     InkWell(
                       onTap: () async {
-                        var logout = await userLogOut();
-                        if (logout) {
-                          Get.offAll(LoginPage());
-                        }
+                        await reusableInstance.logOut();
                       },
                       child: SizedBox(
                         width: 38.w,

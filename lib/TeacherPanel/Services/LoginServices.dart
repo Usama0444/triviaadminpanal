@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart';
 import 'package:triviaadminpanal/main.dart';
 
 import '../Views/Categories.dart';
@@ -20,6 +21,8 @@ Future<bool> loginService(String email, String password) async {
 
 Future<bool> userLogOut() async {
   try {
+    var catController = Get.find<CategoryController>();
+    await catController.resetAllvariables();
     await pref?.clear();
     await FirebaseAuth.instance.signOut();
     return true;

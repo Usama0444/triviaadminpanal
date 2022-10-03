@@ -40,6 +40,7 @@ class _DraftState extends State<Draft> {
     // TODO: implement initState
     super.initState();
     catController.fillSubCategoryForDrawer().whenComplete(() async {
+      questionController.getAllDrafts();
       catController.highlightSpecificSubCategoryInit();
       catController.hideShowListInit();
       await questionController.getTotalQuestionsOfSepecificSubcategoryForDraft();
@@ -175,10 +176,7 @@ class _DraftState extends State<Draft> {
                     ),
                     InkWell(
                       onTap: () async {
-                        var logout = await userLogOut();
-                        if (logout) {
-                          Get.offAll(LoginPage());
-                        }
+                        await reusableInstance.logOut();
                       },
                       child: Container(
                         width: 38.w,
@@ -207,141 +205,145 @@ class _DraftState extends State<Draft> {
             children: [
               leftSideCategoryForDraft(),
               GetBuilder<QuestionController>(builder: (quesController) {
-                return Visibility(
-                  visible: questionController.isShowQuestionlist,
-                  child: SizedBox(
-                    width: 1545.w,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GetBuilder<QuestionController>(builder: (controller) {
-                          return SizedBox(
-                            height: 882.h,
-                            child: ListView.builder(
-                              itemCount: questionController.draftQuestionModelList.length,
-                              padding: EdgeInsets.zero,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  height: 150.h,
-                                  margin: EdgeInsets.only(bottom: 29.h),
-                                  decoration: BoxDecoration(
-                                    color: cateContainerColor,
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 12.h),
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 20.w),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  MyText(
-                                                    txt: '${index + 1}.',
-                                                    color: basicColor,
-                                                    fontweight: FontWeight.w800,
-                                                    size: 25.sp,
-                                                  ),
-                                                  MyText(
+                return SizedBox(
+                  width: 1545.w,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GetBuilder<QuestionController>(builder: (controller) {
+                        return SizedBox(
+                          height: 882.h,
+                          child: ListView.builder(
+                            itemCount: questionController.draftQuestionModelList.length,
+                            padding: EdgeInsets.zero,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                margin: EdgeInsets.only(bottom: 29.h),
+                                decoration: BoxDecoration(
+                                  color: cateContainerColor,
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 12.h),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                MyText(
+                                                  txt: '${index + 1}.',
+                                                  color: basicColor,
+                                                  fontweight: FontWeight.w800,
+                                                  size: 25.sp,
+                                                ),
+                                                SizedBox(
+                                                  width: 5.w,
+                                                ),
+                                                SizedBox(
+                                                  width: 1300.w,
+                                                  child: MyText(
                                                     txt: ' ${questionController.draftQuestionModelList[index].question}',
                                                     color: Colors.black,
+                                                    align: TextAlign.justify,
+                                                    maxline: 10,
                                                     fontweight: FontWeight.w800,
                                                     size: 25.sp,
                                                   ),
-                                                ],
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  questionController.editDraftBtnClick(index);
-                                                },
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(right: 25.w),
-                                                  child: MyText(
-                                                    txt: 'Edit',
-                                                    color: basicColor,
-                                                    fontweight: FontWeight.w800,
-                                                    size: 20.sp,
-                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 50.w, right: 30.w, top: 20.h),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              SizedBox(
-                                                width: 1300.w,
-                                                height: 70.h,
-                                                child: ListView.builder(
-                                                    itemCount: 4,
-                                                    scrollDirection: Axis.horizontal,
-                                                    itemBuilder: (context, j) {
-                                                      return Container(
-                                                        margin: EdgeInsets.only(right: 20.w),
-                                                        child: reusableInstance.inputBox(
-                                                            300.w,
-                                                            70.h,
-                                                            j + 1 != questionController.draftQuestionModelList[index].answer ? containerWrongBorder : containerCorrectBorder,
-                                                            Padding(
-                                                              padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                children: [
-                                                                  MyText(
-                                                                    txt: optionNumber[j],
-                                                                    color: basicColor,
-                                                                    fontweight: FontWeight.w800,
-                                                                    size: 25.sp,
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 250.w,
-                                                                    child: SingleChildScrollView(
-                                                                      scrollDirection: Axis.vertical,
-                                                                      child: MyText(
-                                                                        txt: '${questionController.draftQuestionModelList[index].choiceList[j]}',
-                                                                        color: Colors.black,
-                                                                        maxline: 10,
-                                                                        fontweight: FontWeight.w800,
-                                                                        size: 22.sp,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            )),
-                                                      );
-                                                    }),
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  questionController.deleteDraftBtnClick(index);
-                                                },
+                                              ],
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                questionController.editDraftBtnClick(index);
+                                              },
+                                              child: Padding(
+                                                padding: EdgeInsets.only(right: 25.w),
                                                 child: MyText(
-                                                  txt: 'Delete',
-                                                  color: Color(0xffFF0000),
+                                                  txt: 'Edit',
+                                                  color: basicColor,
                                                   fontweight: FontWeight.w800,
                                                   size: 20.sp,
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 50.w, right: 30.w, top: 20.h),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            SizedBox(
+                                              width: 1300.w,
+                                              height: 90.h,
+                                              child: ListView.builder(
+                                                  itemCount: 4,
+                                                  scrollDirection: Axis.horizontal,
+                                                  itemBuilder: (context, j) {
+                                                    return Container(
+                                                      margin: EdgeInsets.only(right: 20.w),
+                                                      child: reusableInstance.inputBox(
+                                                          300.w,
+                                                          90.h,
+                                                          j + 1 != questionController.draftQuestionModelList[index].answer ? containerWrongBorder : containerCorrectBorder,
+                                                          Padding(
+                                                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                              children: [
+                                                                MyText(
+                                                                  txt: optionNumber[j],
+                                                                  color: basicColor,
+                                                                  fontweight: FontWeight.w800,
+                                                                  size: 25.sp,
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 250.w,
+                                                                  child: SingleChildScrollView(
+                                                                    scrollDirection: Axis.vertical,
+                                                                    child: MyText(
+                                                                      txt: '${questionController.draftQuestionModelList[index].choiceList[j]}',
+                                                                      color: Colors.black,
+                                                                      maxline: 10,
+                                                                      fontweight: FontWeight.w800,
+                                                                      size: 22.sp,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )),
+                                                    );
+                                                  }),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                questionController.deleteDraftBtnClick(index);
+                                              },
+                                              child: MyText(
+                                                txt: 'Delete',
+                                                color: Color(0xffFF0000),
+                                                fontweight: FontWeight.w800,
+                                                size: 20.sp,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                );
-                              },
-                            ),
-                          );
-                        }),
-                      ],
-                    ),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      }),
+                    ],
                   ),
                 );
               }),

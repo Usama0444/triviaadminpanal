@@ -181,4 +181,12 @@ class Reusable {
       ),
     );
   }
+
+  Future<void> logOut() async {
+    var logout = await userLogOut();
+    if (logout) {
+      await catController?.resetAllvariables();
+      Get.offAll(LoginPage());
+    }
+  }
 }

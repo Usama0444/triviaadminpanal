@@ -41,6 +41,7 @@ class CategoryController extends GetxController {
   bool isLoading = true;
   bool isLoadingAddQuestion = true;
   bool isLoadingDraft = true;
+  int totalQuestions = 0;
 
   List<String> cateHeader = [
     'Logo',
@@ -99,6 +100,7 @@ class CategoryController extends GetxController {
         for (int i = 0; i < categoryModelList.length; i++) {
           catList.add(categoryModelList[i]);
         }
+        totalQuestions = await questionController.getTotalQuestions();
         update();
       }
       return true;
@@ -173,6 +175,27 @@ class CategoryController extends GetxController {
     catIndex = null;
     subCatIndex = null;
     update();
+  }
+
+  Future<void> resetAllvariables() async {
+    totalQuestions = 0;
+    catList = [];
+    subCatIndex = null;
+    catIndex = null;
+    subCatList = [];
+    isLoading = true;
+    isLoadingAddQuestion = true;
+    isLoadingDraft = true;
+    update();
+    questionCategory = null;
+    questionSubCategory = null;
+    questionController.teacherQuestionModelList = [];
+    questionController.erasedData();
+    questionController.draftQuestionModelList = [];
+    questionController.isLoadingDraft = true;
+    questionController.update();
+
+    print('all var reset ${catList.length}');
   }
 ////leftside drop down menu in add question screen
 

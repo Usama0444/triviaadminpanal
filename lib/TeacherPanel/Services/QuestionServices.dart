@@ -111,9 +111,19 @@ addQuestions(String question, option1, option2, option3, option4, answer, articl
   }
 }
 
-Future<List<QuestionModel>> getDraftQuestionsList(cat, subcat) async {
+Future<List<QuestionModel>> getDraftQuestionsListByCategoryAndSubCategory(cat, subcat) async {
   try {
     var getQuestions = await draftCollection.where('email', isEqualTo: email).where('category', isEqualTo: cat).where('subcategory', isEqualTo: subcat).get();
+    questionsList = getQuestions.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
+  } catch (e) {
+    reusableInstance.toast('Error', '$e');
+  }
+  return questionsList;
+}
+
+Future<List<QuestionModel>> getDraftAllQuestions() async {
+  try {
+    var getQuestions = await draftCollection.where('email', isEqualTo: email).get();
     questionsList = getQuestions.docs.map((e) => QuestionModel.fromJson(e.data())).toList();
   } catch (e) {
     reusableInstance.toast('Error', '$e');
@@ -193,8 +203,7 @@ editDraftQuestions(String question, option1, option2, option3, option4, answer, 
 Future<int> totalNoOfQuestions() async {
   try {
     int total = 0;
-    var questions = await questionCollectionRef.get();
-
+    var questions = await questionCollectionRef.where('email', isEqualTo: email).get();
     total = questions.docs.length;
     return total;
   } catch (e) {

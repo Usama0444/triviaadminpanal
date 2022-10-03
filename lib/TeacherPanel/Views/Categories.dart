@@ -31,14 +31,13 @@ class Categories extends StatefulWidget {
 class _CategoriesState extends State<Categories> {
   CategoryController cateController = Get.find<CategoryController>();
   QuestionController questionController = Get.put(QuestionController(), permanent: true);
-  int totalQuestions = 0;
   @override
   void initState() {
     super.initState();
     cateController.getCategories().whenComplete(() async {
-      await questionController.getDraftQuestion();
+      await questionController.getDraftQuestionsLength();
       await cateController.getSubCategories();
-      totalQuestions = await questionController.getTotalQuestions();
+
       cateController.resetLodaing();
     });
   }
@@ -209,10 +208,7 @@ class _CategoriesState extends State<Categories> {
                           ),
                           InkWell(
                             onTap: () async {
-                              var logout = await userLogOut();
-                              if (logout) {
-                                Get.offAll(LoginPage());
-                              }
+                              await reusableInstance.logOut();
                             },
                             child: Container(
                               width: 38.w,
@@ -255,7 +251,11 @@ class _CategoriesState extends State<Categories> {
                                     : 40.w,
                               ),
                               child: MyText(
-                                txt: index != 3 ? cateController.cateHeader[index] : '$totalQuestions Questions',
+                                txt: index != 3
+                                    ? cateController.cateHeader[index]
+                                    : cateController.totalQuestions != 0
+                                        ? '${cateController.totalQuestions} Questions'
+                                        : '',
                                 color: index != 3 ? Colors.black : basicColor,
                                 fontweight: FontWeight.w500,
                                 size: 20.sp,

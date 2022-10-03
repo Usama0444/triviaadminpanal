@@ -228,7 +228,7 @@ class _QuestionListState extends State<QuestionList> {
                                   await questionController.erasedData();
                                   Get.to(AddQuestion(callingFor: 'Add'));
                                 },
-                                child: Container(
+                                child: SizedBox(
                                   height: 20.h,
                                   child: MyText(
                                     txt: 'Add Question',
@@ -254,12 +254,9 @@ class _QuestionListState extends State<QuestionList> {
                     ),
                     InkWell(
                       onTap: () async {
-                        var logout = await userLogOut();
-                        if (logout) {
-                          Get.offAll(LoginPage());
-                        }
+                        await reusableInstance.logOut();
                       },
-                      child: Container(
+                      child: SizedBox(
                         width: 38.w,
                         height: 38.w,
                         child: FittedBox(
@@ -339,7 +336,6 @@ class _QuestionListState extends State<QuestionList> {
                           padding: EdgeInsets.zero,
                           itemBuilder: (context, index) {
                             return Container(
-                              height: 150.h,
                               margin: EdgeInsets.only(bottom: 29.h),
                               decoration: BoxDecoration(
                                 color: cateContainerColor,
@@ -361,13 +357,18 @@ class _QuestionListState extends State<QuestionList> {
                                                 fontweight: FontWeight.w800,
                                                 size: 25.sp,
                                               ),
-                                              MyText(
-                                                txt: questionController.searchQuestion.isEmpty
-                                                    ? ' ${questionController.teacherQuestionModelList[index].question}'
-                                                    : ' ${questionController.searchQuestion[index].question}',
-                                                color: Colors.black,
-                                                fontweight: FontWeight.w800,
-                                                size: 25.sp,
+                                              SizedBox(
+                                                width: 1300.w,
+                                                child: MyText(
+                                                  txt: questionController.searchQuestion.isEmpty
+                                                      ? ' ${questionController.teacherQuestionModelList[index].question}'
+                                                      : ' ${questionController.searchQuestion[index].question}',
+                                                  color: Colors.black,
+                                                  maxline: 25,
+                                                  align: TextAlign.left,
+                                                  fontweight: FontWeight.w800,
+                                                  size: 25.sp,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -395,7 +396,7 @@ class _QuestionListState extends State<QuestionList> {
                                         children: [
                                           SizedBox(
                                             width: 1700.w,
-                                            height: 70.h,
+                                            height: 90.h,
                                             child: ListView.builder(
                                                 itemCount: 4,
                                                 scrollDirection: Axis.horizontal,
@@ -404,7 +405,7 @@ class _QuestionListState extends State<QuestionList> {
                                                     margin: EdgeInsets.only(right: 20.w),
                                                     child: reusableInstance.inputBox(
                                                         321.w,
-                                                        70.h,
+                                                        90.h,
                                                         j !=
                                                                 questionController
                                                                         .teacherQuestionModelList[questionController.questionSearchIndex == -1 ? index : questionController.questionSearchIndex]

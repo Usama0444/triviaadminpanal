@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:triviaadminpanal/TeacherPanel/Bindings/BindController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/Test.dart';
+import 'package:url_strategy/url_strategy.dart';
 import 'TeacherPanel/Views/AddQuestions.dart';
 import 'TeacherPanel/Views/Categories.dart';
 import 'TeacherPanel/Views/CustomWidgets/Reusable.dart';
@@ -26,6 +27,7 @@ void main() async {
     ),
   );
   await BindController().dependencies();
+  setPathUrlStrategy();
   runApp(MyApp());
 }
 
@@ -54,6 +56,7 @@ class _MyAppState extends State<MyApp> {
     return ScreenUtilInit(
       rebuildFactor: (old, data) => true,
       builder: (context, child) => GetMaterialApp(
+        initialRoute: '/',
         home: isAlreadyLogin != true ? LoginPage() : Categories(),
         // home: Test(),
         debugShowCheckedModeBanner: false,

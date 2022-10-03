@@ -54,32 +54,39 @@ class QuestionController extends GetxController {
 
   int totalDraftQuestion = 0;
 
-  getDraftQuestion() async {
+  getDraftQuestionsLength() async {
     totalDraftQuestion = await getDraftTotalQuestions();
     update();
   }
 
+  getAllDrafts() async {
+    draftQuestionModelList = await getDraftAllQuestions();
+    update();
+  }
+
   markCorrectIncorrect() {
-    if (option1.text.trim().isNotEmpty && answer == 1) {
-      isCorrect1 = true;
-      isCorrect2 = false;
-      isCorrect3 = false;
-      isCorrect4 = false;
-    } else if (option2.text.trim().isNotEmpty && answer == 2) {
-      isCorrect2 = true;
-      isCorrect1 = false;
-      isCorrect3 = false;
-      isCorrect4 = false;
-    } else if (option3.text.trim().isNotEmpty && answer == 3) {
-      isCorrect3 = true;
-      isCorrect2 = false;
-      isCorrect1 = false;
-      isCorrect4 = false;
-    } else if (option4.text.trim().isNotEmpty && answer == 4) {
-      isCorrect4 = true;
-      isCorrect2 = false;
-      isCorrect3 = false;
-      isCorrect1 = false;
+    if (question.text.trim().isNotEmpty) {
+      if (option1.text.trim().isNotEmpty && answer == 1) {
+        isCorrect1 = true;
+        isCorrect2 = false;
+        isCorrect3 = false;
+        isCorrect4 = false;
+      } else if (option2.text.trim().isNotEmpty && answer == 2) {
+        isCorrect2 = true;
+        isCorrect1 = false;
+        isCorrect3 = false;
+        isCorrect4 = false;
+      } else if (option3.text.trim().isNotEmpty && answer == 3) {
+        isCorrect3 = true;
+        isCorrect2 = false;
+        isCorrect1 = false;
+        isCorrect4 = false;
+      } else if (option4.text.trim().isNotEmpty && answer == 4) {
+        isCorrect4 = true;
+        isCorrect2 = false;
+        isCorrect3 = false;
+        isCorrect1 = false;
+      }
     }
     update();
   }
@@ -253,7 +260,6 @@ class QuestionController extends GetxController {
           catController.questionSubCategory,
         );
         await erasedData();
-        await getTotalQuestionsOfSepecificSubcategoryForDraft();
       } else {
         await updateDraftQuestion(
           question.text,
@@ -271,6 +277,10 @@ class QuestionController extends GetxController {
         await erasedData();
       }
       await getDraftQuestions();
+      await getAllDrafts();
+      await getDraftQuestionsLength();
+      await getTotalQuestionsOfSepecificSubcategoryForDraft();
+
       return true;
     }
     return false;
@@ -288,6 +298,9 @@ class QuestionController extends GetxController {
     editDraftQuestionSelectedIndex = index;
     isDraftEditPress = true;
     draftQID = draftQuestionModelList[index].qid;
+    catController.questionCategory = null;
+    catController.questionSubCategory = null;
+    catController.update();
     // draftQuestionCreatedAt = draftQuestionModelList[index].createdAt;
     update();
     if (draftCheckedIndex.isEmpty) {
@@ -304,7 +317,7 @@ class QuestionController extends GetxController {
   }
 
   Future<bool> getDraftQuestions() async {
-    draftQuestionModelList = await getDraftQuestionsList(
+    draftQuestionModelList = await getDraftQuestionsListByCategoryAndSubCategory(
       catController.questionCategory!,
       catController.questionSubCategory!,
     );
@@ -315,7 +328,7 @@ class QuestionController extends GetxController {
 ////
 
   Future<bool> checkValidation() async {
-    if (catController.questionSubCategory == null && catController.questionCategory == null) {
+    if (catController.questionSubCategory == null || catController.questionCategory == null) {
       reusableInstance.toast('Invalid choice', 'please select category and subcategory!');
       return false;
     } else if (question.text.trim().isEmpty && option1.text.trim().isEmpty && option2.text.trim().isEmpty && option3.text.trim().isEmpty && option4.text.trim().isEmpty) {
@@ -412,7 +425,7 @@ class QuestionController extends GetxController {
     for (int i = 0; i < catController.catList.length; i++) {
       temp = [];
       for (int j = 0; j < catController.subCategoriesForDrawer[i].length; j++) {
-        questions = await getDraftQuestionsList(catController.catList[i].name, catController.subCategoriesForDrawer[i][j].name);
+        questions = await getDraftQuestionsListByCategoryAndSubCategory(catController.catList[i].name, catController.subCategoriesForDrawer[i][j].name);
         temp.add(questions.length);
       }
 

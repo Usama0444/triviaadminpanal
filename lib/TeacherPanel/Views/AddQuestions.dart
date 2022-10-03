@@ -179,10 +179,7 @@ class _AddQuestionState extends State<AddQuestion> {
                     ),
                     InkWell(
                       onTap: () async {
-                        var logout = await userLogOut();
-                        if (logout) {
-                          Get.offAll(LoginPage());
-                        }
+                        await reusableInstance.logOut();
                       },
                       child: SizedBox(
                         width: 38.w,
@@ -517,7 +514,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                         controller: questionController.article,
                                         maxLines: 200,
                                         textInputFormatters: [
-                                          FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9\?\s_-]+")),
+                                          // FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9\?\s_-]+")),
                                           MaxWordTextInputFormater(maxWords: 500, currentLength: questionController.increaseTextCounterForArticle),
                                         ],
                                         fontSize: 20.sp,
@@ -663,10 +660,13 @@ class _AddQuestionState extends State<AddQuestion> {
             margin: EdgeInsets.only(left: 5.w, bottom: 10.w),
             child: TextInputFieldWidget(
               controller: cont,
-              maxLines: 1,
+              maxLines: label == 'Question' ? 25 : 1,
               textInputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9\?\s_-]+")),
-                MaxWordTextInputFormater(maxWords: label == 'Question' ? 50 : 6, currentLength: questionController.increaseTextCounterForQuestion),
+                MaxWordTextInputFormater(
+                  maxWords: label == 'Question' ? 50 : 6,
+                  currentLength: label == 'Question' ? questionController.increaseTextCounterForQuestion : (int i) {},
+                ),
               ],
               fontSize: 17.sp,
               fontWeight: FontWeight.w600,

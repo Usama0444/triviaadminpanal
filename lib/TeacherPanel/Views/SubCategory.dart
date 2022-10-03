@@ -251,10 +251,7 @@ class _SubCategoryState extends State<SubCategory> {
                     ),
                     InkWell(
                       onTap: () async {
-                        var logout = await userLogOut();
-                        if (logout) {
-                          Get.offAll(LoginPage());
-                        }
+                        await reusableInstance.logOut();
                       },
                       child: Container(
                         width: 38.w,
