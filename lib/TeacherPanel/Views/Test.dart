@@ -18,16 +18,17 @@ class Test extends StatefulWidget {
 }
 
 class _TestState extends State<Test> {
-  final QuillController _controller = QuillController.basic();
+  final QuillController controller = QuillController.basic();
   int count = 0;
+  bool read = false;
   StreamSubscription? lis;
-  void _onDocumentChange() {
-    final documentLength = _controller.document.length;
+  void onDocumentChange() {
+    final documentLength = controller.document.length;
     print(documentLength);
     if (count > 5) {
       int latestIndex = documentLength - 1;
-      _controller.replaceText(
-        documentLength - 1,
+      controller.replaceText(
+        latestIndex,
         0,
         '#',
         null,
@@ -43,12 +44,10 @@ class _TestState extends State<Test> {
   }
 
   listner() {
-    lis = _controller.document.changes.listen((event) {
+    lis = controller.document.changes.listen((event) {
       setState(() {
-        count = _controller.document.toPlainText().split(' ').length;
-        print('length $count');
+        count = controller.document.toPlainText().split(' ').length;
       });
-      _onDocumentChange();
     });
   }
 
@@ -97,14 +96,14 @@ class _TestState extends State<Test> {
                     height: 500.h,
                     child: Column(
                       children: [
-                        QuillToolbar.basic(controller: _controller),
+                        QuillToolbar.basic(controller: controller),
                         SizedBox(
                           height: 10.h,
                         ),
                         Expanded(
                           child: QuillEditor.basic(
-                            controller: _controller,
-                            readOnly: false,
+                            controller: controller,
+                            readOnly: count > 2 ? true : false,
                           ),
                         ),
                       ],
@@ -150,7 +149,7 @@ class _TestState extends State<Test> {
           ),
           ElevatedButton(
               onPressed: () {
-                reusableInstance.toast('heading', _controller.document.toPlainText());
+                reusableInstance.toast('heading', controller.document.toPlainText());
               },
               child: const Text('data'))
         ],

@@ -165,6 +165,9 @@ class QuestionController extends GetxController {
     draftQID = null;
     textCounter = 0;
     textCounterForQuestion = 0;
+    catController.categoryName = '';
+    catController.subCategoryName = '';
+    catController.update();
     update();
   }
 
@@ -173,6 +176,7 @@ class QuestionController extends GetxController {
     if (isInputValid) {
       await addNewQuestions();
       await erasedData();
+      await getTotalQuestionsOfSepecificSubcategoryForAddQuestion();
 
       if (isDraftEditPress) {
         await deleteDraftBtnClick(editDraftQuestionSelectedIndex!);
@@ -185,7 +189,6 @@ class QuestionController extends GetxController {
         await getQuestions(catController.questionCategory!, catController.questionSubCategory!);
       }
       await getTotalNumberOfQuestionForSpecificCategory();
-      await getTotalQuestionsOfSepecificSubcategoryForAddQuestion();
       await getTotalQuestionsOfSepecificSubcategoryForDraft();
     }
   }
@@ -312,6 +315,7 @@ class QuestionController extends GetxController {
     qid = draftQuestionModelList[index].qid;
     await deleteDraftQuestion(qid);
     await getDraftQuestions();
+    await getAllDrafts();
     await getTotalQuestionsOfSepecificSubcategoryForDraft();
     update();
   }
@@ -328,7 +332,10 @@ class QuestionController extends GetxController {
 ////
 
   Future<bool> checkValidation() async {
-    if (catController.questionSubCategory == null || catController.questionCategory == null) {
+    if (question.text.trim().length < 5) {
+      reusableInstance.toast('Invalid question', 'please enter valid question!');
+      return false;
+    } else if (catController.questionSubCategory == null || catController.questionCategory == null) {
       reusableInstance.toast('Invalid choice', 'please select category and subcategory!');
       return false;
     } else if (question.text.trim().isEmpty && option1.text.trim().isEmpty && option2.text.trim().isEmpty && option3.text.trim().isEmpty && option4.text.trim().isEmpty) {
@@ -356,9 +363,6 @@ class QuestionController extends GetxController {
       return false;
     } else if (answer == null) {
       reusableInstance.toast('Invalid choice', 'please select answer!');
-      return false;
-    } else if (article.text.trim().isEmpty) {
-      reusableInstance.toast('Invalid choice', 'please enter article');
       return false;
     } else {
       return true;

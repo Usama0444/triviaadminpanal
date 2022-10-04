@@ -206,7 +206,7 @@ class _DraftState extends State<Draft> {
               leftSideCategoryForDraft(),
               GetBuilder<QuestionController>(builder: (quesController) {
                 return SizedBox(
-                  width: 1545.w,
+                  width: 1535.w,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,

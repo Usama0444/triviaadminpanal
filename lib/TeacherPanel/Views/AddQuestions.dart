@@ -662,7 +662,7 @@ class _AddQuestionState extends State<AddQuestion> {
               controller: cont,
               maxLines: label == 'Question' ? 25 : 1,
               textInputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9\?\s_-]+")),
+                // FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9\?\s_-]+")),
                 MaxWordTextInputFormater(
                   maxWords: label == 'Question' ? 50 : 6,
                   currentLength: label == 'Question' ? questionController.increaseTextCounterForQuestion : (int i) {},

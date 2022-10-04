@@ -193,7 +193,7 @@ class _ArticleListState extends State<ArticleList> {
               GetBuilder<QuestionController>(builder: (questionController) {
                 return GetBuilder<QuestionController>(builder: (controller) {
                   return SizedBox(
-                    width: 1500.w,
+                    width: 1535.w,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,91 +238,93 @@ class _ArticleListState extends State<ArticleList> {
                             padding: EdgeInsets.zero,
                             itemBuilder: (context, index) {
                               articleDate = questionController.draftQuestionModelList[index].createdDate.toDate();
-                              return Container(
-                                height: 121.h,
-                                margin: EdgeInsets.only(bottom: 29.h),
-                                decoration: BoxDecoration(
-                                  color: cateContainerColor,
-                                ),
-                                child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 20.w),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            MyText(
-                                              txt: 'Article no : 0${index + 1}',
-                                              color: Colors.black,
-                                              fontweight: FontWeight.w800,
-                                              size: 16.sp,
-                                            ),
-                                            MyText(
-                                              txt: '${articleDate?.day}' '/' '${articleDate?.month}' '/' '${articleDate?.year}',
-                                              color: basicColor,
-                                              fontweight: FontWeight.w800,
-                                              size: 10.sp,
-                                            ),
-                                            SizedBox(
-                                              height: 10.h,
-                                            ),
-                                            SizedBox(
-                                              width: 1300.w,
-                                              child: Text(
-                                                overflow: TextOverflow.visible,
-                                                questionController.draftQuestionModelList[index].article,
-                                                maxLines: 3,
-                                                style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  fontWeight: FontWeight.w300,
-                                                ),
+                              return questionController.draftQuestionModelList[index].article == ''
+                                  ? const Text('')
+                                  : Container(
+                                      height: 121.h,
+                                      margin: EdgeInsets.only(bottom: 29.h),
+                                      decoration: BoxDecoration(
+                                        color: cateContainerColor,
+                                      ),
+                                      child: Padding(
+                                          padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 20.w),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  MyText(
+                                                    txt: 'Article no : 0${index + 1}',
+                                                    color: Colors.black,
+                                                    fontweight: FontWeight.w800,
+                                                    size: 16.sp,
+                                                  ),
+                                                  MyText(
+                                                    txt: '${articleDate?.day}' '/' '${articleDate?.month}' '/' '${articleDate?.year}',
+                                                    color: basicColor,
+                                                    fontweight: FontWeight.w800,
+                                                    size: 10.sp,
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10.h,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 1300.w,
+                                                    child: Text(
+                                                      overflow: TextOverflow.visible,
+                                                      questionController.draftQuestionModelList[index].article,
+                                                      maxLines: 3,
+                                                      style: TextStyle(
+                                                        fontSize: 12.sp,
+                                                        fontWeight: FontWeight.w300,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                questionController.copyBtnClick(index);
-                                                reusableInstance.toast('Copied', 'copy to Clipboard');
-                                              },
-                                              child: MyText(
-                                                txt: 'Copy',
-                                                color: Color(0xff00D579),
-                                                fontweight: FontWeight.w800,
-                                                size: 20.sp,
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () {
-                                                questionController.editDraftBtnClick(index);
-                                              },
-                                              child: MyText(
-                                                txt: 'Edit',
-                                                color: Color(0xff2CB4B3),
-                                                fontweight: FontWeight.w800,
-                                                size: 20.sp,
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () async {
-                                                await questionController.deleteDraftBtnClick(index);
-                                              },
-                                              child: MyText(
-                                                txt: 'Delete',
-                                                color: Color(0xffFF0000),
-                                                fontweight: FontWeight.w800,
-                                                size: 20.sp,
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    )),
-                              );
+                                              Column(
+                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      questionController.copyBtnClick(index);
+                                                      reusableInstance.toast('Copied', 'copy to Clipboard');
+                                                    },
+                                                    child: MyText(
+                                                      txt: 'Copy',
+                                                      color: Color(0xff00D579),
+                                                      fontweight: FontWeight.w800,
+                                                      size: 20.sp,
+                                                    ),
+                                                  ),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      questionController.editDraftBtnClick(index);
+                                                    },
+                                                    child: MyText(
+                                                      txt: 'Edit',
+                                                      color: Color(0xff2CB4B3),
+                                                      fontweight: FontWeight.w800,
+                                                      size: 20.sp,
+                                                    ),
+                                                  ),
+                                                  InkWell(
+                                                    onTap: () async {
+                                                      await questionController.deleteDraftBtnClick(index);
+                                                    },
+                                                    child: MyText(
+                                                      txt: 'Delete',
+                                                      color: Color(0xffFF0000),
+                                                      fontweight: FontWeight.w800,
+                                                      size: 20.sp,
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                    );
                             },
                           ),
                         ),

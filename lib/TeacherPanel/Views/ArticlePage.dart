@@ -227,15 +227,17 @@ class _ArticlePageState extends State<ArticlePage> {
                       top: 30.h,
                       left: 10.w,
                       child: SizedBox(
-                        width: 700.w,
-                        height: 400.h,
-                        child: MyText(
-                          txt: questionController.teacherQuestionModelList[widget.index].article,
-                          color: Colors.black,
-                          align: TextAlign.justify,
-                          maxline: 200,
-                          fontweight: FontWeight.bold,
-                          size: 20.sp,
+                        width: 880.w,
+                        height: 580.h,
+                        child: SingleChildScrollView(
+                          child: MyText(
+                            txt: questionController.teacherQuestionModelList[widget.index].article,
+                            color: Colors.black,
+                            align: TextAlign.justify,
+                            maxline: 200,
+                            fontweight: FontWeight.bold,
+                            size: 20.sp,
+                          ),
                         ),
                       ),
                     ),

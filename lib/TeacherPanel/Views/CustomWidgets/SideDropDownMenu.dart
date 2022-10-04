@@ -176,7 +176,7 @@ Widget leftSideMenuForAddQuestion() {
                                                   GetBuilder<QuestionController>(builder: (controller) {
                                                     return MyText(
                                                       txt: j != 0
-                                                          ? controller.questionLengthPerSubcateogryForAddQuestion.isEmpty
+                                                          ? controller.questionLengthPerSubcateogryForAddQuestion.length < catController.catList.length
                                                               ? ''
                                                               : '${controller.questionLengthPerSubcateogryForAddQuestion[index][j - 1]}'
                                                           : '${catController.totalSubCate[index]}',
@@ -379,7 +379,7 @@ Widget leftSideCategoryForDraft() {
                                                         GetBuilder<QuestionController>(builder: (controller) {
                                                           return MyText(
                                                             txt: j != 0
-                                                                ? controller.questionLengthPerSubcateogryForDraftDropDownMenu.isEmpty
+                                                                ? controller.questionLengthPerSubcateogryForDraftDropDownMenu.length < catController.catList.length
                                                                     ? ''
                                                                     : '${controller.questionLengthPerSubcateogryForDraftDropDownMenu[index][j - 1]}'
                                                                 : '${catController.totalSubCate[index]}',

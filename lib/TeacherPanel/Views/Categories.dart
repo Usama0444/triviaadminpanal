@@ -179,8 +179,6 @@ class _CategoriesState extends State<Categories> {
                                     InkWell(
                                       onTap: () async {
                                         await questionController.erasedData();
-                                        questionController.catController.categoryName = '';
-                                        questionController.catController.subCategoryName = '';
                                         Get.to(AddQuestion(callingFor: 'Add'));
                                       },
                                       child: Container(
