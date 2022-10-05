@@ -10,6 +10,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/ArticleList.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/Categories.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/SideDropDownMenu.dart';
+import 'package:triviaadminpanal/TeacherPanel/Views/DraftArticlePage.dart';
 
 import '../Controller/CategoryController.dart';
 import '../Controller/QuestionsController.dart';
@@ -321,16 +322,34 @@ class _DraftState extends State<Draft> {
                                                     );
                                                   }),
                                             ),
-                                            InkWell(
-                                              onTap: () {
-                                                questionController.deleteDraftBtnClick(index);
-                                              },
-                                              child: MyText(
-                                                txt: 'Delete',
-                                                color: Color(0xffFF0000),
-                                                fontweight: FontWeight.w800,
-                                                size: 20.sp,
-                                              ),
+                                            Column(
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    questionController.deleteDraftBtnClick(index);
+                                                  },
+                                                  child: MyText(
+                                                    txt: 'Delete',
+                                                    color: Color(0xffFF0000),
+                                                    fontweight: FontWeight.w800,
+                                                    size: 20.sp,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 30.h,
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    Get.to(DraftArticlePage(index: index));
+                                                  },
+                                                  child: MyText(
+                                                    txt: 'Article',
+                                                    color: basicColor,
+                                                    fontweight: FontWeight.w800,
+                                                    size: 20.sp,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),

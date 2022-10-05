@@ -301,7 +301,7 @@ class _SubCategoryState extends State<SubCategory> {
                                       ? cateController.subCateHeader[index]
                                       : isLoading
                                           ? ''
-                                          : '${questionController.totalQuestions} Questions',
+                                          : '${questionController.totalQuestionsForSubCategorPage} Questions',
                                   color: index != 3 ? Colors.black : basicColor,
                                   fontweight: FontWeight.w500,
                                   size: 20.sp,
@@ -369,16 +369,19 @@ class _SubCategoryState extends State<SubCategory> {
                                                   ),
                                                 ),
                                                 Expanded(
-                                                  flex: 1,
-                                                  child: MyText(
-                                                    txt: cateController.searchSubCategory.isEmpty
-                                                        ? '${questionController.totalQuestionOfspecificSubCategory[index]}'
-                                                        : '${cateController.totalSubCatQuestionsForSearch[index]}',
-                                                    color: Colors.black,
-                                                    fontweight: FontWeight.w500,
-                                                    size: 20.sp,
-                                                  ),
-                                                ),
+                                                    flex: 1,
+                                                    child: GetBuilder<QuestionController>(
+                                                      builder: (qController) {
+                                                        return MyText(
+                                                          txt: cateController.searchSubCategory.isEmpty
+                                                              ? '${qController.totalQuestionOfspecificSubCategory[index]}'
+                                                              : '${cateController.totalSubCatQuestionsForSearch[index]}',
+                                                          color: Colors.black,
+                                                          fontweight: FontWeight.w500,
+                                                          size: 20.sp,
+                                                        );
+                                                      },
+                                                    )),
                                                 Expanded(
                                                   flex: 1,
                                                   child: InkWell(

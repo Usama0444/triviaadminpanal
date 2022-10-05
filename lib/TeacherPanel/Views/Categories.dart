@@ -38,6 +38,8 @@ class _CategoriesState extends State<Categories> {
     cateController.getCategories().whenComplete(() async {
       await questionController.getDraftQuestionsLength();
       await cateController.getSubCategories();
+      await cateController.fillSubCategoryForDrawer();
+      await questionController.getTotalQuestionsOfSepecificSubcategoryForAddQuestion();
 
       cateController.resetLodaing();
     });
@@ -244,18 +246,18 @@ class _CategoriesState extends State<Categories> {
                             return Container(
                               margin: EdgeInsets.only(
                                 left: index != 0
-                                    ? index == 3
-                                        ? 1075.w
+                                    ? index == 4
+                                        ? 800.w
                                         : 120.w
                                     : 40.w,
                               ),
                               child: MyText(
-                                txt: index != 3
+                                txt: index != 4
                                     ? cateController.cateHeader[index]
                                     : cateController.totalQuestions != 0
                                         ? '${cateController.totalQuestions} Questions'
                                         : '',
-                                color: index != 3 ? Colors.black : basicColor,
+                                color: index != 4 ? Colors.black : basicColor,
                                 fontweight: FontWeight.w500,
                                 size: 20.sp,
                               ),
@@ -307,7 +309,7 @@ class _CategoriesState extends State<Categories> {
                                                   ),
                                                 )),
                                             Expanded(
-                                              flex: 2,
+                                              flex: 3,
                                               child: Row(
                                                 children: [
                                                   Expanded(
@@ -323,6 +325,17 @@ class _CategoriesState extends State<Categories> {
                                                     flex: 1,
                                                     child: MyText(
                                                       txt: cateController.searchCategory.isEmpty ? '${cateController.totalSubCate[index]}' : '${cateController.totalSubCatForSearch[index]}',
+                                                      color: Colors.black,
+                                                      fontweight: FontWeight.w500,
+                                                      size: 20.sp,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: MyText(
+                                                      txt: cateController.searchCategory.isEmpty
+                                                          ? '${questionController.totalUploadSubCategoryQuestionList[index]}'
+                                                          : '${cateController.totalSubCatForSearch[index]}',
                                                       color: Colors.black,
                                                       fontweight: FontWeight.w500,
                                                       size: 20.sp,
@@ -349,10 +362,6 @@ class _CategoriesState extends State<Categories> {
                                                         size: 20.sp,
                                                       ),
                                                     ),
-                                                  ),
-                                                  const Expanded(
-                                                    flex: 1,
-                                                    child: Text(''),
                                                   ),
                                                 ],
                                               ),

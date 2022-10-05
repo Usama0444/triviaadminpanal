@@ -25,13 +25,14 @@ Future<List<QuestionModel>> getQuestionsList(cat, subcat) async {
   return questionsList;
 }
 
-deleteQuestion(qid) async {
+Future<bool> deleteQuestion(qid) async {
   try {
-    questionCollectionRef.doc(qid).delete();
-    copyQuestionCollectionRef.doc(qid).delete();
-    reusableInstance.toast('Confirmation Alert', 'Question Deleted successfully');
+    await questionCollectionRef.doc(qid).delete();
+    await copyQuestionCollectionRef.doc(qid).delete();
+    return true;
   } catch (e) {
     reusableInstance.toast('Error', 'something went wrong!!');
+    return false;
   }
 }
 
@@ -106,7 +107,6 @@ addQuestions(String question, option1, option2, option3, option4, answer, articl
       'type': 'Add new Question',
       'isapproved': 'false',
     });
-    reusableInstance.toast('Confirmation Alert', 'Question Added successfully');
   } catch (e) {
     reusableInstance.toast('Error', 'something went wrong!!');
   }

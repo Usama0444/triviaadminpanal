@@ -47,6 +47,7 @@ class CategoryController extends GetxController {
     'Logo',
     'Categories Name',
     'Total Sub-Categories',
+    'Total Questions',
     '500 Question',
   ];
   List<String> subCateHeader = [
@@ -100,9 +101,9 @@ class CategoryController extends GetxController {
         for (int i = 0; i < categoryModelList.length; i++) {
           catList.add(categoryModelList[i]);
         }
-        totalQuestions = await questionController.getTotalQuestions();
-        update();
       }
+      totalQuestions = await questionController.getTotalQuestions();
+      update();
       return true;
     } catch (e) {
       print(e);
@@ -164,6 +165,8 @@ class CategoryController extends GetxController {
   }
 
   appBarLogoClick() {
+    questionController.isShowSubCategoryQuestionForm = false;
+    questionController.erasedData();
     resetSelection().whenComplete(() {
       Get.offAll(Categories());
     });
