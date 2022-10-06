@@ -49,7 +49,7 @@ class QuestionController extends GetxController {
   bool? isCorrect1, isCorrect2, isCorrect3, isCorrect4;
   List<int> totalUploadSubCategoryQuestionList = [];
   List<int> totalDraftSubCategoryQuestionList = [];
-
+  bool isUploadProcessComplete = false;
   CategoryController catController = Get.find<CategoryController>();
 
   bool isLoadingDraft = true;
@@ -168,9 +168,6 @@ class QuestionController extends GetxController {
     textCounter = 0;
     textCounterForQuestion = 0;
     update();
-    catController.categoryName = '';
-    catController.subCategoryName = '';
-    catController.update();
   }
 
   uploadBtnClick() async {
@@ -178,22 +175,17 @@ class QuestionController extends GetxController {
     if (isInputValid) {
       await addNewQuestions();
       await erasedData();
+      reusableInstance.toast('Confirmation Alert', 'Question Added successfully');
       await updateTotalQuestionsOfSepecificSubcategoryForAddQuestion();
 
       if (isDraftEditPress) {
         await deleteDraftBtnClick(editDraftQuestionSelectedIndex!);
         await getDraftQuestions();
       }
-
-      if (catController.subCategoryName != null) {
-        await getQuestions(catController.categoryName!, catController.subCategoryName!);
-      } else {
-        await getQuestions(catController.questionCategory!, catController.questionSubCategory!);
-      }
+      await getQuestions(catController.questionCategory!, catController.questionSubCategory!);
       await getTotalNumberOfQuestionForSpecificCategory();
-      await updateTotalQuestionsOfSepecificSubcategoryForDraft();
+      // await updateTotalQuestionsOfSepecificSubcategoryForDraft();
 
-      reusableInstance.toast('Confirmation Alert', 'Question Added successfully');
     }
   }
 
@@ -238,6 +230,7 @@ class QuestionController extends GetxController {
       reusableInstance.toast('Confirmation Alert', 'Question Deleted successfully');
     }
     await updateTotalNumberOfQuestionForSpecificCategory();
+    await updateTotalQuestionsOfSepecificSubcategoryForAddQuestion();
     update();
   }
 
@@ -288,10 +281,10 @@ class QuestionController extends GetxController {
         );
         await erasedData();
       }
-      await getDraftQuestions();
+      // await getDraftQuestions();
       await getAllDrafts();
       await getDraftQuestionsLength();
-      await updateTotalQuestionsOfSepecificSubcategoryForDraft();
+      // await updateTotalQuestionsOfSepecificSubcategoryForDraft();
 
       return true;
     }
@@ -312,6 +305,8 @@ class QuestionController extends GetxController {
     draftQID = draftQuestionModelList[index].qid;
     catController.questionCategory = null;
     catController.questionSubCategory = null;
+    catController.categoryName = draftQuestionModelList[index].category;
+    catController.subCategoryName = draftQuestionModelList[index].subcategory;
     catController.update();
     // draftQuestionCreatedAt = draftQuestionModelList[index].createdAt;
     update();
@@ -326,6 +321,7 @@ class QuestionController extends GetxController {
     await getDraftQuestions();
     await getAllDrafts();
     await updateTotalQuestionsOfSepecificSubcategoryForDraft();
+    await getDraftTotalQuestions();
     update();
   }
 
@@ -434,23 +430,26 @@ class QuestionController extends GetxController {
   ///fil list of total question length for Add question screen drop down menu
 
   getTotalQuestionsOfSepecificSubcategoryForAddQuestion() async {
-    questionLengthPerSubcateogryForAddQuestion.clear();
-    totalUploadSubCategoryQuestionList.clear();
-    var questions;
-    int sum = 0;
-    for (int i = 0; i < catController.catList.length; i++) {
-      temp = [];
-      sum = 0;
-      for (int j = 0; j < catController.subCategoriesForDrawer[i].length; j++) {
-        questions = await getQuestionsList(catController.catList[i].name, catController.subCategoriesForDrawer[i][j].name);
-        temp.add(questions.length);
+    print('get totals');
+    if (questionLengthPerSubcateogryForAddQuestion.isEmpty) {
+      questionLengthPerSubcateogryForAddQuestion.clear();
+      totalUploadSubCategoryQuestionList.clear();
+      var questions;
+      int sum = 0;
+      for (int i = 0; i < catController.catList.length; i++) {
+        temp = [];
+        sum = 0;
+        for (int j = 0; j < catController.subCategoriesForDrawer[i].length; j++) {
+          questions = await getQuestionsList(catController.catList[i].name, catController.subCategoriesForDrawer[i][j].name);
+          temp.add(questions.length);
+        }
+        for (int i = 0; i < temp.length; i++) {
+          sum = sum + temp[i];
+        }
+        questionLengthPerSubcateogryForAddQuestion.add(temp);
+        totalUploadSubCategoryQuestionList.add(sum);
+        update();
       }
-      for (int i = 0; i < temp.length; i++) {
-        sum = sum + temp[i];
-      }
-      questionLengthPerSubcateogryForAddQuestion.add(temp);
-      totalUploadSubCategoryQuestionList.add(sum);
-      update();
     }
   }
 
@@ -476,23 +475,25 @@ class QuestionController extends GetxController {
   ///fil list of total question length for Draft screen drop down menu
 
   getTotalQuestionsOfSepecificSubcategoryForDraft() async {
-    var questions;
-    int sum = 0;
-    questionLengthPerSubcateogryForDraftDropDownMenu.clear();
-    totalDraftSubCategoryQuestionList.clear();
-    for (int i = 0; i < catController.catList.length; i++) {
-      temp = [];
-      sum = 0;
-      for (int j = 0; j < catController.subCategoriesForDrawer[i].length; j++) {
-        questions = await getDraftQuestionsListByCategoryAndSubCategory(catController.catList[i].name, catController.subCategoriesForDrawer[i][j].name);
-        temp.add(questions.length);
+    if (questionLengthPerSubcateogryForDraftDropDownMenu.isEmpty) {
+      var questions;
+      int sum = 0;
+      questionLengthPerSubcateogryForDraftDropDownMenu.clear();
+      totalDraftSubCategoryQuestionList.clear();
+      for (int i = 0; i < catController.catList.length; i++) {
+        temp = [];
+        sum = 0;
+        for (int j = 0; j < catController.subCategoriesForDrawer[i].length; j++) {
+          questions = await getDraftQuestionsListByCategoryAndSubCategory(catController.catList[i].name, catController.subCategoriesForDrawer[i][j].name);
+          temp.add(questions.length);
+        }
+        for (int i = 0; i < temp.length; i++) {
+          sum = sum + temp[i];
+        }
+        totalDraftSubCategoryQuestionList.add(sum);
+        questionLengthPerSubcateogryForDraftDropDownMenu.add(temp);
+        update();
       }
-      for (int i = 0; i < temp.length; i++) {
-        sum = sum + temp[i];
-      }
-      totalDraftSubCategoryQuestionList.add(sum);
-      questionLengthPerSubcateogryForDraftDropDownMenu.add(temp);
-      update();
     }
   }
 

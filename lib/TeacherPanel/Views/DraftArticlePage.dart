@@ -254,21 +254,21 @@ class _DraftArticlePageState extends State<DraftArticlePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          InkWell(
-                            onTap: () {
-                              questionController.copyBtnClick(widget.index);
-                              reusableInstance.toast('Copied', 'copy to Clipboard');
-                            },
-                            child: MyText(
-                              txt: 'Copy',
-                              color: const Color(0xff00D579),
-                              fontweight: FontWeight.w800,
-                              size: 20.sp,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20.w,
-                          ),
+                          // InkWell(
+                          //   onTap: () {
+                          //     questionController.copyBtnClick(widget.index);
+                          //     reusableInstance.toast('Copied', 'copy to Clipboard');
+                          //   },
+                          //   child: MyText(
+                          //     txt: 'Copy',
+                          //     color: const Color(0xff00D579),
+                          //     fontweight: FontWeight.w800,
+                          //     size: 20.sp,
+                          //   ),
+                          // ),
+                          // SizedBox(
+                          //   width: 20.w,
+                          // ),
                           InkWell(
                             onTap: () {
                               questionController.editDraftBtnClick(widget.index);
@@ -280,20 +280,20 @@ class _DraftArticlePageState extends State<DraftArticlePage> {
                               size: 20.sp,
                             ),
                           ),
-                          SizedBox(
-                            width: 20.w,
-                          ),
-                          InkWell(
-                            onTap: () async {
-                              await questionController.deleteDraftBtnClick(widget.index);
-                            },
-                            child: MyText(
-                              txt: 'Delete',
-                              color: const Color(0xffFF0000),
-                              fontweight: FontWeight.w800,
-                              size: 20.sp,
-                            ),
-                          ),
+                          // SizedBox(
+                          //   width: 20.w,
+                          // ),
+                          // InkWell(
+                          //   onTap: () async {
+                          //     await questionController.deleteDraftBtnClick(widget.index);
+                          //   },
+                          //   child: MyText(
+                          //     txt: 'Delete',
+                          //     color: const Color(0xffFF0000),
+                          //     fontweight: FontWeight.w800,
+                          //     size: 20.sp,
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

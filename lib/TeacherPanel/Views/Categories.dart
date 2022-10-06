@@ -180,7 +180,6 @@ class _CategoriesState extends State<Categories> {
                                     ),
                                     InkWell(
                                       onTap: () async {
-                                        await questionController.erasedData();
                                         Get.to(AddQuestion(callingFor: 'Add'));
                                       },
                                       child: Container(
@@ -330,17 +329,19 @@ class _CategoriesState extends State<Categories> {
                                                       size: 20.sp,
                                                     ),
                                                   ),
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: MyText(
-                                                      txt: cateController.searchCategory.isEmpty
-                                                          ? '${questionController.totalUploadSubCategoryQuestionList[index]}'
-                                                          : '${cateController.totalSubCatForSearch[index]}',
-                                                      color: Colors.black,
-                                                      fontweight: FontWeight.w500,
-                                                      size: 20.sp,
-                                                    ),
-                                                  ),
+                                                  GetBuilder<QuestionController>(builder: (qcontroller) {
+                                                    return Expanded(
+                                                      flex: 1,
+                                                      child: MyText(
+                                                        txt: cateController.searchCategory.isEmpty
+                                                            ? '${qcontroller.totalUploadSubCategoryQuestionList[index]}'
+                                                            : '${cateController.totalSubCatForSearch[index]}',
+                                                        color: Colors.black,
+                                                        fontweight: FontWeight.w500,
+                                                        size: 20.sp,
+                                                      ),
+                                                    );
+                                                  }),
                                                   Expanded(
                                                     flex: 1,
                                                     child: InkWell(

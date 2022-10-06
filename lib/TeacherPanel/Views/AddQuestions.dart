@@ -211,7 +211,7 @@ class _AddQuestionState extends State<AddQuestion> {
                 width: 40.w,
               ),
               GetBuilder<QuestionController>(
-                builder: (cont) {
+                builder: (qController) {
                   return Visibility(
                     visible: questionController.isShowSubCategoryQuestionForm,
                     child: Row(

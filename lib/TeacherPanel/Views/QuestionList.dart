@@ -205,6 +205,8 @@ class _QuestionListState extends State<QuestionList> {
                       padding: EdgeInsets.only(top: 29.h),
                       child: InkWell(
                         onTap: () {
+                          questionController.questionLengthPerSubcateogryForAddQuestion = [];
+                          questionController.update();
                           Get.to(AddQuestion(callingFor: 'Add'));
                         },
                         child: reusableInstance.buttons(
@@ -223,19 +225,13 @@ class _QuestionListState extends State<QuestionList> {
                                   ),
                                 ),
                               ),
-                              InkWell(
-                                onTap: () async {
-                                  await questionController.erasedData();
-                                  Get.to(AddQuestion(callingFor: 'Add'));
-                                },
-                                child: SizedBox(
-                                  height: 20.h,
-                                  child: MyText(
-                                    txt: 'Add Question',
-                                    color: whiteColor,
-                                    fontweight: FontWeight.w300,
-                                    size: 21.sp,
-                                  ),
+                              SizedBox(
+                                height: 20.h,
+                                child: MyText(
+                                  txt: 'Add Question',
+                                  color: whiteColor,
+                                  fontweight: FontWeight.w300,
+                                  size: 21.sp,
                                 ),
                               ),
                             ],

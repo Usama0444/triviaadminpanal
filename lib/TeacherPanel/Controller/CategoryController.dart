@@ -112,11 +112,7 @@ class CategoryController extends GetxController {
   }
 
   resetLodaing() {
-    if (isLoading) {
-      isLoading = false;
-    } else {
-      isLoading = false;
-    }
+    isLoading = false;
     update();
   }
 
@@ -145,7 +141,6 @@ class CategoryController extends GetxController {
 
   fillSubCategoryForDrawer() async {
     isLoadingAddQuestion = true;
-
     if (subCategoriesForDrawer.isEmpty) {
       subCategoriesForDrawer = [];
       List<SubCategoryModel> tempList = [];
@@ -161,6 +156,7 @@ class CategoryController extends GetxController {
           subCategoriesForDrawer.add([]);
         }
       }
+      update();
     }
   }
 
@@ -214,6 +210,7 @@ class CategoryController extends GetxController {
 
   highlightSpecificSubCategoryInit() {
     highlightSubCategories = [];
+    questionSubCategory = null;
     for (int i = 0; i < 10; i++) {
       highlightSubCategories.add(whiteColor);
     }

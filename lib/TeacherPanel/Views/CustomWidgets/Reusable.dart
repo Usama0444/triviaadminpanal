@@ -153,7 +153,7 @@ class Reusable {
                       children: [
                         GetBuilder<QuestionController>(builder: (controller) {
                           return MyText(
-                            txt: controller.totalDraftQuestion == 0 ? '' : '${controller.totalDraftQuestion}',
+                            txt: controller.totalDraftQuestion == 0 ? '0' : '${controller.totalDraftQuestion}',
                             color: basicColor,
                             fontweight: FontWeight.w500,
                             size: 25.sp,
