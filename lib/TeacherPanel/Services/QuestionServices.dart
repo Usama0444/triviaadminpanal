@@ -13,7 +13,7 @@ var draftCollection = FirebaseFirestore.instance.collection('draft');
 var copyQuestionCollectionRef = FirebaseFirestore.instance.collection('copyquestions');
 var questionsList;
 var controller = Get.put(QuestionController());
-String? email = pref?.getString('email');
+String? email = pref?.getString('email') ?? FirebaseAuth.instance.currentUser?.email;
 
 Future<List<QuestionModel>> getQuestionsList(cat, subcat) async {
   try {
@@ -36,7 +36,7 @@ Future<bool> deleteQuestion(qid) async {
   }
 }
 
-editTeacherQuestions(String question, option1, option2, option3, option4, answer, article, category, subCategory, qid) async {
+editTeacherQuestions(String question, option1, option2, option3, option4, answer, article, category, subCategory, qid, createdDate) async {
   try {
     List<String> choice = [option1, option2, option3, option4];
 
@@ -49,7 +49,7 @@ editTeacherQuestions(String question, option1, option2, option3, option4, answer
       'subcategory': subCategory,
       'email': email,
       'article': article,
-      'createdAt': DateTime.now(),
+      'createdAt': createdDate,
       'updatedAt': DateTime.now(),
       'type': 'update Question',
       'isapproved': 'false',

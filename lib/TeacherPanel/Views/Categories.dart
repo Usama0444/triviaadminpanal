@@ -335,7 +335,7 @@ class _CategoriesState extends State<Categories> {
                                                       child: MyText(
                                                         txt: cateController.searchCategory.isEmpty
                                                             ? '${qcontroller.totalUploadSubCategoryQuestionList[index]}'
-                                                            : '${cateController.totalSubCatForSearch[index]}',
+                                                            : '${cateController.questionListSearchCat[index]}',
                                                         color: Colors.black,
                                                         fontweight: FontWeight.w500,
                                                         size: 20.sp,

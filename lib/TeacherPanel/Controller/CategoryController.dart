@@ -42,7 +42,7 @@ class CategoryController extends GetxController {
   bool isLoadingAddQuestion = true;
   bool isLoadingDraft = true;
   int totalQuestions = 0;
-
+  List<int> questionListSearchCat = [];
   List<String> cateHeader = [
     'Logo',
     'Categories Name',
@@ -61,17 +61,18 @@ class CategoryController extends GetxController {
     isCategorySearchNotMatch = false;
     searchCategory = [];
     totalSubCatForSearch = [];
+    questionListSearchCat = [];
     for (int i = 0; i < catList.length; i++) {
       if (catList[i].name.toLowerCase().toString().contains(categoryNameSearch.text.trim().toLowerCase())) {
         isCategorySearchNotMatch = false;
         searchCategory.add(catList[i]);
         totalSubCatForSearch.add(totalSubCate[i]);
+        questionListSearchCat.add(questionController.totalUploadSubCategoryQuestionList[i]);
       } else {
         isCategorySearchNotMatch = true;
       }
     }
     update();
-    print('search cat ${searchCategory.length}');
   }
 
   subCategorySearchTap() async {

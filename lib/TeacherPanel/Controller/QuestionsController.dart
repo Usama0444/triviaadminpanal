@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,22 @@ import '../Services/QuestionServices.dart';
 
 class QuestionController extends GetxController {
   List<QuestionModel> teacherQuestionModelList = [];
+  var tempQuest = [
+    'q1',
+    'q2',
+    'q3',
+    'q4',
+    'q5',
+    'q6',
+  ];
+  var tempOption = [
+    ['a', 'b', 'c', 'd'],
+    ['a', 'b', 'c', 'd'],
+    ['a', 'b', 'c', 'd'],
+    ['a', 'b', 'c', 'd'],
+    ['a', 'b', 'c', 'd'],
+    ['a', 'b', 'c', 'd'],
+  ];
   List<QuestionModel> draftQuestionModelList = [];
   List<QuestionModel> searchQuestion = [];
 
@@ -51,9 +68,9 @@ class QuestionController extends GetxController {
   List<int> totalDraftSubCategoryQuestionList = [];
   bool isUploadProcessComplete = false;
   CategoryController catController = Get.find<CategoryController>();
-
+  bool isQuestionListEdit = false;
   bool isLoadingDraft = true;
-
+  Timestamp? createdAt;
   int totalDraftQuestion = 0;
 
   getDraftQuestionsLength() async {
@@ -173,23 +190,31 @@ class QuestionController extends GetxController {
   uploadBtnClick() async {
     bool isInputValid = await checkValidation();
     if (isInputValid) {
-      await addNewQuestions();
-      await erasedData();
-      reusableInstance.toast('Confirmation Alert', 'Question Added successfully');
-      await updateTotalQuestionsOfSepecificSubcategoryForAddQuestion();
-
+      if (!isQuestionListEdit) {
+        await addNewQuestions();
+        await erasedData();
+        reusableInstance.toast('Confirmation Alert', 'Question Added successfully');
+      } else {
+        isQuestionListEdit = false;
+        await teacherUpdateQuestion();
+      }
       if (isDraftEditPress) {
         await deleteDraftBtnClick(editDraftQuestionSelectedIndex!);
         await getDraftQuestions();
+        await updateTotalQuestionsOfSepecificSubcategoryForDraft();
       }
       await getQuestions(catController.questionCategory!, catController.questionSubCategory!);
       await getTotalNumberOfQuestionForSpecificCategory();
-      // await updateTotalQuestionsOfSepecificSubcategoryForDraft();
-
+      if (questionLengthPerSubcateogryForAddQuestion.isEmpty) {
+        await getTotalQuestionsOfSepecificSubcategoryForAddQuestion();
+      } else {
+        await updateTotalQuestionsOfSepecificSubcategoryForAddQuestion();
+      }
     }
   }
 
   editBtnClick(int index) async {
+    isQuestionListEdit = true;
     if (searchQuestion.isEmpty) {
       question.text = teacherQuestionModelList[index].question;
       option1.text = teacherQuestionModelList[index].choiceList[0];
@@ -197,9 +222,11 @@ class QuestionController extends GetxController {
       option3.text = teacherQuestionModelList[index].choiceList[2];
       option4.text = teacherQuestionModelList[index].choiceList[3];
       article.text = teacherQuestionModelList[index].article;
+      answer = teacherQuestionModelList[index].answer;
+      createdAt = teacherQuestionModelList[index].createdDate;
       qid = teacherQuestionModelList[index].qid;
-      catController.questionCategory = teacherQuestionModelList[index].category;
-      catController.questionSubCategory = teacherQuestionModelList[index].subcategory;
+      catController.categoryName = teacherQuestionModelList[index].category;
+      catController.subCategoryName = teacherQuestionModelList[index].subcategory;
     } else {
       question.text = searchQuestion[index].question;
       option1.text = searchQuestion[index].choiceList[0];
@@ -207,10 +234,13 @@ class QuestionController extends GetxController {
       option3.text = searchQuestion[index].choiceList[2];
       option4.text = searchQuestion[index].choiceList[3];
       article.text = searchQuestion[index].article;
+      answer = searchQuestion[index].answer;
+      createdAt = searchQuestion[index].createdDate;
       qid = searchQuestion[index].qid;
-      catController.questionCategory = searchQuestion[index].category;
-      catController.questionSubCategory = searchQuestion[index].subcategory;
+      catController.categoryName = searchQuestion[index].category;
+      catController.subCategoryName = searchQuestion[index].subcategory;
     }
+
     update();
     catController.update();
     Get.to(AddQuestion(callingFor: 'Edit'));
@@ -282,9 +312,13 @@ class QuestionController extends GetxController {
         await erasedData();
       }
       // await getDraftQuestions();
+      if (questionLengthPerSubcateogryForDraftDropDownMenu.isEmpty) {
+        await getTotalQuestionsOfSepecificSubcategoryForDraft();
+      } else {
+        await updateTotalQuestionsOfSepecificSubcategoryForDraft();
+      }
       await getAllDrafts();
       await getDraftQuestionsLength();
-      // await updateTotalQuestionsOfSepecificSubcategoryForDraft();
 
       return true;
     }
@@ -420,7 +454,8 @@ class QuestionController extends GetxController {
   teacherUpdateQuestion() async {
     bool isInputValid = await checkValidation();
     if (isInputValid) {
-      await editTeacherQuestions(question.text, option1.text, option2.text, option3.text, option4.text, answer, article.text, catController.questionCategory, catController.questionSubCategory, qid);
+      await editTeacherQuestions(
+          question.text, option1.text, option2.text, option3.text, option4.text, answer, article.text, catController.questionCategory, catController.questionSubCategory, qid, createdAt);
       await getQuestions(catController.categoryName!, catController.subCategoryName!);
       await getTotalNumberOfQuestionForSpecificCategory();
       await erasedData();
@@ -430,7 +465,6 @@ class QuestionController extends GetxController {
   ///fil list of total question length for Add question screen drop down menu
 
   getTotalQuestionsOfSepecificSubcategoryForAddQuestion() async {
-    print('get totals');
     if (questionLengthPerSubcateogryForAddQuestion.isEmpty) {
       questionLengthPerSubcateogryForAddQuestion.clear();
       totalUploadSubCategoryQuestionList.clear();

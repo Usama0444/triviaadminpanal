@@ -107,7 +107,7 @@ class Reusable {
             height: 30.h,
           ),
           MyText(
-            txt: 'USAMA GHAFOOR',
+            txt: 'SYED IZHAN UDDIN',
             color: Colors.black,
             fontweight: FontWeight.w300,
             size: 22.sp,

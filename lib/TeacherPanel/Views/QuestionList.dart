@@ -23,10 +23,10 @@ class QuestionList extends StatefulWidget {
   QuestionList({Key? key}) : super(key: key);
 
   @override
-  State<QuestionList> createState() => _QuestionListState();
+  State<QuestionList> createState() => _QuestionsState();
 }
 
-class _QuestionListState extends State<QuestionList> {
+class _QuestionsState extends State<QuestionList> {
   CategoryController cateController = Get.find<CategoryController>();
   QuestionController questionController = Get.find<QuestionController>();
   var optionNumber = [
@@ -332,20 +332,21 @@ class _QuestionListState extends State<QuestionList> {
                           padding: EdgeInsets.zero,
                           itemBuilder: (context, index) {
                             return Container(
-                              margin: EdgeInsets.only(bottom: 29.h),
+                              margin: EdgeInsets.only(bottom: 20.h),
                               decoration: BoxDecoration(
                                 color: cateContainerColor,
                               ),
                               child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 12.h),
+                                padding: EdgeInsets.symmetric(horizontal: 20.w),
                                 child: Column(
                                   children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 20.w),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 940.w,
+                                          height: 147.h,
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               MyText(
                                                 txt: '${index + 1}.',
@@ -354,7 +355,7 @@ class _QuestionListState extends State<QuestionList> {
                                                 size: 25.sp,
                                               ),
                                               SizedBox(
-                                                width: 1300.w,
+                                                width: 900.w,
                                                 child: MyText(
                                                   txt: questionController.searchQuestion.isEmpty
                                                       ? ' ${questionController.teacherQuestionModelList[index].question}'
@@ -368,6 +369,75 @@ class _QuestionListState extends State<QuestionList> {
                                               ),
                                             ],
                                           ),
+                                        ),
+                                        Container(
+                                          width: 940.w,
+                                          child: GridView.count(
+                                            crossAxisCount: 2,
+                                            crossAxisSpacing: 10.0,
+                                            mainAxisSpacing: 10.0,
+                                            childAspectRatio: 500 / 60,
+                                            shrinkWrap: true,
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            children: List.generate(
+                                              4,
+                                              (j) {
+                                                return reusableInstance.inputBox(
+                                                  321.w,
+                                                  90.h,
+                                                  j !=
+                                                          questionController
+                                                                  .teacherQuestionModelList[questionController.questionSearchIndex == -1 ? index : questionController.questionSearchIndex].answer -
+                                                              1
+                                                      ? containerWrongBorder
+                                                      : containerCorrectBorder,
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+                                                      Padding(
+                                                        padding: EdgeInsets.only(left: 10.w),
+                                                        child: MyText(
+                                                          txt: optionNumber[j],
+                                                          color: basicColor,
+                                                          fontweight: FontWeight.w800,
+                                                          size: 25.sp,
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        flex: 1,
+                                                        child: SingleChildScrollView(
+                                                          scrollDirection: Axis.vertical,
+                                                          child: Center(
+                                                            child: MyText(
+                                                              txt: questionController.searchQuestion.isEmpty
+                                                                  ? '${questionController.teacherQuestionModelList[index].choiceList[j]}'
+                                                                  : '${questionController.searchQuestion[index].choiceList[j]}',
+                                                              color: Colors.black,
+                                                              maxline: 10,
+                                                              fontweight: FontWeight.w800,
+                                                              size: 25.sp,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 20.h,
+                                    ),
+                                    Container(
+                                      height: 64,
+                                      color: Color(0xffF5F5F5),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
                                           InkWell(
                                             onTap: () {
                                               Get.to(ArticlePage(index: index));
@@ -382,64 +452,25 @@ class _QuestionListState extends State<QuestionList> {
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 40.w, right: 30.w, top: 20.h),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
                                           SizedBox(
-                                            width: 1700.w,
-                                            height: 90.h,
-                                            child: ListView.builder(
-                                                itemCount: 4,
-                                                scrollDirection: Axis.horizontal,
-                                                itemBuilder: (context, j) {
-                                                  return Container(
-                                                    margin: EdgeInsets.only(right: 20.w),
-                                                    child: reusableInstance.inputBox(
-                                                        321.w,
-                                                        90.h,
-                                                        j !=
-                                                                questionController
-                                                                        .teacherQuestionModelList[questionController.questionSearchIndex == -1 ? index : questionController.questionSearchIndex]
-                                                                        .answer -
-                                                                    1
-                                                            ? containerWrongBorder
-                                                            : containerCorrectBorder,
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            Padding(
-                                                              padding: EdgeInsets.only(left: 10.w),
-                                                              child: MyText(
-                                                                txt: optionNumber[j],
-                                                                color: basicColor,
-                                                                fontweight: FontWeight.w800,
-                                                                size: 25.sp,
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              width: 250.w,
-                                                              child: SingleChildScrollView(
-                                                                scrollDirection: Axis.vertical,
-                                                                child: MyText(
-                                                                  txt: questionController.searchQuestion.isEmpty
-                                                                      ? '${questionController.teacherQuestionModelList[index].choiceList[j]}'
-                                                                      : '${questionController.searchQuestion[index].choiceList[j]}',
-                                                                  color: Colors.black,
-                                                                  maxline: 10,
-                                                                  fontweight: FontWeight.w800,
-                                                                  size: 25.sp,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        )),
-                                                  );
-                                                }),
+                                            width: 150.w,
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              questionController.editBtnClick(index);
+                                            },
+                                            child: Padding(
+                                              padding: EdgeInsets.only(right: 7.w),
+                                              child: MyText(
+                                                txt: 'Edit',
+                                                color: basicColor,
+                                                fontweight: FontWeight.w800,
+                                                size: 20.sp,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 150.w,
                                           ),
                                           InkWell(
                                             onTap: () async {
