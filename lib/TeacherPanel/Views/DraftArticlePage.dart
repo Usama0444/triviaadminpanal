@@ -171,137 +171,139 @@ class _DraftArticlePageState extends State<DraftArticlePage> {
           SizedBox(
             height: 41.h,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // SizedBox(
-              //     height: 31.h,
-              //     child: Padding(
-              //       padding: EdgeInsets.symmetric(horizontal: 40.w),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.start,
-              //         children: [
-              //           MyText(
-              //             txt: '${cateController.categoryName}/',
-              //             color: Colors.black,
-              //             fontweight: FontWeight.w800,
-              //             size: 25.sp,
-              //           ),
-              //           MyText(
-              //             txt: '${cateController.subCategoryName}',
-              //             color: Colors.black,
-              //             fontweight: FontWeight.w300,
-              //             size: 25.sp,
-              //           ),
-              //         ],
-              //       ),
-              //     )),
-              // SizedBox(height: 44.h),
-              Container(
-                width: 1200,
-                height: 800.h,
-                margin: EdgeInsets.all(40.h),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: greyColor,
-                    width: 1.h,
+          GetBuilder<QuestionController>(builder: (controller) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // SizedBox(
+                //     height: 31.h,
+                //     child: Padding(
+                //       padding: EdgeInsets.symmetric(horizontal: 40.w),
+                //       child: Row(
+                //         mainAxisAlignment: MainAxisAlignment.start,
+                //         children: [
+                //           MyText(
+                //             txt: '${cateController.categoryName}/',
+                //             color: Colors.black,
+                //             fontweight: FontWeight.w800,
+                //             size: 25.sp,
+                //           ),
+                //           MyText(
+                //             txt: '${cateController.subCategoryName}',
+                //             color: Colors.black,
+                //             fontweight: FontWeight.w300,
+                //             size: 25.sp,
+                //           ),
+                //         ],
+                //       ),
+                //     )),
+                // SizedBox(height: 44.h),
+                Container(
+                  width: 1200,
+                  height: 800.h,
+                  margin: EdgeInsets.all(40.h),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: greyColor,
+                      width: 1.h,
+                    ),
+                    borderRadius: BorderRadius.circular(10.h),
                   ),
-                  borderRadius: BorderRadius.circular(10.h),
-                ),
-                child: Stack(
-                  children: [
-                    SizedBox(
-                      width: 1200,
-                      height: 800.h,
-                    ),
-                    Positioned(
-                      top: 0,
-                      child: Padding(
-                        padding: EdgeInsets.all(10.w),
-                        child: Container(
-                          width: 720.w,
-                          margin: EdgeInsets.zero,
-                          child: Row(
-                            children: [
-                              MyText(txt: 'Article/Description', color: Colors.black, fontweight: FontWeight.bold, size: 15.sp),
-                            ],
+                  child: Stack(
+                    children: [
+                      SizedBox(
+                        width: 1200,
+                        height: 800.h,
+                      ),
+                      Positioned(
+                        top: 0,
+                        child: Padding(
+                          padding: EdgeInsets.all(10.w),
+                          child: Container(
+                            width: 720.w,
+                            margin: EdgeInsets.zero,
+                            child: Row(
+                              children: [
+                                MyText(txt: 'Article/Description', color: Colors.black, fontweight: FontWeight.bold, size: 15.sp),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      top: 30.h,
-                      left: 10.w,
-                      child: SizedBox(
-                        width: 1180.w,
-                        height: 780.h,
-                        child: SingleChildScrollView(
-                          child: MyText(
-                            txt: questionController.draftQuestionModelList[widget.index].article,
-                            color: Colors.black,
-                            align: TextAlign.justify,
-                            maxline: 200,
-                            fontweight: FontWeight.bold,
-                            size: 20.sp,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 20.h,
-                      right: 20.w,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // InkWell(
-                          //   onTap: () {
-                          //     questionController.copyBtnClick(widget.index);
-                          //     reusableInstance.toast('Copied', 'copy to Clipboard');
-                          //   },
-                          //   child: MyText(
-                          //     txt: 'Copy',
-                          //     color: const Color(0xff00D579),
-                          //     fontweight: FontWeight.w800,
-                          //     size: 20.sp,
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   width: 20.w,
-                          // ),
-                          InkWell(
-                            onTap: () {
-                              questionController.editDraftBtnClick(widget.index);
-                            },
+                      Positioned(
+                        top: 30.h,
+                        left: 10.w,
+                        child: SizedBox(
+                          width: 1180.w,
+                          height: 780.h,
+                          child: SingleChildScrollView(
                             child: MyText(
-                              txt: 'Edit',
-                              color: const Color(0xff2CB4B3),
-                              fontweight: FontWeight.w800,
+                              txt: questionController.draftQuestionModelList[widget.index].article,
+                              color: Colors.black,
+                              align: TextAlign.justify,
+                              maxline: 200,
+                              fontweight: FontWeight.bold,
                               size: 20.sp,
                             ),
                           ),
-                          // SizedBox(
-                          //   width: 20.w,
-                          // ),
-                          // InkWell(
-                          //   onTap: () async {
-                          //     await questionController.deleteDraftBtnClick(widget.index);
-                          //   },
-                          //   child: MyText(
-                          //     txt: 'Delete',
-                          //     color: const Color(0xffFF0000),
-                          //     fontweight: FontWeight.w800,
-                          //     size: 20.sp,
-                          //   ),
-                          // ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ],
+                      Positioned(
+                        bottom: 20.h,
+                        right: 20.w,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // InkWell(
+                            //   onTap: () {
+                            //     questionController.copyBtnClick(widget.index);
+                            //     reusableInstance.toast('Copied', 'copy to Clipboard');
+                            //   },
+                            //   child: MyText(
+                            //     txt: 'Copy',
+                            //     color: const Color(0xff00D579),
+                            //     fontweight: FontWeight.w800,
+                            //     size: 20.sp,
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   width: 20.w,
+                            // ),
+                            InkWell(
+                              onTap: () {
+                                questionController.editDraftBtnClick(widget.index);
+                              },
+                              child: MyText(
+                                txt: 'Edit',
+                                color: const Color(0xff2CB4B3),
+                                fontweight: FontWeight.w800,
+                                size: 20.sp,
+                              ),
+                            ),
+                            // SizedBox(
+                            //   width: 20.w,
+                            // ),
+                            // InkWell(
+                            //   onTap: () async {
+                            //     await questionController.deleteDraftBtnClick(widget.index);
+                            //   },
+                            //   child: MyText(
+                            //     txt: 'Delete',
+                            //     color: const Color(0xffFF0000),
+                            //     fontweight: FontWeight.w800,
+                            //     size: 20.sp,
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            );
+          }),
         ],
       ),
     );

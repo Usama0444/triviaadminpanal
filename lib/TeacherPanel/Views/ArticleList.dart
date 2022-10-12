@@ -120,23 +120,23 @@ class _ArticleListState extends State<ArticleList> {
                       child: reusableInstance.buttons(
                         91.w,
                         42.h,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 25.h,
-                              child: FittedBox(
-                                child: Icon(
-                                  Icons.arrow_back,
-                                  color: whiteColor,
+                        InkWell(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 25.h,
+                                child: FittedBox(
+                                  child: Icon(
+                                    Icons.arrow_back,
+                                    color: whiteColor,
+                                  ),
                                 ),
                               ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Get.back();
-                              },
-                              child: Container(
+                              Container(
                                 height: 20.h,
                                 child: MyText(
                                   txt: 'Back',
@@ -145,8 +145,8 @@ class _ArticleListState extends State<ArticleList> {
                                   size: 21.sp,
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

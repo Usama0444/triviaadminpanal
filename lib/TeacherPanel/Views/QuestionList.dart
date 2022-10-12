@@ -166,6 +166,45 @@ class _QuestionsState extends State<QuestionList> {
                 ),
                 Row(
                   children: [
+                    // Padding(
+                    //   padding: EdgeInsets.only(top: 29.h),
+                    //   child: InkWell(
+                    //     onTap: () async {
+                    //       await questionController.deleteAllQuestions();
+                    //     },
+                    //     child: reusableInstance.buttons(
+                    //       180.w,
+                    //       42.h,
+                    //       Row(
+                    //         mainAxisAlignment: MainAxisAlignment.center,
+                    //         children: [
+                    //           Container(
+                    //             width: 20.w,
+                    //             height: 20.h,
+                    //             child: FittedBox(
+                    //               child: Icon(
+                    //                 Icons.add,
+                    //                 color: whiteColor,
+                    //               ),
+                    //             ),
+                    //           ),
+                    //           SizedBox(
+                    //             height: 20.h,
+                    //             child: MyText(
+                    //               txt: 'Delete All',
+                    //               color: whiteColor,
+                    //               fontweight: FontWeight.w300,
+                    //               size: 21.sp,
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   width: 62.w,
+                    // ),
                     Padding(
                       padding: EdgeInsets.only(top: 29.h, right: 60.w),
                       child: InkWell(
@@ -438,18 +477,18 @@ class _QuestionsState extends State<QuestionList> {
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
+                                          SizedBox(
+                                            width: 100.w,
+                                          ),
                                           InkWell(
                                             onTap: () {
                                               Get.to(ArticlePage(index: index));
                                             },
-                                            child: Padding(
-                                              padding: EdgeInsets.only(right: 7.w),
-                                              child: MyText(
-                                                txt: 'Article',
-                                                color: basicColor,
-                                                fontweight: FontWeight.w800,
-                                                size: 20.sp,
-                                              ),
+                                            child: MyText(
+                                              txt: 'Article',
+                                              color: basicColor,
+                                              fontweight: FontWeight.w800,
+                                              size: 20.sp,
                                             ),
                                           ),
                                           SizedBox(

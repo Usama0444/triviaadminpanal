@@ -42,9 +42,7 @@ class _AddQuestionState extends State<AddQuestion> {
     catController.fillSubCategoryForDrawer().whenComplete(() async {
       await questionController.checkCategoryAndSubCategoryAlreadySelected();
       await questionController.getTotalQuestionsOfSepecificSubcategoryForAddQuestion();
-      if (widget.callingFor == 'Edit') {
-        questionController.isShowSubCategoryQuestionForm = true;
-      }
+
       catController.highlightSpecificSubCategoryInit();
       catController.hideShowListInit();
       questionController.markCorrectIncorrectForEdit();
@@ -563,6 +561,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                 child: TextInputFieldWidget(
                                   controller: questionController.article,
                                   maxLines: 200,
+                                  maxLength: 200000,
                                   textInputFormatters: [
                                     // FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9\?\s_-]+")),
                                     MaxWordTextInputFormater(maxWords: 500, currentLength: questionController.increaseTextCounterForArticle),
@@ -656,7 +655,7 @@ class _AddQuestionState extends State<AddQuestion> {
             margin: EdgeInsets.only(left: 5.w, top: 5.h),
             child: TextInputFieldWidget(
               controller: cont,
-              maxLength: 120,
+              maxLength: label == 'Question' ? 20000 : 120,
               maxLines: label == 'Question' ? 25 : 3,
               textInputFormatters: [
                 // FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9\?\s_-]+")),

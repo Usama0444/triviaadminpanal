@@ -204,8 +204,7 @@ class CategoryController extends GetxController {
       highlightSubCategories[i] = whiteColor;
     }
     highlightSubCategories[index] = Colors.green.withOpacity(0.5);
-    questionController.isShowSubCategoryQuestionForm = true;
-    questionController.update();
+
     update();
   }
 
@@ -234,9 +233,8 @@ class CategoryController extends GetxController {
     }
     if (subCatIndex != null) {
       highlightSpecificSubCategory(subCatIndex! + 1);
-      questionController.isShowSubCategoryQuestionForm = true;
+      questionSubCategory = subCategoriesForDrawer[catIndex!][subCatIndex!].name;
       questionController.update();
-      questionSubCategory = subCatList[subCatIndex!].name;
     }
     update();
   }
@@ -259,7 +257,5 @@ class CategoryController extends GetxController {
     }
     questionCategory = catList[index].name;
     update();
-    print(hideCategory[index]);
-    print(showSubCategory[index]);
   }
 }

@@ -237,7 +237,7 @@ Widget leftSideCategoryForDraft() {
                   onTap: () async {
                     catController.hideShowDropDown(index);
                     catController.highlightSpecificSubCategoryInit();
-                    questionController.draftQuestionModelList = [];
+                    questionController.isShowDraftQuestionlist = false;
                     questionController.update();
                   },
                   child: Column(
@@ -324,6 +324,7 @@ Widget leftSideCategoryForDraft() {
                                       if (j != 0) {
                                         catController.questionSubCategory = catController.subCategoriesForDrawer[index][j - 1].name;
                                         catController.highlightSpecificSubCategory(j);
+                                        questionController.isShowDraftQuestionlist = true;
                                         var isDraftQuestionGet = await questionController.getDraftQuestions();
                                         // if (isDraftQuestionGet) {
                                         //   questionController.isShowQuestionlist = true;
