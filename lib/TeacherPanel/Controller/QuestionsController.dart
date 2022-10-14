@@ -73,6 +73,7 @@ class QuestionController extends GetxController {
   bool isLoadingDraft = true;
   Timestamp? createdAt;
   int totalDraftQuestion = 0;
+  bool draftArticleEdit = false;
 
   getDraftQuestionsLength() async {
     totalDraftQuestion = await getDraftTotalQuestions();
@@ -199,13 +200,13 @@ class QuestionController extends GetxController {
         reusableInstance.toast('Confirmation Alert', 'Question Added successfully');
         await getQuestions(catController.questionCategory!, catController.questionSubCategory!);
         await updateTotalQuestionsOfSepecificSubcategoryForAddQuestion();
-        await getTotalNumberOfQuestionForSpecificCategory();
+        // await getTotalNumberOfQuestionForSpecificCategory();
       } else {
         isQuestionListEdit = false;
         await teacherUpdateQuestion();
         await getQuestions(catController.questionCategory!, catController.questionSubCategory!);
         await updateTotalQuestionsOfSepecificSubcategoryForAddQuestion();
-        await getTotalNumberOfQuestionForSpecificCategory();
+        // await getTotalNumberOfQuestionForSpecificCategory();
       }
       if (isDraftEditPress) {
         await deleteDraftBtnClick(editDraftQuestionSelectedIndex!);
@@ -272,11 +273,10 @@ class QuestionController extends GetxController {
       await questionCollectionRef.doc(teacherQuestionModelList[i].qid).delete();
       await copyQuestionCollectionRef.doc(teacherQuestionModelList[i].qid).delete();
     }
+    reusableInstance.toast('Confirmation Alert', 'All Question Deleted successfully');
     await getQuestions(catController.categoryName!, catController.subCategoryName!);
     await updateTotalNumberOfQuestionForSpecificCategory();
     await updateTotalQuestionsOfSepecificSubcategoryForAddQuestion();
-
-    reusableInstance.toast('Confirmation Alert', 'All Question Deleted successfully');
   }
 
   increaseTextCounterForArticle(value) {
@@ -341,6 +341,7 @@ class QuestionController extends GetxController {
   }
 
   editDraftBtnClick(int index) async {
+    draftArticleEdit = true;
     question.text = draftQuestionModelList[index].question;
     option1.text = draftQuestionModelList[index].choiceList[0];
     option2.text = draftQuestionModelList[index].choiceList[1];

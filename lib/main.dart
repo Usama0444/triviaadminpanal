@@ -4,14 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:triviaadminpanal/TeacherPanel/Bindings/BindController.dart';
-import 'package:triviaadminpanal/TeacherPanel/Views/RedesignQuestion.dart';
-import 'package:triviaadminpanal/TeacherPanel/Views/Test.dart';
 import 'package:url_strategy/url_strategy.dart';
-import 'TeacherPanel/Views/AddQuestions.dart';
+
 import 'TeacherPanel/Views/Categories.dart';
 import 'TeacherPanel/Views/CustomWidgets/Reusable.dart';
 import 'TeacherPanel/Views/LoginPage.dart';
-import 'TeacherPanel/Views/QuestionList.dart';
 
 SharedPreferences? pref;
 Reusable reusableWidget = Reusable();

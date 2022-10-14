@@ -128,9 +128,9 @@ class Reusable {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 50.w),
               child: InkWell(
+                borderRadius: BorderRadius.circular(10.h),
                 onTap: () {
-                  isLoading != true ? Get.to(Draft()) : reusableInstance.toast('Wait', 'wait tell Loading Complete');
-                  ;
+                  isLoading != true ? Get.to(const Draft()) : reusableInstance.toast('Wait', 'wait tell Loading Complete');
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

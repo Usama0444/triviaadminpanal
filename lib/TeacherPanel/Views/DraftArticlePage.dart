@@ -117,8 +117,14 @@ class _DraftArticlePageState extends State<DraftArticlePage> {
                           ),
                           InkWell(
                             onTap: () async {
-                              bool v = await cateController.draftArticlePageBackBtnClick();
-                              if (v) {
+                              if (questionController.draftArticleEdit) {
+                                bool v = await cateController.draftArticlePageBackBtnClick();
+                                questionController.draftArticleEdit = false;
+                                questionController.update();
+                                if (v) {
+                                  Get.back();
+                                }
+                              } else {
                                 Get.back();
                               }
                             },

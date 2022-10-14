@@ -14,6 +14,7 @@ import 'package:triviaadminpanal/TeacherPanel/Controller/CategoryController.dart
 import 'package:triviaadminpanal/TeacherPanel/Controller/QuestionsController.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/Categories.dart';
 import 'package:triviaadminpanal/TeacherPanel/Views/CustomWidgets/SideDropDownMenu.dart';
+import 'package:triviaadminpanal/TeacherPanel/Views/components/string.dart';
 
 import '../Services/LoginServices.dart';
 import 'CustomWidgets/MyText.dart';
@@ -39,6 +40,10 @@ class _AddQuestionState extends State<AddQuestion> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    if (widget.callingFor == 'CateToAdd') {
+      questionController.erasedData();
+      catController.resetSelection();
+    }
     catController.fillSubCategoryForDrawer().whenComplete(() async {
       await questionController.checkCategoryAndSubCategoryAlreadySelected();
       await questionController.getTotalQuestionsOfSepecificSubcategoryForAddQuestion();
@@ -550,7 +555,7 @@ class _AddQuestionState extends State<AddQuestion> {
                               ),
                             ),
                             Positioned(
-                              top: 20.h,
+                              top: 30.h,
                               left: 10.w,
                               right: 5.w,
                               child: SizedBox(
@@ -558,11 +563,11 @@ class _AddQuestionState extends State<AddQuestion> {
                                 height: 700.h,
                                 child: Scrollbar(
                                   controller: textController,
-                                  isAlwaysShown: true,
                                   child: SingleChildScrollView(
                                     controller: textController,
                                     child: TextInputFieldWidget(
                                       controller: questionController.article,
+                                      lineHeight: 1.5,
                                       maxLines: 200,
                                       maxLength: 200000,
                                       textInputFormatters: [
@@ -570,7 +575,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                         MaxWordTextInputFormater(maxWords: 500, currentLength: questionController.increaseTextCounterForArticle),
                                       ],
                                       fontSize: 20.sp,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w300,
                                     ),
                                   ),
                                 ),

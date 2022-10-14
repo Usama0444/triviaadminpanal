@@ -156,8 +156,8 @@ class _CategoriesState extends State<Categories> {
                       Row(
                         children: [
                           InkWell(
-                            onTap: () {
-                              controller.isLoading != true ? Get.to(AddQuestion(callingFor: 'Add')) : reusableInstance.toast('Wait', 'wait tell Loading Complete');
+                            onTap: () async {
+                              controller.isLoading != true ? Get.to(AddQuestion(callingFor: 'CateToAdd')) : reusableInstance.toast('Wait', 'wait tell Loading Complete');
                             },
                             child: reusableInstance.buttons(
                               180.w,
@@ -165,7 +165,7 @@ class _CategoriesState extends State<Categories> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
+                                  SizedBox(
                                     width: 20.w,
                                     height: 20.h,
                                     child: FittedBox(
@@ -179,7 +179,7 @@ class _CategoriesState extends State<Categories> {
                                     onTap: () async {
                                       Get.to(AddQuestion(callingFor: 'Add'));
                                     },
-                                    child: Container(
+                                    child: SizedBox(
                                       height: 20.h,
                                       child: MyText(
                                         txt: 'Add Question',
@@ -206,7 +206,7 @@ class _CategoriesState extends State<Categories> {
                             onTap: () async {
                               await reusableInstance.logOut();
                             },
-                            child: Container(
+                            child: SizedBox(
                               width: 38.w,
                               height: 38.w,
                               child: FittedBox(
@@ -365,7 +365,7 @@ class _CategoriesState extends State<Categories> {
                                     );
                                   }),
                         ),
-                        Container(width: 575.w, height: 882.h, child: reusableInstance.profile(cateController.isLoading))
+                        SizedBox(width: 575.w, height: 882.h, child: reusableInstance.profile(cateController.isLoading))
                       ],
                     ),
                   ],

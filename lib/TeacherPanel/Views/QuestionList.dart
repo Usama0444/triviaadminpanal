@@ -167,7 +167,11 @@ class _QuestionsState extends State<QuestionList> {
                   children: [
                     InkWell(
                       onTap: () async {
-                        await questionController.deleteAllQuestions();
+                        if (questionController.teacherQuestionModelList.isNotEmpty) {
+                          await questionController.deleteAllQuestions();
+                        } else {
+                          reusableInstance.toast('', 'Questions Not Exits');
+                        }
                       },
                       child: reusableInstance.buttons(
                         180.w,
