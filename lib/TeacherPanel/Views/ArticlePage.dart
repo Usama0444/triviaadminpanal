@@ -95,7 +95,7 @@ class _ArticlePageState extends State<ArticlePage> {
                 Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: 29.h, right: 60.w),
+                      padding: EdgeInsets.only(right: 60.w),
                       child: InkWell(
                         onTap: () {
                           Get.back();

@@ -125,38 +125,35 @@ class _DraftState extends State<Draft> {
                 ),
                 Row(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 29.h),
-                      child: reusableInstance.buttons(
-                        91.w,
-                        42.h,
-                        InkWell(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: 25.h,
-                                child: FittedBox(
-                                  child: Icon(
-                                    Icons.arrow_back,
-                                    color: whiteColor,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: 20.h,
-                                child: MyText(
-                                  txt: 'Back',
+                    reusableInstance.buttons(
+                      91.w,
+                      42.h,
+                      InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 25.h,
+                              child: FittedBox(
+                                child: Icon(
+                                  Icons.arrow_back,
                                   color: whiteColor,
-                                  fontweight: FontWeight.w300,
-                                  size: 21.sp,
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                            Container(
+                              height: 20.h,
+                              child: MyText(
+                                txt: 'Back',
+                                color: whiteColor,
+                                fontweight: FontWeight.w300,
+                                size: 21.sp,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -224,7 +221,7 @@ class _DraftState extends State<Draft> {
                               ),
                             ),
                             Visibility(
-                              visible : questionController.isShowDraftQuestionlist,
+                              visible: questionController.isShowDraftQuestionlist,
                               child: SizedBox(
                                 height: 882.h,
                                 child: ListView.builder(

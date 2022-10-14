@@ -116,7 +116,6 @@ class _QuestionsState extends State<QuestionList> {
                           width: 334.w,
                           height: 42.h,
                           margin: EdgeInsets.only(
-                            top: 25.h,
                             left: 65.w,
                           ),
                           decoration: BoxDecoration(
@@ -166,47 +165,34 @@ class _QuestionsState extends State<QuestionList> {
                 ),
                 Row(
                   children: [
-                    // Padding(
-                    //   padding: EdgeInsets.only(top: 29.h),
-                    //   child: InkWell(
-                    //     onTap: () async {
-                    //       await questionController.deleteAllQuestions();
-                    //     },
-                    //     child: reusableInstance.buttons(
-                    //       180.w,
-                    //       42.h,
-                    //       Row(
-                    //         mainAxisAlignment: MainAxisAlignment.center,
-                    //         children: [
-                    //           Container(
-                    //             width: 20.w,
-                    //             height: 20.h,
-                    //             child: FittedBox(
-                    //               child: Icon(
-                    //                 Icons.add,
-                    //                 color: whiteColor,
-                    //               ),
-                    //             ),
-                    //           ),
-                    //           SizedBox(
-                    //             height: 20.h,
-                    //             child: MyText(
-                    //               txt: 'Delete All',
-                    //               color: whiteColor,
-                    //               fontweight: FontWeight.w300,
-                    //               size: 21.sp,
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // SizedBox(
-                    //   width: 62.w,
-                    // ),
+                    InkWell(
+                      onTap: () async {
+                        await questionController.deleteAllQuestions();
+                      },
+                      child: reusableInstance.buttons(
+                        180.w,
+                        42.h,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 20.h,
+                              child: MyText(
+                                txt: 'Delete All',
+                                color: whiteColor,
+                                fontweight: FontWeight.w300,
+                                size: 21.sp,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 62.w,
+                    ),
                     Padding(
-                      padding: EdgeInsets.only(top: 29.h, right: 60.w),
+                      padding: EdgeInsets.only(right: 60.w),
                       child: InkWell(
                         onTap: () {
                           Get.back();
@@ -240,41 +226,38 @@ class _QuestionsState extends State<QuestionList> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 29.h),
-                      child: InkWell(
-                        onTap: () {
-                          questionController.questionLengthPerSubcateogryForAddQuestion = [];
-                          questionController.update();
-                          Get.to(AddQuestion(callingFor: 'Add'));
-                        },
-                        child: reusableInstance.buttons(
-                          180.w,
-                          42.h,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 20.w,
-                                height: 20.h,
-                                child: FittedBox(
-                                  child: Icon(
-                                    Icons.add,
-                                    color: whiteColor,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                                child: MyText(
-                                  txt: 'Add Question',
+                    InkWell(
+                      onTap: () {
+                        questionController.questionLengthPerSubcateogryForAddQuestion = [];
+                        questionController.update();
+                        Get.to(AddQuestion(callingFor: 'Add'));
+                      },
+                      child: reusableInstance.buttons(
+                        180.w,
+                        42.h,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 20.w,
+                              height: 20.h,
+                              child: FittedBox(
+                                child: Icon(
+                                  Icons.add,
                                   color: whiteColor,
-                                  fontweight: FontWeight.w300,
-                                  size: 21.sp,
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              height: 20.h,
+                              child: MyText(
+                                txt: 'Add Question',
+                                color: whiteColor,
+                                fontweight: FontWeight.w300,
+                                size: 21.sp,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

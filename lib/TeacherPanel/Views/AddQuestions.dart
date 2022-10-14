@@ -51,6 +51,7 @@ class _AddQuestionState extends State<AddQuestion> {
     });
   }
 
+  ScrollController textController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,38 +132,35 @@ class _AddQuestionState extends State<AddQuestion> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 29.h),
-                      child: InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: reusableInstance.buttons(
-                          91.w,
-                          42.h,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: 25.h,
-                                child: FittedBox(
-                                  child: Icon(
-                                    Icons.arrow_back,
-                                    color: whiteColor,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                                child: MyText(
-                                  txt: 'Back',
+                    InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: reusableInstance.buttons(
+                        91.w,
+                        42.h,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 25.h,
+                              child: FittedBox(
+                                child: Icon(
+                                  Icons.arrow_back,
                                   color: whiteColor,
-                                  fontweight: FontWeight.w300,
-                                  size: 21.sp,
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              height: 20.h,
+                              child: MyText(
+                                txt: 'Back',
+                                color: whiteColor,
+                                fontweight: FontWeight.w300,
+                                size: 21.sp,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -558,16 +556,23 @@ class _AddQuestionState extends State<AddQuestion> {
                               child: SizedBox(
                                 width: 700.w,
                                 height: 700.h,
-                                child: TextInputFieldWidget(
-                                  controller: questionController.article,
-                                  maxLines: 200,
-                                  maxLength: 200000,
-                                  textInputFormatters: [
-                                    // FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9\?\s_-]+")),
-                                    MaxWordTextInputFormater(maxWords: 500, currentLength: questionController.increaseTextCounterForArticle),
-                                  ],
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeight.w600,
+                                child: Scrollbar(
+                                  controller: textController,
+                                  isAlwaysShown: true,
+                                  child: SingleChildScrollView(
+                                    controller: textController,
+                                    child: TextInputFieldWidget(
+                                      controller: questionController.article,
+                                      maxLines: 200,
+                                      maxLength: 200000,
+                                      textInputFormatters: [
+                                        // FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9\?\s_-]+")),
+                                        MaxWordTextInputFormater(maxWords: 500, currentLength: questionController.increaseTextCounterForArticle),
+                                      ],
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),

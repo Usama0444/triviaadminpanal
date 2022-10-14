@@ -100,39 +100,39 @@ class _DraftArticlePageState extends State<DraftArticlePage> {
                 ),
                 Row(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 29.h),
-                      child: reusableInstance.buttons(
-                        91.w,
-                        42.h,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 25.h,
-                              child: FittedBox(
-                                child: Icon(
-                                  Icons.arrow_back,
-                                  color: whiteColor,
-                                ),
+                    reusableInstance.buttons(
+                      91.w,
+                      42.h,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 25.h,
+                            child: FittedBox(
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: whiteColor,
                               ),
                             ),
-                            InkWell(
-                              onTap: () {
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              bool v = await cateController.draftArticlePageBackBtnClick();
+                              if (v) {
                                 Get.back();
-                              },
-                              child: Container(
-                                height: 20.h,
-                                child: MyText(
-                                  txt: 'Back',
-                                  color: whiteColor,
-                                  fontweight: FontWeight.w300,
-                                  size: 21.sp,
-                                ),
+                              }
+                            },
+                            child: Container(
+                              height: 20.h,
+                              child: MyText(
+                                txt: 'Back',
+                                color: whiteColor,
+                                fontweight: FontWeight.w300,
+                                size: 21.sp,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                     //

@@ -75,6 +75,11 @@ class CategoryController extends GetxController {
     update();
   }
 
+  Future<bool> draftArticlePageBackBtnClick() async {
+    await questionController.getDraftQuestions();
+    return true;
+  }
+
   subCategorySearchTap() async {
     isSubCategorySearchNotMatch = false;
     searchSubCategory = [];
@@ -208,7 +213,7 @@ class CategoryController extends GetxController {
     update();
   }
 
-  highlightSpecificSubCategoryInit() {
+  highlightSpecificSubCategoryInit() async {
     highlightSubCategories = [];
     questionSubCategory = null;
     for (int i = 0; i < 10; i++) {
@@ -217,7 +222,7 @@ class CategoryController extends GetxController {
     update();
   }
 
-  hideShowListInit() {
+  hideShowListInit() async {
     hideCategory = [];
     showSubCategory = [];
     for (int i = 0; i < 20; i++) {

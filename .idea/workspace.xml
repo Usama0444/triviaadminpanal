@@ -23,39 +23,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="22e20a16-f257-4eb7-b240-f73b294afd19" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Favicons" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Favicons" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Favicons-journal" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Favicons-journal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/History" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/History" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/History-journal" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/History-journal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Local Storage/leveldb/LOG" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Local Storage/leveldb/LOG" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Local Storage/leveldb/LOG.old" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Local Storage/leveldb/LOG.old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Login Data" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Login Data" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Network/Network Persistent State" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Network/Network Persistent State" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Network/Reporting and NEL" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Network/Reporting and NEL" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Network/TransportSecurity" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Network/TransportSecurity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/06375eedbfb2df66968fe7ce162ab8b8/.filecache" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/06375eedbfb2df66968fe7ce162ab8b8/.filecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/06375eedbfb2df66968fe7ce162ab8b8/app.dill" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/06375eedbfb2df66968fe7ce162ab8b8/app.dill" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/06375eedbfb2df66968fe7ce162ab8b8/flutter_assets.d" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/06375eedbfb2df66968fe7ce162ab8b8/flutter_assets.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/06375eedbfb2df66968fe7ce162ab8b8/main.dart.js" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/06375eedbfb2df66968fe7ce162ab8b8/main.dart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/06375eedbfb2df66968fe7ce162ab8b8/web_release_bundle.stamp" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/06375eedbfb2df66968fe7ce162ab8b8/web_release_bundle.stamp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/4f2a58af27abc49ecf55570043bbf938.cache.dill.track.dill" beforeDir="false" afterPath="$PROJECT_DIR$/build/4f2a58af27abc49ecf55570043bbf938.cache.dill.track.dill" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/c075001b96339384a97db4862b8ab8db.cache.dill.track.dill" beforeDir="false" afterPath="$PROJECT_DIR$/build/c075001b96339384a97db4862b8ab8db.cache.dill.track.dill" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/web/flutter_service_worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/web/flutter_service_worker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/web/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/web/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/web/main.dart.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/web/main.dart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/TeacherPanel/Controller/CategoryController.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/TeacherPanel/Controller/CategoryController.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/TeacherPanel/Controller/QuestionsController.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/TeacherPanel/Controller/QuestionsController.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/TeacherPanel/Views/AddQuestions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/TeacherPanel/Views/AddQuestions.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/TeacherPanel/Views/ArticleList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/TeacherPanel/Views/ArticleList.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/TeacherPanel/Views/CustomWidgets/SideDropDownMenu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/TeacherPanel/Views/CustomWidgets/SideDropDownMenu.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/TeacherPanel/Views/Draft.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/TeacherPanel/Views/Draft.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/TeacherPanel/Views/DraftArticlePage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/TeacherPanel/Views/DraftArticlePage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/TeacherPanel/Views/QuestionList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/TeacherPanel/Views/QuestionList.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +42,7 @@
     <property name="dart.analysis.tool.window.force.activate" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../namazApp-usama" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -105,26 +73,26 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="530" y="176" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1600.860@0.0.1600.860" timestamp="1663222833483" />
-    <state x="580" y="184" key="FileChooserDialogImpl" timestamp="1663754209223">
+    <state x="580" y="184" key="FileChooserDialogImpl" timestamp="1665560070145">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="580" y="184" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1663754209223" />
-    <state width="1557" height="245" key="GridCell.Tab.0.bottom" timestamp="1663741940539">
+    <state x="580" y="184" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1665560070145" />
+    <state width="1557" height="245" key="GridCell.Tab.0.bottom" timestamp="1665560072257">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="245" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1663741940539" />
-    <state width="1557" height="245" key="GridCell.Tab.0.center" timestamp="1663741940539">
+    <state width="1557" height="245" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1665560072257" />
+    <state width="1557" height="245" key="GridCell.Tab.0.center" timestamp="1665560072257">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="245" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1663741940539" />
-    <state width="1557" height="245" key="GridCell.Tab.0.left" timestamp="1663741940539">
+    <state width="1557" height="245" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1665560072257" />
+    <state width="1557" height="245" key="GridCell.Tab.0.left" timestamp="1665560072257">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="245" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1663741940539" />
-    <state width="1557" height="245" key="GridCell.Tab.0.right" timestamp="1663741940539">
+    <state width="1557" height="245" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1665560072257" />
+    <state width="1557" height="245" key="GridCell.Tab.0.right" timestamp="1665560072257">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="245" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1663741940539" />
+    <state width="1557" height="245" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1665560072257" />
     <state x="463" y="180" key="search.everywhere.popup" timestamp="1663222829694">
       <screen x="0" y="0" width="1600" height="860" />
     </state>

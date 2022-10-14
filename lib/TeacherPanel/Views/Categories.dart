@@ -106,7 +106,6 @@ class _CategoriesState extends State<Categories> {
                                 width: 334.w,
                                 height: 42.h,
                                 margin: EdgeInsets.only(
-                                  top: 25.h,
                                   left: 65.w,
                                 ),
                                 decoration: BoxDecoration(
@@ -156,44 +155,41 @@ class _CategoriesState extends State<Categories> {
                       ),
                       Row(
                         children: [
-                          Padding(
-                            padding: EdgeInsets.only(top: 29.h),
-                            child: InkWell(
-                              onTap: () {
-                                controller.isLoading != true ? Get.to(AddQuestion(callingFor: 'Add')) : reusableInstance.toast('Wait', 'wait tell Loading Complete');
-                              },
-                              child: reusableInstance.buttons(
-                                180.w,
-                                42.h,
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      width: 20.w,
+                          InkWell(
+                            onTap: () {
+                              controller.isLoading != true ? Get.to(AddQuestion(callingFor: 'Add')) : reusableInstance.toast('Wait', 'wait tell Loading Complete');
+                            },
+                            child: reusableInstance.buttons(
+                              180.w,
+                              42.h,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 20.w,
+                                    height: 20.h,
+                                    child: FittedBox(
+                                      child: Icon(
+                                        Icons.add,
+                                        color: whiteColor,
+                                      ),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () async {
+                                      Get.to(AddQuestion(callingFor: 'Add'));
+                                    },
+                                    child: Container(
                                       height: 20.h,
-                                      child: FittedBox(
-                                        child: Icon(
-                                          Icons.add,
-                                          color: whiteColor,
-                                        ),
+                                      child: MyText(
+                                        txt: 'Add Question',
+                                        color: whiteColor,
+                                        fontweight: FontWeight.w300,
+                                        size: 21.sp,
                                       ),
                                     ),
-                                    InkWell(
-                                      onTap: () async {
-                                        Get.to(AddQuestion(callingFor: 'Add'));
-                                      },
-                                      child: Container(
-                                        height: 20.h,
-                                        child: MyText(
-                                          txt: 'Add Question',
-                                          color: whiteColor,
-                                          fontweight: FontWeight.w300,
-                                          size: 21.sp,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -251,11 +247,7 @@ class _CategoriesState extends State<Categories> {
                                     : 40.w,
                               ),
                               child: MyText(
-                                txt: index != 4
-                                    ? cateController.cateHeader[index]
-                                    : cateController.totalQuestions != 0
-                                        ? '${cateController.totalQuestions} Questions'
-                                        : '',
+                                txt: index != 4 ? cateController.cateHeader[index] : '${cateController.totalQuestions} Questions',
                                 color: index != 4 ? Colors.black : basicColor,
                                 fontweight: FontWeight.w500,
                                 size: 20.sp,

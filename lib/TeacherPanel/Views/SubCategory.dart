@@ -112,7 +112,6 @@ class _SubCategoryState extends State<SubCategory> {
                           width: 334.w,
                           height: 42.h,
                           margin: EdgeInsets.only(
-                            top: 25.h,
                             left: 65.w,
                           ),
                           decoration: BoxDecoration(
@@ -163,7 +162,7 @@ class _SubCategoryState extends State<SubCategory> {
                 Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: 29.h, right: 60.w),
+                      padding: EdgeInsets.only(right: 60.w),
                       child: InkWell(
                         onTap: () {
                           Get.back();
@@ -197,46 +196,43 @@ class _SubCategoryState extends State<SubCategory> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 29.h),
-                      child: InkWell(
-                        onTap: () {
-                          Get.to(AddQuestion(callingFor: 'Add'));
-                        },
-                        child: reusableInstance.buttons(
-                          180.w,
-                          42.h,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 20.w,
+                    InkWell(
+                      onTap: () {
+                        Get.to(AddQuestion(callingFor: 'Add'));
+                      },
+                      child: reusableInstance.buttons(
+                        180.w,
+                        42.h,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 20.w,
+                              height: 20.h,
+                              child: FittedBox(
+                                child: Icon(
+                                  Icons.add,
+                                  color: whiteColor,
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () async {
+                                questionController.questionLengthPerSubcateogryForAddQuestion = [];
+                                questionController.update();
+                                Get.to(AddQuestion(callingFor: 'Add'));
+                              },
+                              child: Container(
                                 height: 20.h,
-                                child: FittedBox(
-                                  child: Icon(
-                                    Icons.add,
-                                    color: whiteColor,
-                                  ),
+                                child: MyText(
+                                  txt: 'Add Question',
+                                  color: whiteColor,
+                                  fontweight: FontWeight.w300,
+                                  size: 21.sp,
                                 ),
                               ),
-                              InkWell(
-                                onTap: () async {
-                                  questionController.questionLengthPerSubcateogryForAddQuestion = [];
-                                  questionController.update();
-                                  Get.to(AddQuestion(callingFor: 'Add'));
-                                },
-                                child: Container(
-                                  height: 20.h,
-                                  child: MyText(
-                                    txt: 'Add Question',
-                                    color: whiteColor,
-                                    fontweight: FontWeight.w300,
-                                    size: 21.sp,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

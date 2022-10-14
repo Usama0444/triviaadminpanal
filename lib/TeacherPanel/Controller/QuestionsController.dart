@@ -60,7 +60,6 @@ class QuestionController extends GetxController {
   bool isShowQuestionlist = false;
   bool isShowDraftQuestionlist = false;
 
-
   bool isDraftEditPress = false;
   int? editDraftQuestionSelectedIndex;
   List<List<int>> questionLengthPerSubcateogryForAddQuestion = []; //for add question screen drop down menu
@@ -81,7 +80,7 @@ class QuestionController extends GetxController {
   }
 
   getAllDrafts() async {
-    isShowDraftQuestionlist=true;
+    isShowDraftQuestionlist = true;
     draftQuestionModelList = await getDraftAllQuestions();
     update();
   }
@@ -198,9 +197,15 @@ class QuestionController extends GetxController {
         await addNewQuestions();
         await erasedData();
         reusableInstance.toast('Confirmation Alert', 'Question Added successfully');
+        await getQuestions(catController.questionCategory!, catController.questionSubCategory!);
+        await updateTotalQuestionsOfSepecificSubcategoryForAddQuestion();
+        await getTotalNumberOfQuestionForSpecificCategory();
       } else {
         isQuestionListEdit = false;
         await teacherUpdateQuestion();
+        await getQuestions(catController.questionCategory!, catController.questionSubCategory!);
+        await updateTotalQuestionsOfSepecificSubcategoryForAddQuestion();
+        await getTotalNumberOfQuestionForSpecificCategory();
       }
       if (isDraftEditPress) {
         await deleteDraftBtnClick(editDraftQuestionSelectedIndex!);
@@ -208,9 +213,6 @@ class QuestionController extends GetxController {
         await updateTotalQuestionsOfSepecificSubcategoryForDraft();
         isDraftEditPress = false;
       }
-      await getQuestions(catController.questionCategory!, catController.questionSubCategory!);
-      await updateTotalQuestionsOfSepecificSubcategoryForAddQuestion();
-      await getTotalNumberOfQuestionForSpecificCategory();
     }
   }
 
@@ -266,15 +268,15 @@ class QuestionController extends GetxController {
   }
 
   deleteAllQuestions() async {
-    deleteBtnClick() async {
-      for (int i = 0; i < teacherQuestionModelList.length; i++) {
-        await deleteQuestion(teacherQuestionModelList[i].qid);
-      }
-      await getQuestions(catController.categoryName!, catController.subCategoryName!);
-      await updateTotalNumberOfQuestionForSpecificCategory();
-      await updateTotalQuestionsOfSepecificSubcategoryForAddQuestion();
-      reusableInstance.toast('Confirmation Alert', 'All Question Deleted successfully');
+    for (int i = 0; i < teacherQuestionModelList.length; i++) {
+      await questionCollectionRef.doc(teacherQuestionModelList[i].qid).delete();
+      await copyQuestionCollectionRef.doc(teacherQuestionModelList[i].qid).delete();
     }
+    await getQuestions(catController.categoryName!, catController.subCategoryName!);
+    await updateTotalNumberOfQuestionForSpecificCategory();
+    await updateTotalQuestionsOfSepecificSubcategoryForAddQuestion();
+
+    reusableInstance.toast('Confirmation Alert', 'All Question Deleted successfully');
   }
 
   increaseTextCounterForArticle(value) {
