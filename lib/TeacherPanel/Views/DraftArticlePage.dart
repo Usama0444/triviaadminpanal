@@ -98,37 +98,40 @@ class _DraftArticlePageState extends State<DraftArticlePage> {
                     )
                   ],
                 ),
-                Row(
-                  children: [
-                    reusableInstance.buttons(
-                      91.w,
-                      42.h,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 25.h,
-                            child: FittedBox(
-                              child: Icon(
-                                Icons.arrow_back,
-                                color: whiteColor,
+                InkWell(
+                  onTap: () async {
+                    if (questionController.draftArticleEdit) {
+                      bool v = await cateController.draftArticlePageBackBtnClick();
+                      questionController.draftArticleEdit = false;
+                      questionController.update();
+                      if (v) {
+                        Get.back();
+                      }
+                    } else {
+                      await questionController.getAllDrafts();
+                      await cateController.highlightSpecificSubCategoryInit();
+                      await cateController.hideShowListInit();
+                      Get.back();
+                    }
+                  },
+                  child: Row(
+                    children: [
+                      reusableInstance.buttons(
+                        91.w,
+                        42.h,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 25.h,
+                              child: FittedBox(
+                                child: Icon(
+                                  Icons.arrow_back,
+                                  color: whiteColor,
+                                ),
                               ),
                             ),
-                          ),
-                          InkWell(
-                            onTap: () async {
-                              if (questionController.draftArticleEdit) {
-                                bool v = await cateController.draftArticlePageBackBtnClick();
-                                questionController.draftArticleEdit = false;
-                                questionController.update();
-                                if (v) {
-                                  Get.back();
-                                }
-                              } else {
-                                Get.back();
-                              }
-                            },
-                            child: Container(
+                            SizedBox(
                               height: 20.h,
                               child: MyText(
                                 txt: 'Back',
@@ -137,39 +140,39 @@ class _DraftArticlePageState extends State<DraftArticlePage> {
                                 size: 21.sp,
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    //
-                    SizedBox(
-                      width: 62.w,
-                    ),
-                    const VerticalDivider(
-                      color: Color(0xff3B3B3B),
-                    ),
-                    SizedBox(
-                      width: 28.w,
-                    ),
-                    InkWell(
-                      onTap: () async {
-                        await reusableInstance.logOut();
-                      },
-                      child: Container(
-                        width: 38.w,
-                        height: 38.w,
-                        child: FittedBox(
-                          child: Icon(
-                            Icons.power_settings_new,
-                            color: basicColor,
+                      //
+                      SizedBox(
+                        width: 62.w,
+                      ),
+                      const VerticalDivider(
+                        color: Color(0xff3B3B3B),
+                      ),
+                      SizedBox(
+                        width: 28.w,
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          await reusableInstance.logOut();
+                        },
+                        child: SizedBox(
+                          width: 38.w,
+                          height: 38.w,
+                          child: FittedBox(
+                            child: Icon(
+                              Icons.power_settings_new,
+                              color: basicColor,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 25.w,
-                    ),
-                  ],
+                      SizedBox(
+                        width: 25.w,
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),

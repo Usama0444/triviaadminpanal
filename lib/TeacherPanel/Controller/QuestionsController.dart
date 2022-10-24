@@ -108,7 +108,17 @@ class QuestionController extends GetxController {
         isCorrect2 = false;
         isCorrect3 = false;
         isCorrect1 = false;
+      } else {
+        isCorrect4 = null;
+        isCorrect2 = null;
+        isCorrect3 = null;
+        isCorrect1 = null;
       }
+    } else {
+      isCorrect4 = null;
+      isCorrect2 = null;
+      isCorrect3 = null;
+      isCorrect1 = null;
     }
     update();
   }
@@ -196,17 +206,19 @@ class QuestionController extends GetxController {
     if (isInputValid) {
       if (!isQuestionListEdit) {
         await addNewQuestions();
+        catController.totalQuestions = await getTotalQuestions();
+        catController.update();
         await erasedData();
         reusableInstance.toast('Confirmation Alert', 'Question Added successfully');
         await getQuestions(catController.questionCategory!, catController.questionSubCategory!);
         await updateTotalQuestionsOfSepecificSubcategoryForAddQuestion();
-        // await getTotalNumberOfQuestionForSpecificCategory();
+        await updateTotalNumberOfQuestionForSpecificCategory();
       } else {
         isQuestionListEdit = false;
         await teacherUpdateQuestion();
         await getQuestions(catController.questionCategory!, catController.questionSubCategory!);
         await updateTotalQuestionsOfSepecificSubcategoryForAddQuestion();
-        // await getTotalNumberOfQuestionForSpecificCategory();
+        await updateTotalNumberOfQuestionForSpecificCategory(); //for subcategory page
       }
       if (isDraftEditPress) {
         await deleteDraftBtnClick(editDraftQuestionSelectedIndex!);
@@ -276,6 +288,8 @@ class QuestionController extends GetxController {
     reusableInstance.toast('Confirmation Alert', 'All Question Deleted successfully');
     await getQuestions(catController.categoryName!, catController.subCategoryName!);
     await updateTotalNumberOfQuestionForSpecificCategory();
+    catController.totalQuestions = await getTotalQuestions();
+    catController.update();
     await updateTotalQuestionsOfSepecificSubcategoryForAddQuestion();
   }
 
@@ -392,10 +406,12 @@ class QuestionController extends GetxController {
 
   Future<bool> checkValidation() async {
     RegExp regex = RegExp(r"[a-zA-Z0-9]");
-    for (int i = 0; i < teacherQuestionModelList.length; i++) {
-      if (teacherQuestionModelList[i].question == question.text.trim()) {
-        reusableInstance.toast('Invalid question', 'Question already inserted!');
-        return false;
+    if (!isQuestionListEdit || !isDraftEditPress) {
+      for (int i = 0; i < teacherQuestionModelList.length; i++) {
+        if (teacherQuestionModelList[i].question == question.text.trim() || draftQuestionModelList[i].question == question.text.trim()) {
+          reusableInstance.toast('Invalid question', 'Question already inserted!');
+          return false;
+        }
       }
     }
     if (!regex.hasMatch(question.text.trim())) {
@@ -460,12 +476,14 @@ class QuestionController extends GetxController {
     totalQuestionsForSubCategorPage = 0;
     var categoryController = Get.find<CategoryController>();
     for (int i = 0; i < categoryController.subCatList.length; i++) {
+      print('${categoryController.categoryName}, ${categoryController.subCatList[i].name}');
       var getList = await getQuestionsList(categoryController.categoryName, categoryController.subCatList[i].name);
       totalQuestionOfspecificSubCategory[i] = getList.length;
       totalQuestionsForSubCategorPage += getList.length;
       update();
     }
-    catController.getCategories();
+    print('totalQuestionOfspecificSubCategory $totalQuestionOfspecificSubCategory');
+    // catController.getCategories();
   }
 
   Future<int> getTotalQuestions() async {

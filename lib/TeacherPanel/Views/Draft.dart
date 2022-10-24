@@ -10,6 +10,7 @@ import 'package:triviaadminpanal/TeacherPanel/Views/DraftArticlePage.dart';
 
 import '../Controller/CategoryController.dart';
 import '../Controller/QuestionsController.dart';
+import 'AddQuestions.dart';
 import 'CustomWidgets/MyText.dart';
 import 'components/style.dart';
 
@@ -125,32 +126,75 @@ class _DraftState extends State<Draft> {
                 ),
                 Row(
                   children: [
-                    reusableInstance.buttons(
-                      91.w,
-                      42.h,
-                      InkWell(
+                    Padding(
+                      padding: EdgeInsets.only(right: 60.w),
+                      child: InkWell(
                         onTap: () {
                           Get.back();
                         },
-                        child: Row(
+                        child: reusableInstance.buttons(
+                          91.w,
+                          42.h,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 25.h,
+                                child: FittedBox(
+                                  child: Icon(
+                                    Icons.arrow_back,
+                                    color: whiteColor,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                height: 20.h,
+                                child: MyText(
+                                  txt: 'Back',
+                                  color: whiteColor,
+                                  fontweight: FontWeight.w300,
+                                  size: 21.sp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.to(AddQuestion(callingFor: 'Add'));
+                      },
+                      child: reusableInstance.buttons(
+                        180.w,
+                        42.h,
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              height: 25.h,
+                              width: 20.w,
+                              height: 20.h,
                               child: FittedBox(
                                 child: Icon(
-                                  Icons.arrow_back,
+                                  Icons.add,
                                   color: whiteColor,
                                 ),
                               ),
                             ),
-                            Container(
-                              height: 20.h,
-                              child: MyText(
-                                txt: 'Back',
-                                color: whiteColor,
-                                fontweight: FontWeight.w300,
-                                size: 21.sp,
+                            InkWell(
+                              onTap: () async {
+                                questionController.questionLengthPerSubcateogryForAddQuestion = [];
+                                questionController.update();
+                                Get.to(AddQuestion(callingFor: 'Add'));
+                              },
+                              child: Container(
+                                height: 20.h,
+                                child: MyText(
+                                  txt: 'Add Question',
+                                  color: whiteColor,
+                                  fontweight: FontWeight.w300,
+                                  size: 21.sp,
+                                ),
                               ),
                             ),
                           ],
@@ -158,7 +202,7 @@ class _DraftState extends State<Draft> {
                       ),
                     ),
                     SizedBox(
-                      width: 60.w,
+                      width: 62.w,
                     ),
                     const VerticalDivider(
                       color: Color(0xff3B3B3B),
@@ -236,6 +280,7 @@ class _DraftState extends State<Draft> {
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(vertical: 12.h),
                                         child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
                                             Padding(
                                               padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -243,6 +288,8 @@ class _DraftState extends State<Draft> {
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Row(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.start,
                                                     children: [
                                                       MyText(
                                                         txt: '${index + 1}.',

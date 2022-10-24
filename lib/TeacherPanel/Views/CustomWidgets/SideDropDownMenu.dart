@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 
 import '../../Controller/CategoryController.dart';
 import '../../Controller/QuestionsController.dart';
-import '../ArticleList.dart';
 import '../components/style.dart';
 import 'MyText.dart';
 
@@ -235,10 +234,10 @@ Widget leftSideCategoryForDraft() {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () async {
+                    catController.categoryName = catController.catList[index].name;
                     catController.hideShowDropDown(index);
                     catController.highlightSpecificSubCategoryInit();
-                    questionController.isShowDraftQuestionlist = false;
-                    questionController.update();
+                    questionController.getAllDrafts();
                   },
                   child: Column(
                     children: [
@@ -323,13 +322,11 @@ Widget leftSideCategoryForDraft() {
                                     onTap: () async {
                                       if (j != 0) {
                                         catController.questionSubCategory = catController.subCategoriesForDrawer[index][j - 1].name;
+                                        catController.subCategoryName = catController.subCategoriesForDrawer[index][j - 1].name;
+
                                         catController.highlightSpecificSubCategory(j);
                                         questionController.isShowDraftQuestionlist = true;
                                         var isDraftQuestionGet = await questionController.getDraftQuestions();
-                                        // if (isDraftQuestionGet) {
-                                        //   questionController.isShowQuestionlist = true;
-                                        //   questionController.update();
-                                        // }
                                       } else {
                                         catController.hideShowDropDown(index);
                                       }

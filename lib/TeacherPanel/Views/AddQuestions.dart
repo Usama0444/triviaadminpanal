@@ -40,11 +40,12 @@ class _AddQuestionState extends State<AddQuestion> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.callingFor == 'CateToAdd') {
-      questionController.erasedData();
-      catController.resetSelection();
-    }
+
     catController.fillSubCategoryForDrawer().whenComplete(() async {
+      if (widget.callingFor == 'CateToAdd') {
+        await questionController.erasedData();
+        await catController.resetSelection();
+      }
       await questionController.checkCategoryAndSubCategoryAlreadySelected();
       await questionController.getTotalQuestionsOfSepecificSubcategoryForAddQuestion();
 
@@ -56,7 +57,6 @@ class _AddQuestionState extends State<AddQuestion> {
     });
   }
 
-  ScrollController textController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -561,23 +561,17 @@ class _AddQuestionState extends State<AddQuestion> {
                               child: SizedBox(
                                 width: 700.w,
                                 height: 700.h,
-                                child: Scrollbar(
-                                  controller: textController,
-                                  child: SingleChildScrollView(
-                                    controller: textController,
-                                    child: TextInputFieldWidget(
-                                      controller: questionController.article,
-                                      lineHeight: 1.5,
-                                      maxLines: 200,
-                                      maxLength: 200000,
-                                      textInputFormatters: [
-                                        // FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9\?\s_-]+")),
-                                        MaxWordTextInputFormater(maxWords: 500, currentLength: questionController.increaseTextCounterForArticle),
-                                      ],
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.w300,
-                                    ),
-                                  ),
+                                child: TextInputFieldWidget(
+                                  controller: questionController.article,
+                                  lineHeight: 1.5,
+                                  maxLines: 200,
+                                  maxLength: 200000,
+                                  textInputFormatters: [
+                                    // FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9\?\s_-]+")),
+                                    MaxWordTextInputFormater(maxWords: 500, currentLength: questionController.increaseTextCounterForArticle),
+                                  ],
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.w300,
                                 ),
                               ),
                             ),
@@ -667,6 +661,11 @@ class _AddQuestionState extends State<AddQuestion> {
               controller: cont,
               maxLength: label == 'Question' ? 20000 : 120,
               maxLines: label == 'Question' ? 25 : 3,
+              onChanged: (val) {
+                if (val.isEmpty) {
+                  questionController.markCorrectIncorrect();
+                }
+              },
               textInputFormatters: [
                 // FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9\?\s_-]+")),
                 MaxWordTextInputFormater(

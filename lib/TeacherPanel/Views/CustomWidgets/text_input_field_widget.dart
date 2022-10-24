@@ -57,25 +57,32 @@ class _TextInputFieldWidgetState extends State<TextInputFieldWidget> {
     });
   }
 
+  ScrollController scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      focusNode: _focusNode,
-      maxLines: widget.maxLines,
-      controller: widget.controller,
-      obscureText: widget.obscureText,
-      onChanged: widget.onChanged,
-      maxLength: widget.maxLength,
-      inputFormatters: [...?widget.textInputFormatters],
-      style: TextStyle(
-        fontSize: widget.fontSize,
-        height: widget.lineHeight,
-        color: Colors.black,
-        fontWeight: widget.fontWeight,
-      ),
-      decoration: const InputDecoration(
-        counterText: '',
-        border: InputBorder.none,
+    return Scrollbar(
+      controller: scrollController,
+      isAlwaysShown: true,
+      child: TextField(
+        scrollController: scrollController,
+        focusNode: _focusNode,
+        maxLines: widget.maxLines,
+        controller: widget.controller,
+        obscureText: widget.obscureText,
+        onChanged: widget.onChanged,
+        maxLength: widget.maxLength,
+        inputFormatters: [...?widget.textInputFormatters],
+        style: TextStyle(
+          fontSize: widget.fontSize,
+          height: widget.lineHeight,
+          color: Colors.black,
+          fontWeight: widget.fontWeight,
+        ),
+        decoration: const InputDecoration(
+          counterText: '',
+          border: InputBorder.none,
+        ),
       ),
     );
   }
